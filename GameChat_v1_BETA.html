@@ -3140,6 +3140,357 @@ renderPrivateRooms();
     );
 
 })();
+
+/* =========================================================
+   GAMECHAT HUB
+   FIXED OWNER BADGE + PROFILE SIGN OUT
+   ========================================================= */
+
+(function () {
+
+    const OWNER_NAMES = new Set([
+        "avin",
+        "eeee"
+    ]);
+
+
+    /* =====================================================
+       OWNER BADGE
+       ===================================================== */
+
+    function addOwnerToCurrentUser() {
+
+        if (!currentUser) return;
+
+        const username =
+            String(currentUser)
+                .trim()
+                .toLowerCase();
+
+        if (!OWNER_NAMES.has(username)) {
+            return;
+        }
+
+
+        /*
+         * Find the profile/user area in the top-right.
+         * Only inspect elements that contain EXACTLY
+         * the current username.
+         */
+        const elements =
+            document.querySelectorAll(
+                "span, div, button, a"
+            );
+
+        for (const element of elements) {
+
+            if (
+                element.dataset.gamechatOwnerDone ===
+                "true"
+            ) {
+                continue;
+            }
+
+            if (
+                element.children.length > 2
+            ) {
+                continue;
+            }
+
+            if (
+                element.textContent.trim()
+                    .toLowerCase() !== username
+            ) {
+                continue;
+            }
+
+
+            /*
+             * Make sure this isn't already an OWNER
+             * badge.
+             */
+            if (
+                element.querySelector(
+                    ".gamechat-owner-badge"
+                )
+            ) {
+                continue;
+            }
+
+
+            const badge =
+                document.createElement("span");
+
+            badge.className =
+                "gamechat-owner-badge";
+
+            badge.textContent =
+                "OWNER";
+
+
+            element.appendChild(badge);
+
+            element.dataset.gamechatOwnerDone =
+                "true";
+
+            /*
+             * Only add ONE badge.
+             */
+            break;
+        }
+    }
+
+
+    /* =====================================================
+       OWNER CSS
+       ===================================================== */
+
+    const ownerStyle =
+        document.createElement("style");
+
+    ownerStyle.textContent = `
+        .gamechat-owner-badge {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin-left: 7px;
+            padding: 3px 8px;
+
+            border-radius: 6px;
+
+            background: #6d55ff;
+            color: #fff;
+
+            font-size: 9px;
+            font-weight: 900;
+
+            line-height: 1;
+            letter-spacing: .6px;
+
+            white-space: nowrap;
+        }
+    `;
+
+    document.head.appendChild(ownerStyle);
+
+
+    /* =====================================================
+       SIGN OUT
+       ===================================================== */
+
+    function signOut() {
+
+        if (
+            !confirm(
+                "Are you sure you want to sign out?"
+            )
+        ) {
+            return;
+        }
+
+
+        try {
+
+            if (
+                typeof currentPeer !== "undefined" &&
+                currentPeer
+            ) {
+                currentPeer.destroy();
+            }
+
+        } catch (error) {
+            console.warn(error);
+        }
+
+
+        currentUser = null;
+
+
+        /*
+         * Clear login/session information.
+         */
+        [
+            "gamechat_session",
+            "gamechat_current_user",
+            "gamechat_logged_in"
+        ].forEach(key => {
+            localStorage.removeItem(key);
+        });
+
+
+        location.reload();
+    }
+
+
+    /* =====================================================
+       FIND PROFILE SETTINGS
+       ===================================================== */
+
+    function findProfilePanel() {
+
+        /*
+         * Look for the currently open modal/panel.
+         */
+        const possiblePanels =
+            document.querySelectorAll(
+                ".modal, " +
+                ".modal-content, " +
+                ".dialog, " +
+                ".settings, " +
+                ".profile, " +
+                "[role='dialog']"
+            );
+
+
+        for (
+            const panel of possiblePanels
+        ) {
+
+            if (
+                panel.offsetParent === null
+            ) {
+                continue;
+            }
+
+            return panel;
+        }
+
+        return null;
+    }
+
+
+    /* =====================================================
+       ADD SIGN OUT WHEN PROFILE SETTINGS IS OPEN
+       ===================================================== */
+
+    function addSignOutButton() {
+
+        /*
+         * Already added?
+         */
+        if (
+            document.getElementById(
+                "gamechat-signout-profile"
+            )
+        ) {
+            return;
+        }
+
+
+        const panel =
+            findProfilePanel();
+
+        if (!panel) {
+            return;
+        }
+
+
+        /*
+         * Create a bottom section.
+         */
+        const bottom =
+            document.createElement("div");
+
+        bottom.id =
+            "gamechat-signout-section";
+
+
+        const button =
+            document.createElement("button");
+
+        button.id =
+            "gamechat-signout-profile";
+
+        button.type =
+            "button";
+
+        button.textContent =
+            "Sign Out";
+
+        button.addEventListener(
+            "click",
+            signOut
+        );
+
+
+        bottom.appendChild(button);
+
+        panel.appendChild(bottom);
+    }
+
+
+    /* =====================================================
+       SIGN OUT CSS
+       ===================================================== */
+
+    const signOutStyle =
+        document.createElement("style");
+
+    signOutStyle.textContent = `
+        #gamechat-signout-section {
+            width: 100%;
+            box-sizing: border-box;
+
+            margin-top: auto;
+            padding-top: 18px;
+        }
+
+        #gamechat-signout-profile {
+            width: 100%;
+            min-height: 44px;
+
+            box-sizing: border-box;
+
+            padding: 11px 16px;
+
+            border: 1px solid #633b42;
+            border-radius: 10px;
+
+            background: #211619;
+            color: #ff9d9d;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        #gamechat-signout-profile:hover {
+            background: #321e22;
+        }
+    `;
+
+    document.head.appendChild(signOutStyle);
+
+
+    /* =====================================================
+       RUN
+       ===================================================== */
+
+    addOwnerToCurrentUser();
+    addSignOutButton();
+
+
+    const observer =
+        new MutationObserver(() => {
+
+            addOwnerToCurrentUser();
+            addSignOutButton();
+
+        });
+
+    observer.observe(
+        document.body,
+        {
+            childList: true,
+            subtree: true
+        }
+    );
+
+})();
+
 </script>
 
 </body>
