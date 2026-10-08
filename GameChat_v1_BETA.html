@@ -10,18 +10,16 @@
 <style>
 :root{
     --bg:#080b12;
-    --panel:#0e131d;
-    --panel2:#121927;
-    --panel3:#171f2e;
-    --border:#263149;
-    --text:#f4f7ff;
-    --muted:#8d98ad;
-    --accent:#7c5cff;
-    --accent2:#9b83ff;
-    --danger:#ff5364;
-    --success:#43d98b;
-    --warning:#ffc857;
-    --shadow:0 15px 45px rgba(0,0,0,.35);
+    --panel:#101522;
+    --panel2:#151b2a;
+    --purple:#7c3aed;
+    --purple2:#9333ea;
+    --purple3:#a855f7;
+    --text:#f5f3ff;
+    --muted:#9993ad;
+    --border:#252b3a;
+    --danger:#ef4444;
+    --success:#22c55e;
 }
 
 *{
@@ -32,14 +30,13 @@ html,body{
     margin:0;
     width:100%;
     height:100%;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
     background:var(--bg);
     color:var(--text);
-    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
-button,
-input,
-textarea{
+button,input,textarea,select{
     font:inherit;
 }
 
@@ -48,476 +45,584 @@ button{
 }
 
 .hidden{
-    display:none!important;
+    display:none !important;
 }
 
-/* TOP BAR */
+/* =========================
+   TOP BAR
+   ========================= */
 
 .topbar{
-    height:70px;
+    height:64px;
+    background:#0d111b;
+    border-bottom:1px solid var(--border);
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 22px;
-    background:#0b0f17;
-    border-bottom:1px solid var(--border);
+    padding:0 18px;
     position:relative;
-    z-index:10;
+    z-index:20;
 }
 
 .brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-weight:800;
     font-size:20px;
+    font-weight:800;
+    color:#fff;
+    letter-spacing:.2px;
 }
 
-.logo{
-    width:38px;
-    height:38px;
-    border-radius:12px;
-    background:linear-gradient(135deg,var(--accent),#4b8cff);
-    display:grid;
-    place-items:center;
-    box-shadow:0 8px 25px rgba(124,92,255,.35);
+.brand span{
+    color:var(--purple3);
 }
 
-.nav{
-    display:flex;
-    gap:8px;
-}
-
-.nav button{
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    padding:10px 15px;
-    border-radius:10px;
-}
-
-.nav button:hover,
-.nav button.active{
-    background:var(--panel3);
-    color:var(--text);
-}
-
-.account-mini{
+.top-actions{
     display:flex;
     align-items:center;
-    gap:10px;
-    background:var(--panel2);
+    gap:9px;
+}
+
+.top-btn{
     border:1px solid var(--border);
-    border-radius:14px;
-    padding:7px 11px;
-    color:white;
+    background:#151a27;
+    color:#ddd7ef;
+    padding:8px 12px;
+    border-radius:8px;
+    font-weight:700;
 }
 
-.account-mini:hover{
-    border-color:var(--accent);
+.top-btn:hover{
+    background:#1b2131;
+    border-color:#3b3153;
 }
 
-.avatar{
+.user-mini{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding-left:8px;
+}
+
+.user-mini img{
     width:34px;
     height:34px;
     border-radius:50%;
-    background:linear-gradient(135deg,#7c5cff,#4b8cff);
     object-fit:cover;
-    display:grid;
-    place-items:center;
-    font-weight:800;
-    overflow:hidden;
+    border:2px solid #34234e;
 }
 
-.avatar img{
+.user-mini-name{
+    font-size:13px;
+    font-weight:700;
+}
+
+/* =========================
+   APP
+   ========================= */
+
+.app{
+    height:calc(100vh - 64px);
     width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-/* MAIN */
-
-main{
-    height:calc(100vh - 70px);
-    overflow:hidden;
+    position:relative;
 }
 
 .page{
+    width:100%;
     height:100%;
 }
 
-/* GAMES */
+/* =========================
+   GAMES
+   ========================= */
 
 .games-page{
-    padding:35px;
+    height:100%;
     overflow:auto;
+    padding:34px;
 }
 
-.page-title{
-    font-size:32px;
+.games-title{
+    font-size:30px;
     font-weight:900;
-    margin-bottom:8px;
+    margin-bottom:7px;
 }
 
-.page-subtitle{
+.games-subtitle{
     color:var(--muted);
-    margin-bottom:30px;
+    margin-bottom:28px;
 }
 
-.game-grid{
+.games-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:18px;
+    max-width:1100px;
 }
 
 .game-card{
-    background:linear-gradient(145deg,var(--panel2),#0b1019);
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:20px;
-    padding:24px;
-    min-height:210px;
+    border-radius:14px;
+    padding:20px;
+    min-height:180px;
     position:relative;
     overflow:hidden;
-    box-shadow:var(--shadow);
 }
 
-.game-card::after{
+.game-card:before{
     content:"";
     position:absolute;
-    width:150px;
-    height:150px;
-    right:-50px;
-    bottom:-60px;
+    width:120px;
+    height:120px;
+    right:-40px;
+    top:-40px;
     border-radius:50%;
-    background:rgba(124,92,255,.12);
+    background:#7c3aed1c;
 }
 
 .game-icon{
-    font-size:45px;
-    margin-bottom:20px;
+    width:50px;
+    height:50px;
+    border-radius:12px;
+    background:#1e1630;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    margin-bottom:16px;
 }
 
 .game-name{
-    font-size:22px;
     font-weight:800;
+    font-size:18px;
+    margin-bottom:7px;
+}
+
+.game-description{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.45;
 }
 
 .coming{
-    display:inline-block;
-    margin-top:14px;
-    padding:6px 10px;
-    border-radius:8px;
-    background:#242b3a;
-    color:#aab4c9;
-    font-size:12px;
+    position:absolute;
+    right:14px;
+    bottom:14px;
+    font-size:11px;
     font-weight:800;
+    color:#c4b5fd;
+    background:#21143b;
+    border:1px solid #3b2364;
+    padding:5px 8px;
+    border-radius:7px;
 }
 
-/* CHAT */
+/* =========================
+   CHAT PAGE
+   ========================= */
 
 .chat-page{
-    display:grid;
-    grid-template-columns:260px minmax(0,1fr) 260px;
+    width:100%;
     height:100%;
+    display:grid;
+    grid-template-columns:240px minmax(0,1fr) 260px;
+    overflow:hidden;
 }
 
-.sidebar,
-.info-panel{
-    background:var(--panel);
+/* =========================
+   SIDEBAR
+   ========================= */
+
+.sidebar{
+    background:#0d111b;
     border-right:1px solid var(--border);
-    overflow:auto;
+    min-width:0;
+    overflow-y:auto;
 }
 
-.info-panel{
-    border-right:0;
-    border-left:1px solid var(--border);
-}
-
-.side-section{
-    padding:18px;
-}
-
-.side-title{
-    color:var(--muted);
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:1px;
+.sidebar-header{
+    padding:18px 16px 12px;
+    font-size:12px;
+    color:#817a96;
     font-weight:800;
-    margin-bottom:10px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
 }
 
 .room{
-    width:100%;
-    text-align:left;
-    border:0;
-    background:transparent;
-    color:#c8d0df;
-    padding:11px 12px;
-    border-radius:10px;
-    margin-bottom:4px;
+    margin:3px 9px;
+    padding:11px 10px;
+    border-radius:8px;
+    color:#aaa4ba;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:14px;
 }
 
 .room:hover{
-    background:var(--panel2);
-    color:white;
+    background:#151a27;
+    color:#eeeaff;
 }
 
 .room.active{
-    background:rgba(124,92,255,.18);
-    color:white;
+    background:#21153a;
+    color:#fff;
 }
 
-.room-code{
-    display:block;
-    color:var(--muted);
+.room-icon{
+    color:#8d7ba9;
+    width:18px;
+    text-align:center;
+}
+
+.room.active .room-icon{
+    color:#c084fc;
+}
+
+.private-section{
+    border-top:1px solid var(--border);
+    margin-top:14px;
+    padding-top:3px;
+}
+
+.private-add{
+    margin:8px 9px;
+    width:calc(100% - 18px);
+    border:1px dashed #3b3150;
+    background:transparent;
+    color:#aaa4ba;
+    border-radius:8px;
+    padding:9px;
+}
+
+.private-add:hover{
+    color:#fff;
+    border-color:#6941a3;
+    background:#15111f;
+}
+
+/* =========================
+   CHAT CENTER
+   ========================= */
+
+.chat-main{
+    min-width:0;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    background:#0a0e16;
+}
+
+.chat-header{
+    height:60px;
+    min-height:60px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 17px;
+    background:#0d111b;
+}
+
+.chat-room-title{
+    font-weight:800;
+}
+
+.chat-room-description{
+    color:#77718a;
     font-size:11px;
     margin-top:3px;
 }
 
-.side-action{
-    width:100%;
+.chat-header-right{
+    display:flex;
+    gap:8px;
+}
+
+.header-action{
     border:1px solid var(--border);
-    background:var(--panel2);
-    color:white;
-    padding:11px;
-    border-radius:10px;
-    margin-top:8px;
+    background:#131925;
+    color:#aaa4ba;
+    padding:7px 9px;
+    border-radius:7px;
 }
 
-.side-action:hover{
-    border-color:var(--accent);
+.header-action:hover{
+    color:#fff;
 }
 
-.private-room{
-    position:relative;
-}
-
-.private-lock{
-    font-size:11px;
-}
-
-/* CHAT CENTER */
-
-.chat-center{
-    min-width:0;
-    display:flex;
-    flex-direction:column;
-    background:#090d15;
-}
-
-.chat-header{
-    min-height:68px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 20px;
-}
-
-.chat-room-name{
-    font-weight:900;
-    font-size:18px;
-}
-
-.chat-room-code{
-    color:var(--muted);
-    font-size:12px;
-}
-
-.connection-status{
-    font-size:12px;
-    color:var(--muted);
-}
-
-.connection-status.online{
-    color:var(--success);
-}
+/* =========================
+   MESSAGES
+   ========================= */
 
 .messages{
     flex:1;
-    overflow:auto;
-    padding:20px;
-}
-
-.empty-chat{
-    height:100%;
-    display:grid;
-    place-items:center;
-    color:var(--muted);
-    text-align:center;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:18px 18px 10px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
 .message{
     display:flex;
+    align-items:flex-start;
+    justify-content:flex-start;
     gap:10px;
-    margin-bottom:17px;
+    width:100%;
+    max-width:100%;
+    margin:0;
+    padding:0;
+}
+
+.message.mine{
+    justify-content:flex-end;
 }
 
 .message-avatar{
     width:38px;
     height:38px;
+    min-width:38px;
+    flex:0 0 38px;
     border-radius:50%;
-    flex:none;
-    overflow:hidden;
-    background:linear-gradient(135deg,#7c5cff,#4b8cff);
-    display:grid;
-    place-items:center;
-    font-weight:800;
-}
-
-.message-avatar img{
-    width:100%;
-    height:100%;
     object-fit:cover;
+    display:block;
 }
 
 .message-content{
     min-width:0;
+    max-width:min(75%,600px);
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:4px;
 }
 
-.message-top{
+.message.mine .message-content{
+    align-items:flex-end;
+}
+
+.message-header{
     display:flex;
     align-items:center;
-    gap:8px;
-    margin-bottom:3px;
+    gap:6px;
+    width:auto;
+    max-width:100%;
+    line-height:1.2;
+    min-height:16px;
 }
 
 .message-name{
+    font-size:13px;
     font-weight:800;
+    color:#f5f3ff;
+    white-space:nowrap;
 }
 
 .message-tag{
     font-size:10px;
-    background:rgba(124,92,255,.18);
-    color:#b9aaff;
-    padding:2px 6px;
-    border-radius:5px;
+    color:#9f96b1;
+    white-space:nowrap;
 }
 
-.message-text{
-    color:#d8deea;
-    white-space:pre-wrap;
+.message-bubble{
+    display:block;
+    width:fit-content;
+    max-width:100%;
+    padding:9px 12px;
+    border-radius:11px;
+    background:#151b29;
+    border:1px solid #20283a;
+    color:#eeeaf7;
+    font-size:14px;
+    line-height:1.45;
+    overflow-wrap:anywhere;
     word-break:break-word;
+    white-space:pre-wrap;
 }
 
-.chat-input{
-    padding:15px;
+.message.mine .message-bubble{
+    background:#6530b4;
+    border-color:#7840ca;
+    color:#fff;
+}
+
+.message-time{
+    font-size:9px;
+    color:#625b70;
+    line-height:1;
+    white-space:nowrap;
+    margin-top:1px;
+}
+
+.empty-messages{
+    margin:auto;
+    text-align:center;
+    color:#625b70;
+    font-size:13px;
+}
+
+/* =========================
+   COMPOSER
+   ========================= */
+
+.composer{
+    min-height:70px;
     border-top:1px solid var(--border);
+    padding:12px 15px;
+    background:#0d111b;
     display:flex;
-    gap:10px;
+    align-items:center;
+    gap:9px;
 }
 
-.chat-input input{
+.message-input{
     flex:1;
     min-width:0;
-    background:var(--panel2);
+    height:44px;
     border:1px solid var(--border);
-    border-radius:12px;
-    color:white;
-    padding:13px 15px;
+    background:#141a27;
+    color:#fff;
     outline:none;
+    border-radius:9px;
+    padding:0 13px;
 }
 
-.chat-input input:focus{
-    border-color:var(--accent);
+.message-input:focus{
+    border-color:#6b3aa4;
+    box-shadow:0 0 0 2px #7c3aed18;
 }
 
-.send{
+.send-btn{
+    height:44px;
     border:0;
-    background:var(--accent);
-    color:white;
-    padding:0 20px;
-    border-radius:12px;
+    border-radius:9px;
+    padding:0 16px;
+    color:#fff;
+    background:var(--purple);
     font-weight:800;
 }
 
-.send:hover{
-    background:var(--accent2);
+.send-btn:hover{
+    background:var(--purple2);
 }
 
-/* INFO */
+/* =========================
+   RIGHT PANEL
+   ========================= */
 
-.info-block{
-    padding:18px;
-    border-bottom:1px solid var(--border);
+.info-panel{
+    background:#0d111b;
+    border-left:1px solid var(--border);
+    min-width:0;
+    overflow-y:auto;
 }
 
 .info-title{
-    font-size:11px;
-    color:var(--muted);
+    padding:18px 16px 11px;
+    font-size:12px;
     text-transform:uppercase;
-    letter-spacing:1px;
+    color:#817a96;
     font-weight:800;
-    margin-bottom:10px;
-}
-
-.info-value{
-    font-size:13px;
-    word-break:break-all;
+    letter-spacing:.8px;
 }
 
 .user-list{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
+    padding:0 9px;
 }
 
 .user-row{
     display:flex;
     align-items:center;
     gap:9px;
+    padding:8px;
+    border-radius:8px;
+}
+
+.user-row:hover{
+    background:#151a27;
+}
+
+.user-row img{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.user-row-name{
+    min-width:0;
+    overflow:hidden;
+}
+
+.user-row-username{
     font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.user-row .avatar{
-    width:28px;
-    height:28px;
-    font-size:11px;
-}
-
-.user-tag{
-    color:var(--muted);
+.user-row-tag{
+    color:#686173;
     font-size:10px;
 }
 
-/* BUTTONS */
+.online-dot{
+    width:7px;
+    height:7px;
+    background:#22c55e;
+    border-radius:50%;
+    margin-left:auto;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
 
 .primary{
-    background:var(--accent);
-    color:white;
+    background:var(--purple);
+    color:#fff;
     border:0;
-    border-radius:11px;
-    padding:12px 16px;
+    border-radius:8px;
+    padding:10px 14px;
     font-weight:800;
 }
 
 .primary:hover{
-    background:var(--accent2);
+    background:var(--purple2);
 }
 
 .secondary{
-    background:var(--panel2);
-    color:white;
+    background:#171c29;
+    color:#ddd7ef;
     border:1px solid var(--border);
-    border-radius:11px;
-    padding:12px 16px;
+    border-radius:8px;
+    padding:10px 14px;
+    font-weight:700;
+}
+
+.secondary:hover{
+    background:#1d2433;
 }
 
 .danger{
-    background:rgba(255,83,100,.12);
-    color:#ff7381;
-    border:1px solid rgba(255,83,100,.25);
-    border-radius:11px;
-    padding:12px 16px;
+    background:#32151a;
+    color:#fca5a5;
+    border:1px solid #5d2028;
 }
 
-/* MODALS */
+/* =========================
+   MODALS
+   ========================= */
 
 .modal-backdrop{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(7px);
+    background:#0009;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -526,189 +631,197 @@ main{
 }
 
 .modal{
-    width:min(470px,100%);
+    width:min(440px,100%);
     max-height:90vh;
     overflow:auto;
-    background:#0d131e;
-    border:1px solid var(--border);
-    border-radius:20px;
-    box-shadow:0 30px 100px rgba(0,0,0,.65);
-    padding:25px;
+    background:#101522;
+    border:1px solid #2a3040;
+    border-radius:14px;
+    box-shadow:0 20px 70px #0009;
+    padding:22px;
 }
 
 .modal-title{
-    font-size:24px;
+    font-size:21px;
     font-weight:900;
-    margin-bottom:5px;
+    margin-bottom:6px;
 }
 
-.modal-subtitle{
-    color:var(--muted);
+.modal-description{
+    color:#858095;
     font-size:13px;
+    line-height:1.5;
     margin-bottom:20px;
 }
 
 .form-group{
-    margin-bottom:15px;
+    margin-bottom:14px;
 }
 
-.form-group label{
+.form-label{
     display:block;
+    color:#c9c3d6;
     font-size:12px;
-    color:#b9c2d3;
+    font-weight:800;
     margin-bottom:7px;
-    font-weight:700;
 }
 
-.form-group input,
-.form-group textarea{
+.form-input,
+.form-textarea,
+.form-select{
     width:100%;
-    background:#080d15;
     border:1px solid var(--border);
-    color:white;
-    border-radius:10px;
-    padding:12px;
+    background:#151b29;
+    color:#fff;
     outline:none;
+    border-radius:8px;
+    padding:10px 11px;
 }
 
-.form-group input:focus,
-.form-group textarea:focus{
-    border-color:var(--accent);
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus{
+    border-color:#6b3aa4;
 }
 
-.form-group textarea{
-    min-height:90px;
+.form-textarea{
     resize:vertical;
-}
-
-.password-wrap{
-    display:flex;
-}
-
-.password-wrap input{
-    border-radius:10px 0 0 10px;
-}
-
-.password-toggle{
-    border:1px solid var(--border);
-    border-left:0;
-    background:var(--panel2);
-    color:#b9c2d3;
-    border-radius:0 10px 10px 0;
-    padding:0 12px;
+    min-height:90px;
 }
 
 .modal-actions{
     display:flex;
-    gap:10px;
     justify-content:flex-end;
-    margin-top:20px;
+    gap:8px;
+    margin-top:18px;
 }
 
-.auth-tabs{
-    display:flex;
-    gap:5px;
-    padding:4px;
-    background:#080d15;
-    border-radius:12px;
-    margin-bottom:20px;
+.auth-modal{
+    width:min(420px,100%);
 }
 
-.auth-tab{
-    flex:1;
+.auth-logo{
+    text-align:center;
+    font-size:28px;
+    font-weight:900;
+    margin-bottom:3px;
+}
+
+.auth-logo span{
+    color:#a855f7;
+}
+
+.auth-switch{
+    text-align:center;
+    color:#77718a;
+    font-size:12px;
+    margin-top:16px;
+}
+
+.auth-switch button{
+    background:none;
     border:0;
-    background:transparent;
-    color:var(--muted);
-    padding:10px;
-    border-radius:9px;
+    color:#c084fc;
+    padding:0;
     font-weight:800;
 }
 
-.auth-tab.active{
-    background:var(--panel3);
-    color:white;
-}
-
-.form-error{
-    color:#ff7582;
-    background:rgba(255,83,100,.08);
-    border:1px solid rgba(255,83,100,.2);
-    border-radius:10px;
-    padding:10px;
-    font-size:12px;
-    margin-bottom:14px;
-}
-
-.form-success{
-    color:#67e5a1;
-    background:rgba(67,217,139,.08);
-    border:1px solid rgba(67,217,139,.2);
-    border-radius:10px;
-    padding:10px;
+.auth-error{
+    background:#35151b;
+    border:1px solid #60212c;
+    color:#fca5a5;
+    padding:9px 10px;
+    border-radius:8px;
     font-size:12px;
     margin-bottom:14px;
 }
 
 .auth-note{
-    color:var(--muted);
-    font-size:11px;
-    margin-top:15px;
-    line-height:1.5;
+    color:#625b70;
+    font-size:10px;
+    line-height:1.4;
+    text-align:center;
+    margin-top:12px;
 }
 
-/* SETTINGS */
+/* =========================
+   TOAST
+   ========================= */
 
-.profile-preview{
+.toast-container{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    z-index:300;
     display:flex;
-    align-items:center;
-    gap:14px;
-    padding:15px;
-    background:var(--panel2);
-    border:1px solid var(--border);
-    border-radius:14px;
-    margin-bottom:18px;
+    flex-direction:column;
+    gap:8px;
+    pointer-events:none;
 }
-
-.profile-preview .avatar{
-    width:58px;
-    height:58px;
-}
-
-.profile-preview-name{
-    font-weight:900;
-}
-
-.profile-preview-tag{
-    color:var(--muted);
-    font-size:12px;
-}
-
-.file-input{
-    color:var(--muted);
-    font-size:12px;
-}
-
-/* TOAST */
 
 .toast{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    background:#111927;
-    border:1px solid var(--border);
-    color:white;
-    padding:13px 16px;
-    border-radius:12px;
-    box-shadow:var(--shadow);
-    z-index:200;
-    max-width:320px;
+    background:#171d2b;
+    border:1px solid #30384b;
+    color:#eee;
+    border-radius:9px;
+    padding:10px 13px;
+    font-size:12px;
+    box-shadow:0 8px 30px #0008;
+    animation:toastIn .18s ease-out;
 }
 
-/* MOBILE */
+.toast.error{
+    border-color:#65242c;
+    background:#281319;
+}
+
+.toast.success{
+    border-color:#245b3a;
+    background:#11251a;
+}
+
+@keyframes toastIn{
+    from{
+        opacity:0;
+        transform:translateY(7px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   PROFILE
+   ========================= */
+
+.profile-pfp{
+    width:76px;
+    height:76px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #34234e;
+}
+
+.profile-pfp-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:17px;
+}
+
+.profile-actions{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
 
 @media(max-width:900px){
     .chat-page{
-        grid-template-columns:210px minmax(0,1fr);
+        grid-template-columns:190px minmax(0,1fr);
     }
 
     .info-panel{
@@ -721,19 +834,11 @@ main{
         padding:0 10px;
     }
 
-    .brand span{
+    .top-actions .top-btn{
         display:none;
     }
 
-    .nav button{
-        padding:8px;
-    }
-
-    .account-mini{
-        padding:5px;
-    }
-
-    .account-mini > span{
+    .user-mini-name{
         display:none;
     }
 
@@ -746,7 +851,15 @@ main{
     }
 
     .games-page{
-        padding:20px;
+        padding:22px 15px;
+    }
+
+    .games-grid{
+        grid-template-columns:1fr;
+    }
+
+    .message-content{
+        max-width:82%;
     }
 }
 </style>
@@ -754,367 +867,392 @@ main{
 
 <body>
 
+<!-- =========================
+     TOP BAR
+     ========================= -->
+
 <header class="topbar">
-    <div class="brand">
-        <div class="logo">🎮</div>
-        <span>GameChat Hub</span>
+    <div class="brand">GameChat <span>Hub</span></div>
+
+    <div class="top-actions">
+        <button class="top-btn" onclick="showPage('games')">Games</button>
+        <button class="top-btn" onclick="showPage('chat')">Chat</button>
+        <button class="top-btn" onclick="openProfile()">Profile</button>
+
+        <div class="user-mini" id="userMini">
+            <img id="topPfp" src="" alt="">
+            <span class="user-mini-name" id="topUsername">Guest</span>
+        </div>
     </div>
-
-    <nav class="nav">
-        <button id="gamesNav" onclick="showPage('games')">Games</button>
-        <button id="chatNav" onclick="showPage('chat')">Chat</button>
-    </nav>
-
-    <button class="account-mini" onclick="openSettings()">
-        <div class="avatar" id="topAvatar">?</div>
-        <span id="topUsername">Not signed in</span>
-    </button>
 </header>
 
-<main>
+<div class="app">
+
+<!-- =========================
+     GAMES PAGE
+     ========================= -->
 
 <section id="gamesPage" class="page games-page">
-    <div class="page-title">Games</div>
-    <div class="page-subtitle">
-        GameChat Hub games are being worked on.
+
+    <div class="games-title">Games</div>
+    <div class="games-subtitle">
+        Play games with the GameChat Hub community.
     </div>
 
-    <div class="game-grid">
+    <div class="games-grid">
 
         <div class="game-card">
             <div class="game-icon">🐍</div>
             <div class="game-name">Snake 3D</div>
-            <span class="coming">COMING SOON</span>
+            <div class="game-description">
+                A 3D take on the classic Snake game.
+            </div>
+            <div class="coming">COMING SOON</div>
         </div>
 
         <div class="game-card">
             <div class="game-icon">🏎️</div>
             <div class="game-name">Rush Racing</div>
-            <span class="coming">COMING SOON</span>
+            <div class="game-description">
+                Race against other players in fast-paced tracks.
+            </div>
+            <div class="coming">COMING SOON</div>
         </div>
 
         <div class="game-card">
             <div class="game-icon">🔢</div>
             <div class="game-name">2048</div>
-            <span class="coming">COMING SOON</span>
+            <div class="game-description">
+                Combine numbers and try to reach 2048.
+            </div>
+            <div class="coming">COMING SOON</div>
         </div>
 
     </div>
+
 </section>
+
+<!-- =========================
+     CHAT PAGE
+     ========================= -->
 
 <section id="chatPage" class="page chat-page hidden">
 
     <aside class="sidebar">
 
-        <div class="side-section">
-            <div class="side-title">Official Rooms</div>
+        <div class="sidebar-header">Official Rooms</div>
 
-            <button class="room" data-room="general" onclick="enterRoom('general')">
-                💬 General
-                <span class="room-code">111111</span>
-            </button>
-
-            <button class="room" data-room="general2" onclick="enterRoom('general2')">
-                💬 General 2
-                <span class="room-code">000000</span>
-            </button>
-
-            <button class="room" data-room="offtopic" onclick="enterRoom('offtopic')">
-                💭 Off-Topic
-                <span class="room-code">999999</span>
-            </button>
+        <div class="room active" id="room-general" onclick="enterRoom('general')">
+            <span class="room-icon">#</span>
+            <span>General</span>
         </div>
 
-        <div class="side-section">
-            <div class="side-title">Private Rooms</div>
-
-            <div id="privateRoomsList"></div>
-
-            <button class="side-action" onclick="openCreateRoom()">
-                ➕ Create Private Room
-            </button>
-
-            <button class="side-action" onclick="openJoinRoom()">
-                🔒 Join Private Room
-            </button>
+        <div class="room" id="room-general2" onclick="enterRoom('general2')">
+            <span class="room-icon">#</span>
+            <span>General 2</span>
         </div>
+
+        <div class="room" id="room-offtopic" onclick="enterRoom('offtopic')">
+            <span class="room-icon">#</span>
+            <span>Off-Topic</span>
+        </div>
+
+        <div class="sidebar-header private-section">
+            Private Rooms
+        </div>
+
+        <div id="privateRoomList"></div>
+
+        <button class="private-add" onclick="openPrivateRoomModal()">
+            + Join Private Room
+        </button>
 
     </aside>
 
-    <section class="chat-center">
+    <main class="chat-main">
 
-        <header class="chat-header">
+        <div class="chat-header">
 
             <div>
-                <div class="chat-room-name" id="chatRoomName">
-                    General
+                <div class="chat-room-title" id="chatRoomTitle">
+                    # General
                 </div>
 
-                <div class="chat-room-code" id="chatRoomCode">
-                    Room 111111
+                <div class="chat-room-description" id="chatRoomDescription">
+                    Official GameChat Hub room
                 </div>
             </div>
 
-            <div class="connection-status" id="connectionStatus">
-                Connecting...
+            <div class="chat-header-right">
+                <button class="header-action" onclick="copyRoomCode()">
+                    Copy Code
+                </button>
             </div>
 
-        </header>
-
-        <div class="messages" id="messages">
-            <div class="empty-chat">
-                <div>
-                    <div style="font-size:35px;">💬</div>
-                    <div>Select a room to start chatting.</div>
-                </div>
-            </div>
         </div>
 
-        <form class="chat-input" onsubmit="sendMessage(event)">
+        <div class="messages" id="messages"></div>
+
+        <form class="composer" onsubmit="sendMessage(event)">
+
             <input
                 id="messageInput"
+                class="message-input"
                 autocomplete="off"
-                placeholder="Message this room..."
+                maxlength="1000"
+                placeholder="Type a message..."
             >
-            <button class="send">Send</button>
+
+            <button class="send-btn" type="submit">
+                Send
+            </button>
+
         </form>
 
-    </section>
+    </main>
 
     <aside class="info-panel">
 
-        <div class="info-block">
-            <div class="info-title">Room</div>
-
-            <div class="info-value" id="infoRoomName">
-                —
-            </div>
-
-            <div class="info-value" id="infoRoomCode" style="color:var(--muted);margin-top:5px;">
-                —
-            </div>
+        <div class="info-title">
+            Online
         </div>
 
-        <div class="info-block">
-            <div class="info-title">Room Host</div>
-
-            <div class="info-value" id="infoHost">
-                —
-            </div>
-        </div>
-
-        <div class="info-block">
-            <div class="info-title">Users Here</div>
-
-            <div class="user-list" id="userList">
-                —
-            </div>
-        </div>
-
-        <div class="info-block">
-            <div class="info-title">Your Account</div>
-
-            <div class="info-value" id="infoAccount">
-                —
-            </div>
-        </div>
+        <div class="user-list" id="userList"></div>
 
     </aside>
 
 </section>
 
-</main>
+</div>
 
-<!-- AUTH MODAL -->
+<!-- =========================
+     AUTH MODAL
+     ========================= -->
 
-<div class="modal-backdrop" id="authModal">
+<div id="authModal" class="modal-backdrop">
 
-    <div class="modal">
+    <div class="modal auth-modal">
 
-        <div class="modal-title">Welcome to GameChat Hub</div>
-
-        <div class="modal-subtitle">
-            Create an account or log into an existing one.
+        <div class="auth-logo">
+            GameChat <span>Hub</span>
         </div>
 
-        <div class="auth-tabs">
-            <button
-                type="button"
-                class="auth-tab active"
-                id="loginTab"
-                onclick="switchAuth('login')"
-            >
-                Log In
-            </button>
-
-            <button
-                type="button"
-                class="auth-tab"
-                id="signupTab"
-                onclick="switchAuth('signup')"
-            >
-                Create Account
-            </button>
+        <div class="modal-description" style="text-align:center;">
+            Sign in or create an account to continue.
         </div>
 
-        <div id="authError" class="form-error hidden"></div>
-        <div id="authSuccess" class="form-success hidden"></div>
+        <div id="authError" class="auth-error hidden"></div>
 
         <form id="authForm" onsubmit="submitAuth(event)">
 
             <div class="form-group">
-                <label>Username</label>
+                <label class="form-label">Username</label>
 
                 <input
                     id="authUsername"
-                    required
-                    minlength="2"
-                    maxlength="20"
+                    class="form-input"
+                    maxlength="24"
                     autocomplete="username"
-                    placeholder="Username"
+                    required
                 >
             </div>
 
             <div class="form-group">
-                <label>Password</label>
+                <label class="form-label">Password</label>
 
-                <div class="password-wrap">
-                    <input
-                        id="authPassword"
-                        required
-                        minlength="4"
-                        type="password"
-                        autocomplete="current-password"
-                        placeholder="Password"
-                    >
-
-                    <button
-                        type="button"
-                        class="password-toggle"
-                        onclick="togglePassword('authPassword',this)"
-                    >
-                        Show
-                    </button>
-                </div>
+                <input
+                    id="authPassword"
+                    class="form-input"
+                    type="password"
+                    maxlength="100"
+                    autocomplete="current-password"
+                    required
+                >
             </div>
 
-            <button id="authSubmitButton" type="submit" class="primary" style="width:100%;">
+            <button
+                id="authSubmitButton"
+                class="primary"
+                style="width:100%;"
+                type="submit"
+            >
                 <span id="authSubmitText">Log In</span>
             </button>
 
         </form>
 
+        <div class="auth-switch">
+            <span id="authSwitchText">Don't have an account?</span>
+
+            <button type="button" onclick="toggleAuthMode()">
+                <span id="authSwitchButton">Create one</span>
+            </button>
+        </div>
+
         <div class="auth-note">
-            This version stores accounts locally in your browser.
-            It is intended for the GameChat Hub demo and is not
-            server-side authentication.
+            GameChat Hub accounts are stored locally in this browser.
         </div>
 
     </div>
 
 </div>
 
-<!-- SETTINGS MODAL -->
+<!-- =========================
+     PRIVATE ROOM MODAL
+     ========================= -->
 
-<div class="modal-backdrop hidden" id="settingsModal">
+<div id="privateModal" class="modal-backdrop hidden">
 
     <div class="modal">
 
-        <div class="modal-title">Profile Settings</div>
-
-        <div class="modal-subtitle">
-            Customize your GameChat Hub profile.
+        <div class="modal-title">
+            Join Private Room
         </div>
 
-        <div class="profile-preview">
-
-            <div class="avatar" id="settingsAvatar">
-                ?
-            </div>
-
-            <div>
-                <div class="profile-preview-name" id="settingsPreviewName">
-                    Username
-                </div>
-
-                <div class="profile-preview-tag" id="settingsPreviewTag">
-                    #TAG
-                </div>
-            </div>
-
+        <div class="modal-description">
+            Enter the six-digit room code.
         </div>
 
-        <div id="settingsError" class="form-error hidden"></div>
+        <div id="privateError" class="auth-error hidden"></div>
 
         <div class="form-group">
-            <label>Username</label>
+            <label class="form-label">Room Code</label>
 
             <input
-                id="settingsUsername"
-                maxlength="20"
+                id="privateCode"
+                class="form-input"
+                inputmode="numeric"
+                maxlength="6"
+                placeholder="000000"
+            >
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                type="button"
+                onclick="closePrivateRoomModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="primary"
+                type="button"
+                onclick="joinPrivateRoom()"
+            >
+                Join Room
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     PROFILE MODAL
+     ========================= -->
+
+<div id="profileModal" class="modal-backdrop hidden">
+
+    <div class="modal">
+
+        <div class="modal-title">
+            Profile Settings
+        </div>
+
+        <div class="modal-description">
+            Customize how you appear in GameChat Hub.
+        </div>
+
+        <div class="profile-pfp-wrap">
+            <img
+                id="profilePreview"
+                class="profile-pfp"
+                src=""
+                alt=""
+            >
+        </div>
+
+        <div class="profile-actions">
+            <button
+                class="secondary"
+                type="button"
+                onclick="changePfp()"
+            >
+                Change PFP
+            </button>
+        </div>
+
+        <input
+            id="pfpInput"
+            type="file"
+            accept="image/*"
+            class="hidden"
+            onchange="handlePfp(event)"
+        >
+
+        <div class="form-group" style="margin-top:18px;">
+            <label class="form-label">Username</label>
+
+            <input
+                id="profileUsername"
+                class="form-input"
+                maxlength="24"
             >
         </div>
 
         <div class="form-group">
-            <label>Tag</label>
+            <label class="form-label">
+                Tag — max 4 letters
+            </label>
 
             <input
-                id="settingsTag"
+                id="profileTag"
+                class="form-input"
                 maxlength="4"
-                pattern="[A-Za-z]*"
-                placeholder="ABCD"
-                oninput="sanitizeTag(this)"
             >
-
-            <div style="color:var(--muted);font-size:11px;margin-top:6px;">
-                Maximum 4 letters.
-                <b>AVIN</b> is reserved for the users
-                <b>eeee</b> and <b>avin</b>.
-            </div>
         </div>
 
         <div class="form-group">
-            <label>Pronouns</label>
+            <label class="form-label">Pronouns</label>
 
             <input
-                id="settingsPronouns"
+                id="profilePronouns"
+                class="form-input"
                 maxlength="30"
                 placeholder="they/them"
             >
         </div>
 
         <div class="form-group">
-            <label>Description</label>
+            <label class="form-label">Description</label>
 
             <textarea
-                id="settingsDescription"
+                id="profileDescription"
+                class="form-textarea"
                 maxlength="200"
                 placeholder="Tell people about yourself..."
             ></textarea>
         </div>
 
-        <div class="form-group">
-            <label>Profile Picture</label>
-
-            <input
-                class="file-input"
-                id="settingsPfp"
-                type="file"
-                accept="image/*"
-            >
-        </div>
-
         <div class="modal-actions">
 
-            <button class="secondary" onclick="closeSettings()">
+            <button
+                class="secondary"
+                type="button"
+                onclick="closeProfile()"
+            >
                 Cancel
             </button>
 
-            <button class="danger" onclick="logout()">
-                Log Out
-            </button>
-
-            <button class="primary" onclick="saveSettings()">
+            <button
+                class="primary"
+                type="button"
+                onclick="saveProfile()"
+            >
                 Save
             </button>
 
@@ -1124,285 +1262,1860 @@ main{
 
 </div>
 
-<!-- CREATE ROOM -->
-
-<div class="modal-backdrop hidden" id="createRoomModal">
-
-    <div class="modal">
-
-        <div class="modal-title">Create Private Room</div>
-
-        <div class="modal-subtitle">
-            Make a private six-digit room code.
-        </div>
-
-        <div id="createRoomError" class="form-error hidden"></div>
-
-        <div class="form-group">
-            <label>Room Name</label>
-
-            <input
-                id="newRoomName"
-                maxlength="40"
-                placeholder="My Room"
-            >
-        </div>
-
-        <div class="modal-actions">
-
-            <button class="secondary" onclick="closeCreateRoom()">
-                Cancel
-            </button>
-
-            <button class="primary" onclick="createPrivateRoom()">
-                Create
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- JOIN ROOM -->
-
-<div class="modal-backdrop hidden" id="joinRoomModal">
-
-    <div class="modal">
-
-        <div class="modal-title">Join Private Room</div>
-
-        <div class="modal-subtitle">
-            Enter the six-digit room code.
-        </div>
-
-        <div id="joinRoomError" class="form-error hidden"></div>
-
-        <div class="form-group">
-            <label>Room Code</label>
-
-            <input
-                id="joinRoomCode"
-                inputmode="numeric"
-                maxlength="6"
-                placeholder="123456"
-                oninput="this.value=this.value.replace(/[^0-9]/g,'')"
-            >
-        </div>
-
-        <div class="modal-actions">
-
-            <button class="secondary" onclick="closeJoinRoom()">
-                Cancel
-            </button>
-
-            <button class="primary" onclick="joinPrivateRoom()">
-                Join
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<div id="toast" class="toast hidden"></div>
+<div id="toastContainer" class="toast-container"></div>
 
 <script>
-
 /* =========================================================
    GAMECHAT HUB
+   FUNCTIONALITY
    ========================================================= */
 
+const ACCOUNTS_KEY = "gamechat_accounts_v4";
+const PROFILES_KEY = "gamechat_profiles_v4";
+const SESSION_KEY = "gamechat_session_v4";
+const PRIVATE_KEY = "gamechat_private_rooms_v4";
 
-/* -------------------------
-   STORAGE
-------------------------- */
+/* Legacy keys are kept so older accounts can still be migrated. */
+const LEGACY_ACCOUNTS_KEY = "gamechat_accounts_v3";
+const LEGACY_PROFILES_KEY = "gamechat_profiles_v3";
+const LEGACY_SESSION_KEY = "gamechat_session_v3";
 
-const memoryStorage = Object.create(null);
-
-let storagePersistent = false;
-
-function testStorage(){
-
-    try{
-
-        const testKey =
-            "__gamechat_storage_test__";
-
-        localStorage.setItem(testKey,"1");
-
-        const works =
-            localStorage.getItem(testKey) === "1";
-
-        localStorage.removeItem(testKey);
-
-        return works;
-
-    }catch(error){
-
-        console.warn(
-            "Persistent browser storage unavailable:",
-            error
-        );
-
-        return false;
-    }
-}
-
-storagePersistent = testStorage();
-
-
-const storage = {
-
-    get(key){
-
-        if(storagePersistent){
-
-            try{
-                return localStorage.getItem(key);
-            }catch(error){
-                console.warn(error);
-            }
-        }
-
-        return Object.prototype.hasOwnProperty.call(
-            memoryStorage,
-            key
-        )
-            ? memoryStorage[key]
-            : null;
-    },
-
-    set(key,value){
-
-        if(storagePersistent){
-
-            try{
-                localStorage.setItem(
-                    key,
-                    value
-                );
-
-                return true;
-
-            }catch(error){
-
-                console.warn(
-                    "localStorage write failed:",
-                    error
-                );
-
-                storagePersistent = false;
-            }
-        }
-
-        memoryStorage[key] = String(value);
-
-        return false;
-    },
-
-    remove(key){
-
-        if(storagePersistent){
-
-            try{
-                localStorage.removeItem(key);
-            }catch(error){
-                console.warn(error);
-            }
-        }
-
-        delete memoryStorage[key];
-    }
-};
-
-
-/* -------------------------
-   STORAGE KEYS
-------------------------- */
-
-/*
-   v4 is the new authentication system.
-
-   The old v3 data is intentionally left untouched
-   so existing accounts can be migrated.
-*/
-
-const ACCOUNTS_KEY =
-    "gamechat_accounts_v4";
-
-const PROFILES_KEY =
-    "gamechat_profiles_v4";
-
-const SESSION_KEY =
-    "gamechat_session_v4";
-
-const OLD_ACCOUNTS_KEY =
-    "gamechat_accounts_v3";
-
-const OLD_PROFILES_KEY =
-    "gamechat_profiles_v3";
-
-const OLD_SESSION_KEY =
-    "gamechat_session_v3";
-
-const PRIVATE_ROOMS_KEY =
-    "gamechat_private_rooms_v3";
-
-
-/* -------------------------
-   STATE
-------------------------- */
+const defaultPfp =
+    "data:image/svg+xml;charset=UTF-8," +
+    encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+            <rect width="100" height="100" rx="50" fill="#21153a"/>
+            <circle cx="50" cy="38" r="17" fill="#c084fc"/>
+            <path d="M22 87c4-19 17-29 28-29s24 10 28 29" fill="#c084fc"/>
+        </svg>
+    `);
 
 let currentUser = null;
 let currentProfile = null;
+let authMode = "login";
 
-let currentRoom = null;
+let currentRoom = "general";
+let currentRoomCode = "111111";
 
+let peerStarted = false;
 let personalPeer = null;
 let roomHostPeer = null;
 let roomHostConnection = null;
 
-let isRoomHost = false;
-let roomHostId = null;
+let peerConnections = {};
+let onlineUsers = {};
 
-let roomConnections = new Map();
-let roomUsers = new Map();
+let storageAvailable = false;
 
-let roomRetryTimer = null;
+/* =========================================================
+   STORAGE
+   ========================================================= */
 
-let authMode = "login";
-let authBusy = false;
+function testStorage(){
+    try{
+        const testKey = "__gamechat_storage_test__";
+        localStorage.setItem(testKey, "1");
+        localStorage.removeItem(testKey);
+        storageAvailable = true;
+    }catch(error){
+        storageAvailable = false;
+    }
+}
 
-const OFFICIAL_ROOMS = {
+function readStorage(key, fallback){
+    try{
+        const value = localStorage.getItem(key);
+
+        if(value === null){
+            return fallback;
+        }
+
+        return JSON.parse(value);
+    }catch(error){
+        return fallback;
+    }
+}
+
+function writeStorage(key, value){
+    if(!storageAvailable){
+        return false;
+    }
+
+    try{
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+    }catch(error){
+        return false;
+    }
+}
+
+function removeStorage(key){
+    try{
+        localStorage.removeItem(key);
+    }catch(error){}
+}
+
+/* =========================================================
+   AUTH
+   ========================================================= */
+
+function normalizeUsername(username){
+    return username.trim().toLowerCase();
+}
+
+/*
+    This is deliberately synchronous and deterministic.
+
+    That means signup and login always use the exact same
+    algorithm, without waiting for crypto/network code.
+*/
+
+function hashLocalPassword(password){
+    let h1 = 0x811c9dc5;
+    let h2 = 0x01000193;
+
+    for(let i = 0; i < password.length; i++){
+        const c = password.charCodeAt(i);
+
+        h1 ^= c;
+        h1 = Math.imul(h1, 16777619);
+
+        h2 ^= c + i;
+        h2 = Math.imul(h2, 2246822519);
+    }
+
+    return (
+        (h1 >>> 0).toString(16).padStart(8,"0") +
+        (h2 >>> 0).toString(16).padStart(8,"0")
+    );
+}
+
+async function hashLegacyPassword(password){
+    if(!window.crypto || !window.crypto.subtle){
+        return null;
+    }
+
+    try{
+        const data = new TextEncoder().encode(password);
+
+        const digest = await crypto.subtle.digest(
+            "SHA-256",
+            data
+        );
+
+        return Array.from(
+            new Uint8Array(digest)
+        ).map(
+            b => b.toString(16).padStart(2,"0")
+        ).join("");
+    }catch(error){
+        return null;
+    }
+}
+
+function getAccounts(){
+    return readStorage(ACCOUNTS_KEY,{});
+}
+
+function getProfiles(){
+    return readStorage(PROFILES_KEY,{});
+}
+
+function showAuthError(message){
+    const box = document.getElementById("authError");
+
+    box.textContent = message;
+    box.classList.remove("hidden");
+}
+
+function clearAuthError(){
+    document.getElementById("authError")
+        .classList.add("hidden");
+}
+
+function toggleAuthMode(){
+    authMode =
+        authMode === "login"
+        ? "signup"
+        : "login";
+
+    clearAuthError();
+
+    const title =
+        document.getElementById("authSubmitText");
+
+    const switchText =
+        document.getElementById("authSwitchText");
+
+    const switchButton =
+        document.getElementById("authSwitchButton");
+
+    if(authMode === "login"){
+        title.textContent = "Log In";
+        switchText.textContent =
+            "Don't have an account?";
+        switchButton.textContent =
+            "Create one";
+
+        document.getElementById("authPassword")
+            .setAttribute("autocomplete","current-password");
+
+    }else{
+        title.textContent = "Create Account";
+        switchText.textContent =
+            "Already have an account?";
+        switchButton.textContent =
+            "Log in";
+
+        document.getElementById("authPassword")
+            .setAttribute("autocomplete","new-password");
+    }
+}
+
+function finishLogin(usernameKey, message){
+    const accounts = getAccounts();
+    const profiles = getProfiles();
+
+    currentUser = usernameKey;
+
+    currentProfile = profiles[usernameKey] || {
+        username: accounts[usernameKey].username,
+        tag: "",
+        pronouns: "",
+        description: "",
+        pfp: defaultPfp
+    };
+
+    if(!currentProfile.pfp){
+        currentProfile.pfp = defaultPfp;
+    }
+
+    writeStorage(
+        SESSION_KEY,
+        {
+            username: usernameKey
+        }
+    );
+
+    updateAccountUI();
+
+    document.getElementById("authModal")
+        .classList.add("hidden");
+
+    showToast(message,"success");
+
+    /*
+       IMPORTANT:
+       Networking happens AFTER authentication finishes.
+       PeerJS can fail without breaking login/signup.
+    */
+
+    setTimeout(() => {
+        if(!currentUser){
+            return;
+        }
+
+        startNetworking();
+
+        showPage("chat");
+
+        enterRoom("general");
+    },0);
+}
+
+async function submitAuth(event){
+    event.preventDefault();
+
+    const button =
+        document.getElementById("authSubmitButton");
+
+    const buttonText =
+        document.getElementById("authSubmitText");
+
+    const usernameInput =
+        document.getElementById("authUsername");
+
+    const passwordInput =
+        document.getElementById("authPassword");
+
+    const username =
+        usernameInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    clearAuthError();
+
+    if(!username){
+        showAuthError("Please enter a username.");
+        usernameInput.focus();
+        return;
+    }
+
+    if(username.length < 2){
+        showAuthError(
+            "Username must be at least 2 characters."
+        );
+        usernameInput.focus();
+        return;
+    }
+
+    if(!password){
+        showAuthError("Please enter a password.");
+        passwordInput.focus();
+        return;
+    }
+
+    if(password.length < 4){
+        showAuthError(
+            "Password must be at least 4 characters."
+        );
+        passwordInput.focus();
+        return;
+    }
+
+    const usernameKey = normalizeUsername(username);
+
+    button.disabled = true;
+
+    buttonText.textContent =
+        authMode === "signup"
+        ? "Creating..."
+        : "Signing in...";
+
+    try{
+        const accounts = getAccounts();
+        const profiles = getProfiles();
+
+        if(authMode === "signup"){
+
+            if(accounts[usernameKey]){
+                throw new Error(
+                    "That username already exists."
+                );
+            }
+
+            const account = {
+                username: username,
+                password: hashLocalPassword(password),
+                createdAt: Date.now()
+            };
+
+            accounts[usernameKey] = account;
+
+            const profile = {
+                username: username,
+                tag: "",
+                pronouns: "",
+                description: "",
+                pfp: defaultPfp
+            };
+
+            profiles[usernameKey] = profile;
+
+            const accountsSaved =
+                writeStorage(ACCOUNTS_KEY,accounts);
+
+            const profilesSaved =
+                writeStorage(PROFILES_KEY,profiles);
+
+            if(!accountsSaved || !profilesSaved){
+                throw new Error(
+                    "Your browser is blocking local storage. The account cannot be saved reliably."
+                );
+            }
+
+            finishLogin(
+                usernameKey,
+                "Account created successfully!"
+            );
+
+        }else{
+
+            let account = accounts[usernameKey];
+
+            /*
+               Legacy account migration.
+            */
+
+            if(!account){
+
+                const oldAccounts =
+                    readStorage(
+                        LEGACY_ACCOUNTS_KEY,
+                        {}
+                    );
+
+                account = oldAccounts[usernameKey];
+
+                if(account){
+
+                    const legacyHash =
+                        await hashLegacyPassword(password);
+
+                    if(
+                        legacyHash &&
+                        account.password === legacyHash
+                    ){
+                        accounts[usernameKey] = {
+                            username:
+                                account.username || username,
+                            password:
+                                hashLocalPassword(password),
+                            createdAt:
+                                account.createdAt ||
+                                Date.now()
+                        };
+
+                        const oldProfiles =
+                            readStorage(
+                                LEGACY_PROFILES_KEY,
+                                {}
+                            );
+
+                        profiles[usernameKey] =
+                            oldProfiles[usernameKey] ||
+                            {
+                                username:
+                                    account.username ||
+                                    username,
+                                tag:"",
+                                pronouns:"",
+                                description:"",
+                                pfp:defaultPfp
+                            };
+
+                        writeStorage(
+                            ACCOUNTS_KEY,
+                            accounts
+                        );
+
+                        writeStorage(
+                            PROFILES_KEY,
+                            profiles
+                        );
+
+                        finishLogin(
+                            usernameKey,
+                            "Signed in successfully!"
+                        );
+
+                        return;
+                    }
+
+                    throw new Error(
+                        "Incorrect username or password."
+                    );
+                }
+
+                throw new Error(
+                    "Incorrect username or password."
+                );
+            }
+
+            const passwordHash =
+                hashLocalPassword(password);
+
+            if(account.password !== passwordHash){
+
+                /*
+                   If this is a legacy SHA-256 account
+                   accidentally stored in the new key,
+                   attempt the old verifier once.
+                */
+
+                const legacyHash =
+                    await hashLegacyPassword(password);
+
+                if(
+                    !legacyHash ||
+                    account.password !== legacyHash
+                ){
+                    throw new Error(
+                        "Incorrect username or password."
+                    );
+                }
+
+                account.password =
+                    passwordHash;
+
+                accounts[usernameKey] = account;
+
+                writeStorage(
+                    ACCOUNTS_KEY,
+                    accounts
+                );
+            }
+
+            finishLogin(
+                usernameKey,
+                "Signed in successfully!"
+            );
+        }
+
+    }catch(error){
+
+        console.error("Authentication error:",error);
+
+        showAuthError(
+            error && error.message
+            ? error.message
+            : "Something went wrong. Please try again."
+        );
+
+    }finally{
+
+        button.disabled = false;
+
+        buttonText.textContent =
+            authMode === "signup"
+            ? "Create Account"
+            : "Log In";
+    }
+}
+
+function restoreSession(){
+
+    const session =
+        readStorage(SESSION_KEY,null);
+
+    if(
+        session &&
+        session.username
+    ){
+
+        const accounts = getAccounts();
+
+        if(accounts[session.username]){
+
+            currentUser =
+                session.username;
+
+            const profiles =
+                getProfiles();
+
+            currentProfile =
+                profiles[currentUser] || {
+                    username:
+                        accounts[currentUser].username,
+                    tag:"",
+                    pronouns:"",
+                    description:"",
+                    pfp:defaultPfp
+                };
+
+            updateAccountUI();
+
+            document.getElementById("authModal")
+                .classList.add("hidden");
+
+            setTimeout(() => {
+
+                startNetworking();
+
+                showPage("chat");
+
+                enterRoom("general");
+
+            },0);
+
+            return;
+        }
+
+        removeStorage(SESSION_KEY);
+    }
+
+    document.getElementById("authModal")
+        .classList.remove("hidden");
+}
+
+/* =========================================================
+   ACCOUNT UI
+   ========================================================= */
+
+function updateAccountUI(){
+
+    if(!currentProfile){
+        return;
+    }
+
+    const pfp =
+        currentProfile.pfp || defaultPfp;
+
+    document.getElementById("topPfp").src = pfp;
+
+    document.getElementById("topUsername")
+        .textContent =
+        currentProfile.username;
+
+    renderUserList();
+}
+
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
+
+function showPage(page){
+
+    const games =
+        document.getElementById("gamesPage");
+
+    const chat =
+        document.getElementById("chatPage");
+
+    if(page === "games"){
+
+        games.classList.remove("hidden");
+        chat.classList.add("hidden");
+
+    }else{
+
+        games.classList.add("hidden");
+        chat.classList.remove("hidden");
+    }
+}
+
+/* =========================================================
+   ROOMS
+   ========================================================= */
+
+const officialRooms = {
+
     general:{
         name:"General",
+        description:"Official GameChat Hub room",
         code:"111111",
-        hostId:"gch-official-general"
+        host:"gch-official-general"
     },
 
     general2:{
         name:"General 2",
+        description:"Second official GameChat Hub room",
         code:"000000",
-        hostId:"gch-official-general2"
+        host:"gch-official-general2"
     },
 
     offtopic:{
         name:"Off-Topic",
+        description:"Talk about anything",
         code:"999999",
-        hostId:"gch-official-offtopic"
+        host:"gch-official-offtopic"
     }
+
 };
 
+let privateRooms =
+    readStorage(PRIVATE_KEY,{});
 
-/* -------------------------
-   BASIC HELPERS
-------------------------- */
+function renderPrivateRooms(){
+
+    const container =
+        document.getElementById("privateRoomList");
+
+    container.innerHTML = "";
+
+    Object.keys(privateRooms).forEach(code => {
+
+        const room =
+            privateRooms[code];
+
+        const el =
+            document.createElement("div");
+
+        el.className = "room";
+
+        el.id =
+            "private-room-" + code;
+
+        el.onclick =
+            () => enterPrivateRoom(code);
+
+        el.innerHTML =
+            `<span class="room-icon">#</span>
+             <span>${escapeHtml(
+                 room.name || "Private " + code
+             )}</span>`;
+
+        container.appendChild(el);
+    });
+}
+
+function enterPrivateRoom(code){
+
+    if(!privateRooms[code]){
+        privateRooms[code] = {
+            name:"Private " + code,
+            description:"Private GameChat Hub room",
+            code:code,
+            host:"gch-private-" + code
+        };
+
+        writeStorage(
+            PRIVATE_KEY,
+            privateRooms
+        );
+
+        renderPrivateRooms();
+    }
+
+    enterRoom(
+        "private:" + code
+    );
+}
+
+function openPrivateRoomModal(){
+
+    document.getElementById("privateModal")
+        .classList.remove("hidden");
+
+    document.getElementById("privateError")
+        .classList.add("hidden");
+
+    const input =
+        document.getElementById("privateCode");
+
+    input.value = "";
+
+    setTimeout(() => input.focus(),50);
+}
+
+function closePrivateRoomModal(){
+
+    document.getElementById("privateModal")
+        .classList.add("hidden");
+}
+
+function joinPrivateRoom(){
+
+    const input =
+        document.getElementById("privateCode");
+
+    const code =
+        input.value.trim();
+
+    const error =
+        document.getElementById("privateError");
+
+    if(!/^\d{6}$/.test(code)){
+
+        error.textContent =
+            "Room code must be exactly 6 digits.";
+
+        error.classList.remove("hidden");
+
+        return;
+    }
+
+    privateRooms[code] =
+        privateRooms[code] || {
+            name:"Private " + code,
+            description:"Private GameChat Hub room",
+            code:code,
+            host:"gch-private-" + code
+        };
+
+    writeStorage(
+        PRIVATE_KEY,
+        privateRooms
+    );
+
+    renderPrivateRooms();
+
+    closePrivateRoomModal();
+
+    enterPrivateRoom(code);
+}
+
+/* =========================================================
+   ROOM ENTERING
+   ========================================================= */
+
+function getRoomInfo(roomId){
+
+    if(roomId.startsWith("private:")){
+
+        const code =
+            roomId.split(":")[1];
+
+        return privateRooms[code] || {
+            name:"Private " + code,
+            description:"Private GameChat Hub room",
+            code:code,
+            host:"gch-private-" + code
+        };
+    }
+
+    return officialRooms[roomId];
+}
+
+function enterRoom(roomId){
+
+    if(!currentUser){
+        document.getElementById("authModal")
+            .classList.remove("hidden");
+
+        return;
+    }
+
+    const room =
+        getRoomInfo(roomId);
+
+    if(!room){
+        return;
+    }
+
+    currentRoom = roomId;
+    currentRoomCode = room.code;
+
+    document.querySelectorAll(".room")
+        .forEach(el =>
+            el.classList.remove("active")
+        );
+
+    const official =
+        document.getElementById(
+            "room-" + roomId
+        );
+
+    if(official){
+        official.classList.add("active");
+    }
+
+    if(roomId.startsWith("private:")){
+
+        const privateEl =
+            document.getElementById(
+                "private-room-" + room.code
+            );
+
+        if(privateEl){
+            privateEl.classList.add("active");
+        }
+    }
+
+    document.getElementById("chatRoomTitle")
+        .textContent =
+        "# " + room.name;
+
+    document.getElementById("chatRoomDescription")
+        .textContent =
+        room.description;
+
+    clearMessages();
+
+    addSystemMessage(
+        "You joined #" + room.name
+    );
+
+    startNetworking();
+
+    connectOrBecomeHost(room);
+}
+
+function clearMessages(){
+
+    document.getElementById("messages")
+        .innerHTML = "";
+}
+
+function addSystemMessage(text){
+
+    const container =
+        document.getElementById("messages");
+
+    const el =
+        document.createElement("div");
+
+    el.style.textAlign = "center";
+    el.style.color = "#625b70";
+    el.style.fontSize = "11px";
+    el.style.padding = "5px";
+
+    el.textContent = text;
+
+    container.appendChild(el);
+
+    scrollMessages();
+}
+
+/* =========================================================
+   CHAT MESSAGES
+   ========================================================= */
+
+function addMessage(message){
+
+    const container =
+        document.getElementById("messages");
+
+    const row =
+        document.createElement("div");
+
+    row.className =
+        "message" +
+        (
+            message.username ===
+            currentProfile.username
+            ? " mine"
+            : ""
+        );
+
+    const avatar =
+        document.createElement("img");
+
+    avatar.className =
+        "message-avatar";
+
+    avatar.src =
+        message.pfp || defaultPfp;
+
+    avatar.alt = "";
+
+    avatar.onerror = () => {
+        avatar.src = defaultPfp;
+    };
+
+    const content =
+        document.createElement("div");
+
+    content.className =
+        "message-content";
+
+    const header =
+        document.createElement("div");
+
+    header.className =
+        "message-header";
+
+    const name =
+        document.createElement("span");
+
+    name.className =
+        "message-name";
+
+    name.textContent =
+        message.username;
+
+    header.appendChild(name);
+
+    if(message.tag){
+
+        const tag =
+            document.createElement("span");
+
+        tag.className =
+            "message-tag";
+
+        tag.textContent =
+            "#" + message.tag;
+
+        header.appendChild(tag);
+    }
+
+    const bubble =
+        document.createElement("div");
+
+    bubble.className =
+        "message-bubble";
+
+    /*
+       textContent is intentionally used instead
+       of innerHTML so messages cannot inject HTML.
+    */
+
+    bubble.textContent =
+        message.text;
+
+    const time =
+        document.createElement("div");
+
+    time.className =
+        "message-time";
+
+    time.textContent =
+        formatTime(
+            message.timestamp || Date.now()
+        );
+
+    content.appendChild(header);
+    content.appendChild(bubble);
+    content.appendChild(time);
+
+    row.appendChild(avatar);
+    row.appendChild(content);
+
+    container.appendChild(row);
+
+    scrollMessages();
+}
+
+function formatTime(timestamp){
+
+    try{
+        return new Date(timestamp)
+            .toLocaleTimeString(
+                [],
+                {
+                    hour:"numeric",
+                    minute:"2-digit"
+                }
+            );
+    }catch(error){
+        return "";
+    }
+}
+
+function scrollMessages(){
+
+    const container =
+        document.getElementById("messages");
+
+    requestAnimationFrame(() => {
+        container.scrollTop =
+            container.scrollHeight;
+    });
+}
+
+function sendMessage(event){
+
+    event.preventDefault();
+
+    if(!currentUser || !currentProfile){
+        return;
+    }
+
+    const input =
+        document.getElementById("messageInput");
+
+    const text =
+        input.value.trim();
+
+    if(!text){
+        return;
+    }
+
+    const message = {
+        type:"chat",
+        username:
+            currentProfile.username,
+        tag:
+            currentProfile.tag || "",
+        pfp:
+            currentProfile.pfp || defaultPfp,
+        text:text,
+        timestamp:Date.now(),
+        room:currentRoomCode
+    };
+
+    addMessage(message);
+
+    broadcastMessage(message);
+
+    input.value = "";
+    input.focus();
+}
+
+/* =========================================================
+   USERS
+   ========================================================= */
+
+function renderUserList(){
+
+    const container =
+        document.getElementById("userList");
+
+    container.innerHTML = "";
+
+    const users = {
+        ...onlineUsers
+    };
+
+    if(currentProfile){
+        users[currentUser] = {
+            username:
+                currentProfile.username,
+            tag:
+                currentProfile.tag || "",
+            pfp:
+                currentProfile.pfp || defaultPfp
+        };
+    }
+
+    Object.keys(users).forEach(key => {
+
+        const user =
+            users[key];
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "user-row";
+
+        const img =
+            document.createElement("img");
+
+        img.src =
+            user.pfp || defaultPfp;
+
+        img.onerror = () => {
+            img.src = defaultPfp;
+        };
+
+        const names =
+            document.createElement("div");
+
+        names.className =
+            "user-row-name";
+
+        const username =
+            document.createElement("div");
+
+        username.className =
+            "user-row-username";
+
+        username.textContent =
+            user.username;
+
+        const tag =
+            document.createElement("div");
+
+        tag.className =
+            "user-row-tag";
+
+        tag.textContent =
+            user.tag
+            ? "#" + user.tag
+            : "";
+
+        names.appendChild(username);
+        names.appendChild(tag);
+
+        const dot =
+            document.createElement("div");
+
+        dot.className =
+            "online-dot";
+
+        row.appendChild(img);
+        row.appendChild(names);
+        row.appendChild(dot);
+
+        container.appendChild(row);
+    });
+}
+
+/* =========================================================
+   PEERJS NETWORKING
+   ========================================================= */
+
+function startNetworking(){
+
+    if(peerStarted){
+        return;
+    }
+
+    peerStarted = true;
+
+    /*
+       Networking is intentionally isolated from auth.
+       A PeerJS failure must never make the login button fail.
+    */
+
+    try{
+
+        personalPeer =
+            new Peer();
+
+        personalPeer.on(
+            "open",
+            () => {
+                if(currentProfile){
+                    announcePresence();
+                }
+            }
+        );
+
+        personalPeer.on(
+            "connection",
+            connection => {
+                handleIncomingConnection(connection);
+            }
+        );
+
+        personalPeer.on(
+            "error",
+            error => {
+                console.warn(
+                    "PeerJS error:",
+                    error
+                );
+            }
+        );
+
+        personalPeer.on(
+            "disconnected",
+            () => {
+                console.warn(
+                    "PeerJS disconnected."
+                );
+            }
+        );
+
+    }catch(error){
+
+        console.warn(
+            "Networking unavailable:",
+            error
+        );
+    }
+}
+
+function connectOrBecomeHost(room){
+
+    if(!personalPeer){
+        return;
+    }
+
+    const hostId =
+        room.host;
+
+    try{
+
+        const hostPeer =
+            new Peer(hostId);
+
+        roomHostPeer =
+            hostPeer;
+
+        let opened = false;
+
+        hostPeer.on(
+            "open",
+            () => {
+
+                opened = true;
+
+                if(
+                    personalPeer &&
+                    personalPeer.id !== hostId
+                ){
+                    connectToHost(hostId);
+                }
+            }
+        );
+
+        hostPeer.on(
+            "connection",
+            connection => {
+                handleHostConnection(connection);
+            }
+        );
+
+        hostPeer.on(
+            "error",
+            error => {
+
+                if(
+                    error.type ===
+                    "unavailable-id"
+                ){
+                    try{
+                        hostPeer.destroy();
+                    }catch(e){}
+
+                    connectToHost(hostId);
+                }else{
+
+                    console.warn(
+                        "Room host error:",
+                        error
+                    );
+                }
+            }
+        );
+
+    }catch(error){
+
+        console.warn(
+            "Could not initialize room host:",
+            error
+        );
+
+        connectToHost(hostId);
+    }
+}
+
+function connectToHost(hostId){
+
+    if(!personalPeer){
+        return;
+    }
+
+    try{
+
+        const connection =
+            personalPeer.connect(
+                hostId,
+                {
+                    reliable:true
+                }
+            );
+
+        roomHostConnection =
+            connection;
+
+        connection.on(
+            "open",
+            () => {
+                sendPresence(connection);
+            }
+        );
+
+        connection.on(
+            "data",
+            data => {
+                handleNetworkData(data);
+            }
+        );
+
+        connection.on(
+            "close",
+            () => {
+                roomHostConnection = null;
+            }
+        );
+
+        connection.on(
+            "error",
+            error => {
+                console.warn(
+                    "Room connection error:",
+                    error
+                );
+            }
+        );
+
+    }catch(error){
+
+        console.warn(
+            "Host connection failed:",
+            error
+        );
+    }
+}
+
+function handleIncomingConnection(connection){
+
+    connection.on(
+        "data",
+        data => {
+            handleNetworkData(data);
+        }
+    );
+
+    connection.on(
+        "open",
+        () => {
+            sendPresence(connection);
+        }
+    );
+}
+
+function handleHostConnection(connection){
+
+    peerConnections[
+        connection.peer
+    ] = connection;
+
+    connection.on(
+        "data",
+        data => {
+
+            handleNetworkData(data);
+
+            /*
+               Forward chat/presence packets to
+               the other clients.
+            */
+
+            Object.keys(peerConnections)
+                .forEach(id => {
+
+                    if(id !== connection.peer){
+
+                        try{
+                            peerConnections[id]
+                                .send(data);
+                        }catch(error){}
+                    }
+                });
+        }
+    );
+
+    connection.on(
+        "close",
+        () => {
+
+            delete peerConnections[
+                connection.peer
+            ];
+        }
+    );
+
+    connection.on(
+        "error",
+        error => {
+            console.warn(
+                "Host connection error:",
+                error
+            );
+        }
+    );
+}
+
+function sendPresence(connection){
+
+    if(!currentProfile){
+        return;
+    }
+
+    try{
+
+        connection.send({
+            type:"presence",
+            username:
+                currentProfile.username,
+            tag:
+                currentProfile.tag || "",
+            pfp:
+                currentProfile.pfp || defaultPfp,
+            room:
+                currentRoomCode
+        });
+
+    }catch(error){}
+}
+
+function announcePresence(){
+
+    if(!personalPeer){
+        return;
+    }
+
+    const packet = {
+        type:"presence",
+        username:
+            currentProfile.username,
+        tag:
+            currentProfile.tag || "",
+        pfp:
+            currentProfile.pfp || defaultPfp,
+        room:
+            currentRoomCode
+    };
+
+    broadcastMessage(packet);
+}
+
+function broadcastMessage(data){
+
+    if(
+        roomHostConnection &&
+        roomHostConnection.open
+    ){
+        try{
+            roomHostConnection.send(data);
+        }catch(error){}
+    }
+
+    Object.keys(peerConnections)
+        .forEach(id => {
+
+            const connection =
+                peerConnections[id];
+
+            if(
+                connection &&
+                connection.open
+            ){
+
+                try{
+                    connection.send(data);
+                }catch(error){}
+            }
+        });
+}
+
+function handleNetworkData(data){
+
+    if(!data || !data.type){
+        return;
+    }
+
+    if(
+        data.room &&
+        data.room !== currentRoomCode
+    ){
+        return;
+    }
+
+    if(data.type === "chat"){
+
+        /*
+           Avoid rendering our own message twice.
+        */
+
+        if(
+            data.username ===
+            currentProfile.username
+        ){
+            return;
+        }
+
+        addMessage(data);
+    }
+
+    if(data.type === "presence"){
+
+        onlineUsers[
+            normalizeUsername(
+                data.username
+            )
+        ] = {
+            username:data.username,
+            tag:data.tag || "",
+            pfp:data.pfp || defaultPfp
+        };
+
+        renderUserList();
+    }
+}
+
+/* =========================================================
+   COPY ROOM CODE
+   ========================================================= */
+
+function copyRoomCode(){
+
+    if(!currentRoomCode){
+        return;
+    }
+
+    if(
+        navigator.clipboard &&
+        navigator.clipboard.writeText
+    ){
+
+        navigator.clipboard
+            .writeText(currentRoomCode)
+            .then(() => {
+                showToast(
+                    "Room code copied!",
+                    "success"
+                );
+            })
+            .catch(() => {
+                showToast(
+                    "Could not copy the room code.",
+                    "error"
+                );
+            });
+
+    }else{
+
+        const textarea =
+            document.createElement("textarea");
+
+        textarea.value =
+            currentRoomCode;
+
+        document.body.appendChild(textarea);
+
+        textarea.select();
+
+        try{
+            document.execCommand("copy");
+
+            showToast(
+                "Room code copied!",
+                "success"
+            );
+
+        }catch(error){
+
+            showToast(
+                "Could not copy the room code.",
+                "error"
+            );
+        }
+
+        textarea.remove();
+    }
+}
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+function openProfile(){
+
+    if(!currentUser){
+        return;
+    }
+
+    document.getElementById("profileUsername")
+        .value =
+        currentProfile.username || "";
+
+    document.getElementById("profileTag")
+        .value =
+        currentProfile.tag || "";
+
+    document.getElementById("profilePronouns")
+        .value =
+        currentProfile.pronouns || "";
+
+    document.getElementById("profileDescription")
+        .value =
+        currentProfile.description || "";
+
+    document.getElementById("profilePreview")
+        .src =
+        currentProfile.pfp || defaultPfp;
+
+    document.getElementById("profileModal")
+        .classList.remove("hidden");
+}
+
+function closeProfile(){
+
+    document.getElementById("profileModal")
+        .classList.add("hidden");
+}
+
+function changePfp(){
+
+    document.getElementById("pfpInput")
+        .click();
+}
+
+function handlePfp(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file){
+        return;
+    }
+
+    if(!file.type.startsWith("image/")){
+        showToast(
+            "Please select an image.",
+            "error"
+        );
+        return;
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload = () => {
+
+        document.getElementById(
+            "profilePreview"
+        ).src = reader.result;
+
+        currentProfile.pfp =
+            reader.result;
+    };
+
+    reader.readAsDataURL(file);
+}
+
+function saveProfile(){
+
+    const newUsername =
+        document.getElementById(
+            "profileUsername"
+        ).value.trim();
+
+    let tag =
+        document.getElementById(
+            "profileTag"
+        ).value.trim();
+
+    const pronouns =
+        document.getElementById(
+            "profilePronouns"
+        ).value.trim();
+
+    const description =
+        document.getElementById(
+            "profileDescription"
+        ).value.trim();
+
+    if(!newUsername){
+
+        showToast(
+            "Username cannot be empty.",
+            "error"
+        );
+
+        return;
+    }
+
+    tag =
+        tag.replace(/[^a-zA-Z]/g,"")
+           .slice(0,4);
+
+    /*
+       AVIN is reserved for the specified accounts.
+    */
+
+    if(
+        tag.toUpperCase() === "AVIN" &&
+        newUsername.toLowerCase() !== "eeee" &&
+        newUsername.toLowerCase() !== "avin"
+    ){
+
+        showToast(
+            "The AVIN tag is reserved.",
+            "error"
+        );
+
+        return;
+    }
+
+    const oldKey =
+        currentUser;
+
+    const newKey =
+        normalizeUsername(newUsername);
+
+    const accounts =
+        getAccounts();
+
+    const profiles =
+        getProfiles();
+
+    if(
+        newKey !== oldKey &&
+        accounts[newKey]
+    ){
+
+        showToast(
+            "That username already exists.",
+            "error"
+        );
+
+        return;
+    }
+
+    if(newKey !== oldKey){
+
+        accounts[newKey] =
+            accounts[oldKey];
+
+        accounts[newKey].username =
+            newUsername;
+
+        delete accounts[oldKey];
+
+        profiles[newKey] =
+            profiles[oldKey];
+
+        delete profiles[oldKey];
+
+        currentUser =
+            newKey;
+    }
+
+    currentProfile = {
+        username:newUsername,
+        tag:tag,
+        pronouns:pronouns,
+        description:description,
+        pfp:
+            currentProfile.pfp ||
+            defaultPfp
+    };
+
+    profiles[currentUser] =
+        currentProfile;
+
+    writeStorage(
+        ACCOUNTS_KEY,
+        accounts
+    );
+
+    writeStorage(
+        PROFILES_KEY,
+        profiles
+    );
+
+    writeStorage(
+        SESSION_KEY,
+        {
+            username:currentUser
+        }
+    );
+
+    updateAccountUI();
+
+    closeProfile();
+
+    showToast(
+        "Profile saved!",
+        "success"
+    );
+
+    announcePresence();
+}
+
+/* =========================================================
+   TOASTS
+   ========================================================= */
+
+function showToast(message,type=""){
+
+    const container =
+        document.getElementById(
+            "toastContainer"
+        );
+
+    const toast =
+        document.createElement("div");
+
+    toast.className =
+        "toast " + type;
+
+    toast.textContent =
+        message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+
+        toast.style.opacity = "0";
+        toast.style.transform =
+            "translateY(7px)";
+        toast.style.transition =
+            "opacity .18s, transform .18s";
+
+        setTimeout(() => {
+            toast.remove();
+        },200);
+
+    },2600);
+}
+
+/* =========================================================
+   SAFE HTML
+   ========================================================= */
 
 function escapeHtml(value){
 
-    return String(value ?? "")
+    return String(value)
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
         .replaceAll(">","&gt;")
@@ -1410,3470 +3123,15 @@ function escapeHtml(value){
         .replaceAll("'","&#039;");
 }
 
-
-function randomId(){
-
-    if(
-        window.crypto &&
-        typeof crypto.randomUUID === "function"
-    ){
-        return crypto.randomUUID();
-    }
-
-    return Date.now().toString(36) +
-        Math.random().toString(36).slice(2);
-}
-
-
-function showToast(message){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent = message;
-
-    toast.classList.remove("hidden");
-
-    clearTimeout(showToast.timer);
-
-    showToast.timer =
-        setTimeout(()=>{
-            toast.classList.add("hidden");
-        },3000);
-}
-
-
-function normalizeUsername(username){
-
-    return String(username || "")
-        .trim()
-        .toLowerCase();
-}
-
-
-function validUsername(username){
-
-    return /^[A-Za-z0-9_ -]{2,20}$/.test(
-        username
-    );
-}
-
-
-function validTag(tag){
-
-    return /^[A-Za-z]{0,4}$/.test(tag);
-}
-
-
-function isReservedAvinTag(
-    username,
-    tag
-){
-
-    return tag.toUpperCase() === "AVIN" &&
-        !["eeee","avin"].includes(
-            normalizeUsername(username)
-        );
-}
-
-
-/* -------------------------
-   DATA LOADERS
-------------------------- */
-
-function parseObject(raw){
-
-    try{
-
-        const parsed =
-            JSON.parse(raw || "{}");
-
-        return parsed &&
-            typeof parsed === "object"
-            ? parsed
-            : {};
-
-    }catch{
-
-        return {};
-    }
-}
-
-
-function loadAccounts(){
-
-    return parseObject(
-        storage.get(ACCOUNTS_KEY)
-    );
-}
-
-
-function saveAccounts(accounts){
-
-    storage.set(
-        ACCOUNTS_KEY,
-        JSON.stringify(accounts)
-    );
-}
-
-
-function loadProfiles(){
-
-    return parseObject(
-        storage.get(PROFILES_KEY)
-    );
-}
-
-
-function saveProfiles(profiles){
-
-    storage.set(
-        PROFILES_KEY,
-        JSON.stringify(profiles)
-    );
-}
-
-
-function loadPrivateRooms(){
-
-    try{
-
-        const rooms =
-            JSON.parse(
-                storage.get(PRIVATE_ROOMS_KEY) || "[]"
-            );
-
-        return Array.isArray(rooms)
-            ? rooms
-            : [];
-
-    }catch{
-
-        return [];
-    }
-}
-
-
-function savePrivateRooms(rooms){
-
-    storage.set(
-        PRIVATE_ROOMS_KEY,
-        JSON.stringify(rooms)
-    );
-}
-
-
 /* =========================================================
-   NEW AUTHENTICATION ARCHITECTURE
+   STARTUP
    ========================================================= */
 
-
-/* -------------------------
-   DETERMINISTIC LOCAL HASH
-------------------------- */
-
-/*
-   This is intentionally synchronous.
-
-   Authentication no longer waits on crypto.subtle,
-   PeerJS, networking, or anything else.
-
-   This is DEMO/local authentication, not production
-   server authentication.
-*/
-
-function localPasswordHash(password){
-
-    let h1 = 0x811c9dc5;
-    let h2 = 0x01000193;
-
-    for(
-        let i = 0;
-        i < password.length;
-        i++
-    ){
-
-        const c =
-            password.charCodeAt(i);
-
-        h1 ^= c;
-        h1 = Math.imul(
-            h1,
-            16777619
-        );
-
-        h2 ^= c + i;
-        h2 = Math.imul(
-            h2,
-            2246822519
-        );
-    }
-
-    return (
-        (h1 >>> 0)
-            .toString(16)
-            .padStart(8,"0")
-        +
-        (h2 >>> 0)
-            .toString(16)
-            .padStart(8,"0")
-    );
-}
-
-
-/* -------------------------
-   OLD V3 HASH SUPPORT
-------------------------- */
-
-async function legacySha256(password){
-
-    if(
-        !window.crypto ||
-        !crypto.subtle ||
-        !window.TextEncoder
-    ){
-        return null;
-    }
-
-    try{
-
-        const data =
-            new TextEncoder().encode(
-                password
-            );
-
-        const hash =
-            await crypto.subtle.digest(
-                "SHA-256",
-                data
-            );
-
-        return Array.from(
-            new Uint8Array(hash)
-        )
-        .map(
-            b=>b.toString(16).padStart(2,"0")
-        )
-        .join("");
-
-    }catch{
-
-        return null;
-    }
-}
-
-
-/* -------------------------
-   AUTH MESSAGES
-------------------------- */
-
-function clearAuthMessages(){
-
-    document
-        .getElementById("authError")
-        .classList.add("hidden");
-
-    document
-        .getElementById("authSuccess")
-        .classList.add("hidden");
-}
-
-
-function authError(message){
-
-    const el =
-        document.getElementById("authError");
-
-    el.textContent = message;
-
-    el.classList.remove("hidden");
-
-    document
-        .getElementById("authSuccess")
-        .classList.add("hidden");
-}
-
-
-function authSuccess(message){
-
-    const el =
-        document.getElementById("authSuccess");
-
-    el.textContent = message;
-
-    el.classList.remove("hidden");
-
-    document
-        .getElementById("authError")
-        .classList.add("hidden");
-}
-
-
-/* -------------------------
-   AUTH UI
-------------------------- */
-
-function switchAuth(mode){
-
-    if(authBusy){
-        return;
-    }
-
-    authMode = mode;
-
-    document
-        .getElementById("loginTab")
-        .classList.toggle(
-            "active",
-            mode === "login"
-        );
-
-    document
-        .getElementById("signupTab")
-        .classList.toggle(
-            "active",
-            mode === "signup"
-        );
-
-    document
-        .getElementById("authSubmitText")
-        .textContent =
-        mode === "login"
-            ? "Log In"
-            : "Create Account";
-
-    document
-        .getElementById("authPassword")
-        .setAttribute(
-            "autocomplete",
-            mode === "login"
-                ? "current-password"
-                : "new-password"
-        );
-
-    clearAuthMessages();
-}
-
-
-function setAuthBusy(busy){
-
-    authBusy = busy;
-
-    const button =
-        document.getElementById(
-            "authSubmitButton"
-        );
-
-    const text =
-        document.getElementById(
-            "authSubmitText"
-        );
-
-    const loginTab =
-        document.getElementById(
-            "loginTab"
-        );
-
-    const signupTab =
-        document.getElementById(
-            "signupTab"
-        );
-
-    button.disabled = busy;
-
-    loginTab.disabled = busy;
-    signupTab.disabled = busy;
-
-    button.style.opacity =
-        busy ? ".7" : "1";
-
-    button.style.cursor =
-        busy ? "wait" : "pointer";
-
-    if(busy){
-
-        text.textContent =
-            authMode === "login"
-                ? "Signing In..."
-                : "Creating Account...";
-
-    }else{
-
-        text.textContent =
-            authMode === "login"
-                ? "Log In"
-                : "Create Account";
-    }
-}
-
-
-/* -------------------------
-   AUTH FINISH
-------------------------- */
-
-function finishLogin(
-    username,
-    profile,
-    welcomeMessage
-){
-
-    currentUser = username;
-
-    currentProfile = profile;
-
-    updateAccountUI();
-
-    document
-        .getElementById("authModal")
-        .classList.add("hidden");
-
-    showPage("chat");
-
-    showToast(
-        welcomeMessage
-    );
-
-    /*
-       IMPORTANT:
-       Networking starts only AFTER auth has
-       completely finished.
-    */
-
-    setTimeout(()=>{
-
-        if(!currentUser){
-            return;
-        }
-
-        startNetworking();
-
-        setTimeout(()=>{
-
-            if(
-                currentUser &&
-                !currentRoom
-            ){
-                enterRoom("general");
-            }
-
-        },150);
-
-    },0);
-}
-
-
-/* -------------------------
-   NEW ACCOUNT
-------------------------- */
-
-function createAccount(
-    username,
-    password
-){
-
-    const accounts =
-        loadAccounts();
-
-    const profiles =
-        loadProfiles();
-
-    const key =
-        normalizeUsername(username);
-
-    if(accounts[key]){
-        return {
-            ok:false,
-            error:"That username is already taken."
-        };
-    }
-
-    accounts[key] = {
-        username:username,
-        passwordHash:
-            localPasswordHash(password),
-        createdAt:Date.now(),
-        authVersion:4
-    };
-
-    profiles[key] = {
-        username:username,
-        tag:"",
-        pronouns:"",
-        description:"",
-        pfp:"",
-        createdAt:Date.now()
-    };
-
-    saveAccounts(accounts);
-    saveProfiles(profiles);
-
-    return {
-        ok:true,
-        key,
-        profile:profiles[key]
-    };
-}
-
-
-/* -------------------------
-   LOGIN
-------------------------- */
-
-async function loginAccount(
-    username,
-    password
-){
-
-    const key =
-        normalizeUsername(username);
-
-    const accounts =
-        loadAccounts();
-
-    const profiles =
-        loadProfiles();
-
-
-    /*
-       New v4 account.
-    */
-
-    if(accounts[key]){
-
-        const account =
-            accounts[key];
-
-        const hash =
-            localPasswordHash(password);
-
-        if(
-            account.passwordHash !== hash
-        ){
-
-            return {
-                ok:false,
-                error:"Incorrect password."
-            };
-        }
-
-        const profile =
-            profiles[key] || {
-                username:account.username,
-                tag:"",
-                pronouns:"",
-                description:"",
-                pfp:""
-            };
-
-        profiles[key] = profile;
-
-        saveProfiles(profiles);
-
-        return {
-            ok:true,
-            key,
-            username:account.username,
-            profile
-        };
-    }
-
-
-    /*
-       Legacy v3 account migration.
-
-       This lets accounts made by the previous
-       version continue working when possible.
-    */
-
-    const oldAccounts =
-        parseObject(
-            storage.get(
-                OLD_ACCOUNTS_KEY
-            )
-        );
-
-    if(oldAccounts[key]){
-
-        const oldAccount =
-            oldAccounts[key];
-
-        let matches = false;
-
-        /*
-           Previous version normally used SHA-256.
-        */
-
-        if(
-            typeof oldAccount.passwordHash ===
-            "string" &&
-            oldAccount.passwordHash.length === 64
-        ){
-
-            const legacyHash =
-                await legacySha256(password);
-
-            matches =
-                legacyHash ===
-                oldAccount.passwordHash;
-        }
-
-        /*
-           Previous fallback hash.
-        */
-
-        if(
-            !matches &&
-            typeof oldAccount.passwordHash ===
-            "string" &&
-            oldAccount.passwordHash.startsWith(
-                "fallback_"
-            )
-        ){
-
-            /*
-               Recreate the previous fallback.
-            */
-
-            let hash = 2166136261;
-
-            for(
-                let i=0;
-                i<password.length;
-                i++
-            ){
-
-                hash ^=
-                    password.charCodeAt(i);
-
-                hash +=
-                    (hash << 1) +
-                    (hash << 4) +
-                    (hash << 7) +
-                    (hash << 8) +
-                    (hash << 24);
-
-                hash >>>= 0;
-            }
-
-            matches =
-                oldAccount.passwordHash ===
-                "fallback_" +
-                hash.toString(16);
-        }
-
-        if(!matches){
-
-            return {
-                ok:false,
-                error:"Incorrect password."
-            };
-        }
-
-        /*
-           Migrate the old account into v4.
-        */
-
-        accounts[key] = {
-            username:
-                oldAccount.username ||
-                username,
-
-            passwordHash:
-                localPasswordHash(password),
-
-            createdAt:
-                oldAccount.createdAt ||
-                Date.now(),
-
-            authVersion:4
-        };
-
-        const oldProfiles =
-            parseObject(
-                storage.get(
-                    OLD_PROFILES_KEY
-                )
-            );
-
-        profiles[key] =
-            oldProfiles[key] || {
-                username:
-                    accounts[key].username,
-                tag:"",
-                pronouns:"",
-                description:"",
-                pfp:""
-            };
-
-        saveAccounts(accounts);
-        saveProfiles(profiles);
-
-        return {
-            ok:true,
-            key,
-            username:
-                accounts[key].username,
-            profile:
-                profiles[key],
-            migrated:true
-        };
-    }
-
-
-    return {
-        ok:false,
-        error:
-            "No account with that username exists."
-    };
-}
-
-
-/* -------------------------
-   SUBMIT AUTH
-------------------------- */
-
-async function submitAuth(event){
-
-    event.preventDefault();
-
-    if(authBusy){
-        return;
-    }
-
-    clearAuthMessages();
-
-    const username =
-        document
-            .getElementById("authUsername")
-            .value
-            .trim();
-
-    const password =
-        document
-            .getElementById("authPassword")
-            .value;
-
-
-    if(!validUsername(username)){
-
-        authError(
-            "Username must be 2–20 characters and can only use letters, numbers, spaces, hyphens, or underscores."
-        );
-
-        return;
-    }
-
-
-    if(password.length < 4){
-
-        authError(
-            "Password must be at least 4 characters."
-        );
-
-        return;
-    }
-
-
-    setAuthBusy(true);
-
-
-    try{
-
-        /*
-           SIGN UP
-        */
-
-        if(authMode === "signup"){
-
-            const result =
-                createAccount(
-                    username,
-                    password
-                );
-
-            if(!result.ok){
-
-                authError(
-                    result.error
-                );
-
-                setAuthBusy(false);
-
-                return;
-            }
-
-
-            storage.set(
-                SESSION_KEY,
-                JSON.stringify({
-                    username:
-                        result.key
-                })
-            );
-
-
-            finishLogin(
-                username,
-                result.profile,
-                "Account created successfully!"
-            );
-
-            return;
-        }
-
-
-        /*
-           LOG IN
-        */
-
-        const result =
-            await loginAccount(
-                username,
-                password
-            );
-
-
-        if(!result.ok){
-
-            authError(
-                result.error
-            );
-
-            setAuthBusy(false);
-
-            return;
-        }
-
-
-        storage.set(
-            SESSION_KEY,
-            JSON.stringify({
-                username:
-                    result.key
-            })
-        );
-
-
-        finishLogin(
-            result.username,
-            result.profile,
-            result.migrated
-                ? "Account migrated successfully!"
-                : "Welcome back, " +
-                  result.username +
-                  "!"
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Authentication error:",
-            error
-        );
-
-        authError(
-            "Something went wrong while processing your account. Please try again."
-        );
-
-        setAuthBusy(false);
-    }
-}
-
-
-/* -------------------------
-   SESSION RESTORE
-------------------------- */
-
-function restoreSession(){
-
-    const raw =
-        storage.get(
-            SESSION_KEY
-        );
-
-    if(!raw){
-
-        openAuth();
-
-        return;
-    }
-
-
-    try{
-
-        const session =
-            JSON.parse(raw);
-
-        if(
-            !session ||
-            !session.username
-        ){
-
-            storage.remove(
-                SESSION_KEY
-            );
-
-            openAuth();
-
-            return;
-        }
-
-
-        const accounts =
-            loadAccounts();
-
-        const profiles =
-            loadProfiles();
-
-        const key =
-            normalizeUsername(
-                session.username
-            );
-
-
-        if(!accounts[key]){
-
-            storage.remove(
-                SESSION_KEY
-            );
-
-            openAuth();
-
-            return;
-        }
-
-
-        currentUser =
-            accounts[key].username;
-
-        currentProfile =
-            profiles[key] || {
-                username:currentUser,
-                tag:"",
-                pronouns:"",
-                description:"",
-                pfp:""
-            };
-
-
-        updateAccountUI();
-
-        document
-            .getElementById("authModal")
-            .classList.add("hidden");
-
-
-        /*
-           Do not make startup authentication
-           depend on PeerJS.
-        */
-
-        setTimeout(()=>{
-
-            if(!currentUser){
-                return;
-            }
-
-            startNetworking();
-
-            showPage("chat");
-
-            setTimeout(()=>{
-
-                if(currentUser){
-                    enterRoom("general");
-                }
-
-            },150);
-
-        },0);
-
-
-    }catch(error){
-
-        console.error(
-            "Session restore failed:",
-            error
-        );
-
-        storage.remove(
-            SESSION_KEY
-        );
-
-        openAuth();
-    }
-}
-
-
-function openAuth(){
-
-    document
-        .getElementById("authModal")
-        .classList.remove("hidden");
-
-    document
-        .getElementById("authUsername")
-        .value = "";
-
-    document
-        .getElementById("authPassword")
-        .value = "";
-
-    setAuthBusy(false);
-
-    switchAuth("login");
-
-    setTimeout(()=>{
-
-        document
-            .getElementById("authUsername")
-            .focus();
-
-    },50);
-}
-
-
-function logout(){
-
-    currentUser = null;
-
-    currentProfile = null;
-
-    storage.remove(
-        SESSION_KEY
-    );
-
-    closeRoom();
-
-    if(personalPeer){
-
-        try{
-            personalPeer.destroy();
-        }catch{}
-
-    }
-
-    personalPeer = null;
-
-    updateAccountUI();
-
-    document
-        .getElementById("settingsModal")
-        .classList.add("hidden");
-
-    showPage("games");
-
-    openAuth();
-
-    showToast("Logged out.");
-}
-
-
-/* -------------------------
-   ACCOUNT UI
-------------------------- */
-
-function avatarHtml(
-    profile,
-    className="avatar"
-){
-
-    if(profile && profile.pfp){
-
-        return `
-            <div class="${className}">
-                <img src="${escapeHtml(profile.pfp)}" alt="">
-            </div>
-        `;
-    }
-
-    const initial =
-        profile && profile.username
-            ? profile.username
-                .charAt(0)
-                .toUpperCase()
-            : "?";
-
-    return `
-        <div class="${className}">
-            ${escapeHtml(initial)}
-        </div>
-    `;
-}
-
-
-function updateAccountUI(){
-
-    const topAvatar =
-        document.getElementById(
-            "topAvatar"
-        );
-
-    if(currentProfile){
-
-        if(currentProfile.pfp){
-
-            topAvatar.innerHTML =
-                `<img src="${escapeHtml(
-                    currentProfile.pfp
-                )}" alt="">`;
-
-        }else{
-
-            topAvatar.textContent =
-                currentProfile.username
-                    .charAt(0)
-                    .toUpperCase();
-        }
-
-        document
-            .getElementById("topUsername")
-            .textContent =
-            currentProfile.username;
-
-        document
-            .getElementById("infoAccount")
-            .textContent =
-            currentProfile.username +
-            (
-                currentProfile.tag
-                    ? " #" +
-                      currentProfile.tag
-                    : ""
-            );
-
-    }else{
-
-        topAvatar.textContent = "?";
-
-        document
-            .getElementById("topUsername")
-            .textContent =
-            "Not signed in";
-
-        document
-            .getElementById("infoAccount")
-            .textContent =
-            "—";
-    }
-}
-
-
-/* -------------------------
-   SETTINGS
-------------------------- */
-
-function openSettings(){
-
-    if(!currentUser){
-
-        openAuth();
-
-        return;
-    }
-
-    const profile =
-        currentProfile;
-
-    document
-        .getElementById(
-            "settingsUsername"
-        )
-        .value =
-        profile.username || "";
-
-    document
-        .getElementById(
-            "settingsTag"
-        )
-        .value =
-        profile.tag || "";
-
-    document
-        .getElementById(
-            "settingsPronouns"
-        )
-        .value =
-        profile.pronouns || "";
-
-    document
-        .getElementById(
-            "settingsDescription"
-        )
-        .value =
-        profile.description || "";
-
-    updateSettingsPreview();
-
-    document
-        .getElementById(
-            "settingsModal"
-        )
-        .classList.remove("hidden");
-}
-
-
-function closeSettings(){
-
-    document
-        .getElementById(
-            "settingsModal"
-        )
-        .classList.add("hidden");
-
-    document
-        .getElementById(
-            "settingsError"
-        )
-        .classList.add("hidden");
-}
-
-
-function updateSettingsPreview(){
-
-    const username =
-        document
-            .getElementById(
-                "settingsUsername"
-            )
-            .value ||
-        currentUser ||
-        "Username";
-
-    const tag =
-        document
-            .getElementById(
-                "settingsTag"
-            )
-            .value;
-
-    const avatar =
-        document.getElementById(
-            "settingsAvatar"
-        );
-
-    if(
-        currentProfile &&
-        currentProfile.pfp
-    ){
-
-        avatar.innerHTML =
-            `<img src="${escapeHtml(
-                currentProfile.pfp
-            )}" alt="">`;
-
-    }else{
-
-        avatar.textContent =
-            username
-                .charAt(0)
-                .toUpperCase();
-    }
-
-    document
-        .getElementById(
-            "settingsPreviewName"
-        )
-        .textContent =
-        username;
-
-    document
-        .getElementById(
-            "settingsPreviewTag"
-        )
-        .textContent =
-        tag
-            ? "#" + tag.toUpperCase()
-            : "No tag";
-}
-
-
-document
-    .getElementById(
-        "settingsUsername"
-    )
-    .addEventListener(
-        "input",
-        updateSettingsPreview
-    );
-
-
-document
-    .getElementById(
-        "settingsTag"
-    )
-    .addEventListener(
-        "input",
-        updateSettingsPreview
-    );
-
-
-function sanitizeTag(input){
-
-    input.value =
-        input.value
-            .replace(
-                /[^A-Za-z]/g,
-                ""
-            )
-            .slice(0,4)
-            .toUpperCase();
-
-    updateSettingsPreview();
-}
-
-
-async function saveSettings(){
-
-    if(!currentUser){
-        return;
-    }
-
-    const error =
-        document.getElementById(
-            "settingsError"
-        );
-
-    error.classList.add(
-        "hidden"
-    );
-
-
-    const newUsername =
-        document
-            .getElementById(
-                "settingsUsername"
-            )
-            .value
-            .trim();
-
-    const tag =
-        document
-            .getElementById(
-                "settingsTag"
-            )
-            .value
-            .trim()
-            .toUpperCase();
-
-    const pronouns =
-        document
-            .getElementById(
-                "settingsPronouns"
-            )
-            .value
-            .trim();
-
-    const description =
-        document
-            .getElementById(
-                "settingsDescription"
-            )
-            .value
-            .trim();
-
-
-    if(!validUsername(newUsername)){
-
-        error.textContent =
-            "Invalid username.";
-
-        error.classList.remove(
-            "hidden"
-        );
-
-        return;
-    }
-
-
-    if(!validTag(tag)){
-
-        error.textContent =
-            "Tags can only contain letters and must be 4 characters or fewer.";
-
-        error.classList.remove(
-            "hidden"
-        );
-
-        return;
-    }
-
-
-    if(
-        isReservedAvinTag(
-            newUsername,
-            tag
-        )
-    ){
-
-        error.textContent =
-            'The tag "AVIN" is reserved for the users "eeee" and "avin".';
-
-        error.classList.remove(
-            "hidden"
-        );
-
-        return;
-    }
-
-
-    const oldKey =
-        normalizeUsername(
-            currentUser
-        );
-
-    const newKey =
-        normalizeUsername(
-            newUsername
-        );
-
-    const accounts =
-        loadAccounts();
-
-    const profiles =
-        loadProfiles();
-
-
-    if(newKey !== oldKey){
-
-        if(accounts[newKey]){
-
-            error.textContent =
-                "That username is already taken.";
-
-            error.classList.remove(
-                "hidden"
-            );
-
-            return;
-        }
-
-
-        if(!accounts[oldKey]){
-
-            error.textContent =
-                "Your account could not be found.";
-
-            error.classList.remove(
-                "hidden"
-            );
-
-            return;
-        }
-
-
-        accounts[newKey] = {
-            ...accounts[oldKey],
-            username:newUsername
-        };
-
-        delete accounts[oldKey];
-
-
-        profiles[newKey] = {
-            ...(
-                profiles[oldKey] ||
-                currentProfile
-            ),
-            username:newUsername
-        };
-
-        delete profiles[oldKey];
-
-
-        storage.set(
-            SESSION_KEY,
-            JSON.stringify({
-                username:newKey
-            })
-        );
-
-        currentUser =
-            newUsername;
-    }
-
-
-    currentProfile = {
-        ...currentProfile,
-        username:newUsername,
-        tag,
-        pronouns,
-        description
-    };
-
-
-    const file =
-        document
-            .getElementById(
-                "settingsPfp"
-            )
-            .files[0];
-
-
-    if(file){
-
-        if(
-            file.size >
-            2 * 1024 * 1024
-        ){
-
-            error.textContent =
-                "Profile pictures must be smaller than 2 MB.";
-
-            error.classList.remove(
-                "hidden"
-            );
-
-            return;
-        }
-
-        currentProfile.pfp =
-            await readFileAsDataURL(
-                file
-            );
-    }
-
-
-    profiles[
-        normalizeUsername(
-            currentUser
-        )
-    ] =
-        currentProfile;
-
-
-    saveAccounts(accounts);
-
-    saveProfiles(profiles);
-
-    updateAccountUI();
-
-    closeSettings();
-
-    showToast(
-        "Profile saved!"
-    );
-
-    broadcastProfileUpdate();
-}
-
-
-function readFileAsDataURL(file){
-
-    return new Promise(
-        (resolve,reject)=>{
-
-            const reader =
-                new FileReader();
-
-            reader.onload =
-                ()=>resolve(
-                    reader.result
-                );
-
-            reader.onerror =
-                ()=>reject(
-                    reader.error
-                );
-
-            reader.readAsDataURL(
-                file
-            );
-        }
-    );
-}
-
-
-/* -------------------------
-   PAGE NAVIGATION
-------------------------- */
-
-function showPage(page){
-
-    const games =
-        document.getElementById(
-            "gamesPage"
-        );
-
-    const chat =
-        document.getElementById(
-            "chatPage"
-        );
-
-    games.classList.toggle(
-        "hidden",
-        page !== "games"
-    );
-
-    chat.classList.toggle(
-        "hidden",
-        page !== "chat"
-    );
-
-    document
-        .getElementById(
-            "gamesNav"
-        )
-        .classList.toggle(
-            "active",
-            page === "games"
-        );
-
-    document
-        .getElementById(
-            "chatNav"
-        )
-        .classList.toggle(
-            "active",
-            page === "chat"
-        );
-}
-
-
-/* -------------------------
-   PRIVATE ROOMS
-------------------------- */
-
-function generateRoomCode(){
-
-    let code;
-
-    do{
-
-        code =
-            Math.floor(
-                100000 +
-                Math.random() * 900000
-            ).toString();
-
-    }while(
-        [
-            "111111",
-            "000000",
-            "999999"
-        ].includes(code)
-    );
-
-    return code;
-}
-
-
-function openCreateRoom(){
-
-    document
-        .getElementById(
-            "createRoomModal"
-        )
-        .classList.remove("hidden");
-
-    document
-        .getElementById(
-            "newRoomName"
-        )
-        .value = "";
-
-    document
-        .getElementById(
-            "createRoomError"
-        )
-        .classList.add("hidden");
-}
-
-
-function closeCreateRoom(){
-
-    document
-        .getElementById(
-            "createRoomModal"
-        )
-        .classList.add("hidden");
-}
-
-
-function createPrivateRoom(){
-
-    const name =
-        document
-            .getElementById(
-                "newRoomName"
-            )
-            .value
-            .trim();
-
-    const error =
-        document
-            .getElementById(
-                "createRoomError"
-            );
-
-    error.classList.add(
-        "hidden"
-    );
-
-
-    if(!name){
-
-        error.textContent =
-            "Enter a room name.";
-
-        error.classList.remove(
-            "hidden"
-        );
-
-        return;
-    }
-
-
-    const code =
-        generateRoomCode();
-
-    const rooms =
-        loadPrivateRooms();
-
-
-    const room = {
-        id:"private_" + code,
-        name,
-        code,
-        owner:currentUser,
-        hostId:
-            "gch-private-" + code,
-        createdAt:Date.now()
-    };
-
-
-    rooms.push(room);
-
-    savePrivateRooms(
-        rooms
-    );
-
-    renderPrivateRooms();
-
-    closeCreateRoom();
-
-    enterPrivateRoom(
-        room
-    );
-}
-
-
-function openJoinRoom(){
-
-    document
-        .getElementById(
-            "joinRoomModal"
-        )
-        .classList.remove("hidden");
-
-    document
-        .getElementById(
-            "joinRoomCode"
-        )
-        .value = "";
-
-    document
-        .getElementById(
-            "joinRoomError"
-        )
-        .classList.add("hidden");
-}
-
-
-function closeJoinRoom(){
-
-    document
-        .getElementById(
-            "joinRoomModal"
-        )
-        .classList.add("hidden");
-}
-
-
-function joinPrivateRoom(){
-
-    const code =
-        document
-            .getElementById(
-                "joinRoomCode"
-            )
-            .value
-            .trim();
-
-    const error =
-        document
-            .getElementById(
-                "joinRoomError"
-            );
-
-    error.classList.add(
-        "hidden"
-    );
-
-
-    if(!/^\d{6}$/.test(code)){
-
-        error.textContent =
-            "Room codes must be exactly 6 digits.";
-
-        error.classList.remove(
-            "hidden"
-        );
-
-        return;
-    }
-
-
-    const rooms =
-        loadPrivateRooms();
-
-    const saved =
-        rooms.find(
-            r=>r.code === code
-        );
-
-
-    const room =
-        saved || {
-            id:"private_" + code,
-            name:"Private Room",
-            code,
-            owner:"Unknown",
-            hostId:
-                "gch-private-" + code
-        };
-
-
-    closeJoinRoom();
-
-    enterPrivateRoom(
-        room
-    );
-}
-
-
-function enterPrivateRoom(room){
-
-    enterRoom({
-        id:room.id,
-        name:room.name,
-        code:room.code,
-        hostId:
-            "gch-private-" +
-            room.code,
-        private:true
-    });
-}
-
-
-function renderPrivateRooms(){
-
-    const container =
-        document.getElementById(
-            "privateRoomsList"
-        );
-
-    container.innerHTML = "";
-
-    const rooms =
-        loadPrivateRooms();
-
-
-    for(
-        const room of rooms
-    ){
-
-        const button =
-            document.createElement(
-                "button"
-            );
-
-        button.className =
-            "room private-room";
-
-        button.innerHTML = `
-            🔒 ${escapeHtml(room.name)}
-            <span class="room-code">
-                ${escapeHtml(room.code)}
-            </span>
-        `;
-
-        button.onclick =
-            ()=>enterPrivateRoom(
-                room
-            );
-
-        container.appendChild(
-            button
-        );
-    }
-}
-
-
-/* -------------------------
-   PEERJS
-------------------------- */
-
-function startNetworking(){
-
-    if(
-        personalPeer &&
-        !personalPeer.destroyed
-    ){
-        return;
-    }
-
-
-    setConnectionStatus(
-        "Connecting to network...",
-        false
-    );
-
-
-    try{
-
-        if(
-            typeof Peer !== "function"
-        ){
-
-            setConnectionStatus(
-                "PeerJS unavailable",
-                false
-            );
-
-            return;
-        }
-
-
-        personalPeer =
-            new Peer();
-
-
-        personalPeer.on(
-            "open",
-            id=>{
-
-                setConnectionStatus(
-                    "Network ready",
-                    true
-                );
-
-                document
-                    .getElementById(
-                        "infoHost"
-                    )
-                    .textContent =
-                    roomHostId || "—";
-            }
-        );
-
-
-        personalPeer.on(
-            "error",
-            error=>{
-
-                console.error(
-                    "PeerJS error:",
-                    error
-                );
-
-                setConnectionStatus(
-                    "Network error",
-                    false
-                );
-            }
-        );
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-        setConnectionStatus(
-            "PeerJS unavailable",
-            false
-        );
-    }
-}
-
-
-/* -------------------------
-   ENTER ROOM
-------------------------- */
-
-async function enterRoom(room){
-
-    if(!currentUser){
-
-        openAuth();
-
-        return;
-    }
-
-
-    if(typeof room === "string"){
-
-        const official =
-            OFFICIAL_ROOMS[room];
-
-        if(!official){
-            return;
-        }
-
-
-        room = {
-            id:room,
-            name:official.name,
-            code:official.code,
-            hostId:official.hostId,
-            private:false
-        };
-    }
-
-
-    closeRoom();
-
-    currentRoom =
-        room;
-
-    roomHostId =
-        room.hostId;
-
-
-    document
-        .getElementById(
-            "chatRoomName"
-        )
-        .textContent =
-        room.name;
-
-    document
-        .getElementById(
-            "chatRoomCode"
-        )
-        .textContent =
-        "Room " + room.code;
-
-    document
-        .getElementById(
-            "infoRoomName"
-        )
-        .textContent =
-        room.name;
-
-    document
-        .getElementById(
-            "infoRoomCode"
-        )
-        .textContent =
-        room.code;
-
-    document
-        .getElementById(
-            "infoHost"
-        )
-        .textContent =
-        roomHostId;
-
-
-    document
-        .getElementById(
-            "messages"
-        )
-        .innerHTML = `
-            <div class="empty-chat">
-                <div>
-                    <div style="font-size:35px;">🔌</div>
-                    <div>
-                        Connecting to
-                        ${escapeHtml(room.name)}...
-                    </div>
-                </div>
-            </div>
-        `;
-
-
-    document
-        .querySelectorAll(".room")
-        .forEach(button=>{
-            button.classList.remove(
-                "active"
-            );
-        });
-
-
-    document
-        .querySelectorAll(
-            `[data-room="${CSS.escape(room.id)}"]`
-        )
-        .forEach(button=>{
-            button.classList.add(
-                "active"
-            );
-        });
-
-
-    if(
-        !personalPeer ||
-        personalPeer.destroyed
-    ){
-
-        startNetworking();
-
-        await waitForPeer();
-    }
-
-
-    connectOrBecomeHost();
-}
-
-
-function waitForPeer(){
-
-    return new Promise(
-        resolve=>{
-
-            if(
-                personalPeer &&
-                personalPeer.open
-            ){
-
-                resolve();
-
-                return;
-            }
-
-
-            const started =
-                Date.now();
-
-
-            const timer =
-                setInterval(
-                    ()=>{
-
-                        if(
-                            personalPeer &&
-                            personalPeer.open
-                        ){
-
-                            clearInterval(
-                                timer
-                            );
-
-                            resolve();
-
-                            return;
-                        }
-
-
-                        if(
-                            Date.now() -
-                            started >
-                            10000
-                        ){
-
-                            clearInterval(
-                                timer
-                            );
-
-                            resolve();
-                        }
-
-                    },
-                    100
-                );
-        }
-    );
-}
-
-
-/* -------------------------
-   HOST / CLIENT
-------------------------- */
-
-function connectOrBecomeHost(){
-
-    if(!currentRoom){
-        return;
-    }
-
-
-    destroyRoomHostPeer();
-
-    isRoomHost = false;
-
-
-    try{
-
-        roomHostPeer =
-            new Peer(
-                roomHostId
-            );
-
-
-        roomHostPeer.on(
-            "open",
-            ()=>{
-
-                isRoomHost = true;
-
-                setConnectionStatus(
-                    "Hosting room",
-                    true
-                );
-
-                setupRoomHost();
-
-                addOrUpdateUser(
-                    personalPeer.id,
-                    currentUser,
-                    currentProfile
-                );
-
-                renderUsers();
-
-                showToast(
-                    "You are hosting " +
-                    currentRoom.name
-                );
-            }
-        );
-
-
-        roomHostPeer.on(
-            "connection",
-            connection=>{
-                setupIncomingConnection(
-                    connection
-                );
-            }
-        );
-
-
-        roomHostPeer.on(
-            "error",
-            error=>{
-
-                if(
-                    error.type ===
-                    "unavailable-id"
-                ){
-
-                    destroyRoomHostPeer();
-
-                    isRoomHost = false;
-
-                    connectToExistingHost();
-
-                }else{
-
-                    console.error(
-                        "Room host error:",
-                        error
-                    );
-
-                    connectToExistingHost();
-                }
-            }
-        );
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-        connectToExistingHost();
-    }
-}
-
-
-function connectToExistingHost(){
-
-    if(
-        !personalPeer ||
-        !personalPeer.open
-    ){
-        return;
-    }
-
-
-    setConnectionStatus(
-        "Joining room...",
-        false
-    );
-
-
-    const connection =
-        personalPeer.connect(
-            roomHostId,
-            {
-                reliable:true
-            }
-        );
-
-
-    roomHostConnection =
-        connection;
-
-
-    setupClientConnection(
-        connection
-    );
-}
-
-
-function setupRoomHost(){
-
-    roomConnections.clear();
-
-    roomUsers.clear();
-
-
-    roomUsers.set(
-        personalPeer.id,
-        {
-            peerId:
-                personalPeer.id,
-            username:
-                currentUser,
-            profile:
-                currentProfile
-        }
-    );
-
-
-    document
-        .getElementById(
-            "infoHost"
-        )
-        .textContent =
-        roomHostId;
-
-
-    setConnectionStatus(
-        "Hosting room",
-        true
-    );
-
-    renderUsers();
-}
-
-
-function addOrUpdateUser(
-    peerId,
-    username,
-    profile
-){
-
-    roomUsers.set(
-        peerId,
-        {
-            peerId,
-            username,
-            profile
-        }
-    );
-}
-
-
-function setupIncomingConnection(
-    connection
-){
-
-    roomConnections.set(
-        connection.peer,
-        connection
-    );
-
-
-    connection.on(
-        "open",
-        ()=>{
-
-            const hello = {
-                type:"room-hello",
-
-                room:{
-                    id:
-                        currentRoom.id,
-                    name:
-                        currentRoom.name,
-                    code:
-                        currentRoom.code
-                },
-
-                hostId:
-                    roomHostId,
-
-                hostProfile:{
-                    username:
-                        currentUser,
-                    profile:
-                        currentProfile
-                }
-            };
-
-
-            safeSend(
-                connection,
-                hello
-            );
-        }
-    );
-
-
-    connection.on(
-        "data",
-        data=>{
-            handleHostData(
-                connection,
-                data
-            );
-        }
-    );
-
-
-    connection.on(
-        "close",
-        ()=>{
-
-            roomConnections.delete(
-                connection.peer
-            );
-
-            roomUsers.delete(
-                connection.peer
-            );
-
-            broadcastPresence();
-
-            renderUsers();
-        }
-    );
-
-
-    connection.on(
-        "error",
-        error=>{
-            console.error(
-                "Connection error:",
-                error
-            );
-        }
-    );
-}
-
-
-function setupClientConnection(
-    connection
-){
-
-    roomHostConnection =
-        connection;
-
-
-    connection.on(
-        "open",
-        ()=>{
-
-            setConnectionStatus(
-                "Connected",
-                true
-            );
-
-
-            safeSend(
-                connection,
-                {
-                    type:"join",
-                    username:
-                        currentUser,
-                    profile:
-                        currentProfile,
-                    peerId:
-                        personalPeer.id
-                }
-            );
-        }
-    );
-
-
-    connection.on(
-        "data",
-        data=>{
-            handleClientData(
-                data
-            );
-        }
-    );
-
-
-    connection.on(
-        "close",
-        ()=>{
-
-            setConnectionStatus(
-                "Room host disconnected",
-                false
-            );
-
-            showToast(
-                "Room host disconnected. Trying to reconnect..."
-            );
-
-            scheduleRoomRetry();
-        }
-    );
-
-
-    connection.on(
-        "error",
-        error=>{
-
-            console.error(
-                "Room connection error:",
-                error
-            );
-
-            scheduleRoomRetry();
-        }
-    );
-}
-
-
-/* -------------------------
-   HOST DATA
-------------------------- */
-
-function handleHostData(
-    connection,
-    data
-){
-
-    if(
-        !data ||
-        !data.type
-    ){
-        return;
-    }
-
-
-    if(data.type === "join"){
-
-        roomUsers.set(
-            connection.peer,
-            {
-                peerId:
-                    connection.peer,
-                username:
-                    data.username,
-                profile:
-                    data.profile || {}
-            }
-        );
-
-
-        broadcastPresence();
-
-        sendFullPresence(
-            connection
-        );
-
-        return;
-    }
-
-
-    if(data.type === "message"){
-
-        const sender =
-            roomUsers.get(
-                connection.peer
-            );
-
-        if(!sender){
-            return;
-        }
-
-
-        const message = {
-            type:"message",
-
-            roomId:
-                currentRoom.id,
-
-            messageId:
-                randomId(),
-
-            username:
-                sender.username,
-
-            profile:
-                sender.profile,
-
-            text:
-                String(
-                    data.text || ""
-                ).slice(
-                    0,
-                    2000
-                ),
-
-            time:
-                Date.now()
-        };
-
-
-        renderMessage(
-            message
-        );
-
-        broadcastToRoom(
-            message
-        );
-
-        return;
-    }
-
-
-    if(
-        data.type ===
-        "profile-update"
-    ){
-
-        const user =
-            roomUsers.get(
-                connection.peer
-            );
-
-
-        if(user){
-
-            user.username =
-                data.username ||
-                user.username;
-
-            user.profile =
-                data.profile ||
-                user.profile;
-
-
-            roomUsers.set(
-                connection.peer,
-                user
-            );
-
-
-            broadcastPresence();
-
-            renderUsers();
-        }
-
-        return;
-    }
-}
-
-
-/* -------------------------
-   CLIENT DATA
-------------------------- */
-
-function handleClientData(data){
-
-    if(
-        !data ||
-        !data.type
-    ){
-        return;
-    }
-
-
-    if(
-        data.type ===
-        "room-hello"
-    ){
-
-        if(data.room){
-
-            document
-                .getElementById(
-                    "chatRoomName"
-                )
-                .textContent =
-                data.room.name;
-
-            document
-                .getElementById(
-                    "chatRoomCode"
-                )
-                .textContent =
-                "Room " +
-                data.room.code;
-
-            document
-                .getElementById(
-                    "infoRoomName"
-                )
-                .textContent =
-                data.room.name;
-
-            document
-                .getElementById(
-                    "infoRoomCode"
-                )
-                .textContent =
-                data.room.code;
-        }
-
-
-        setConnectionStatus(
-            "Connected",
-            true
-        );
-
-        return;
-    }
-
-
-    if(
-        data.type ===
-        "presence"
-    ){
-
-        roomUsers.clear();
-
-
-        for(
-            const user of
-            data.users || []
-        ){
-
-            roomUsers.set(
-                user.peerId,
-                user
-            );
-        }
-
-
-        renderUsers();
-
-        return;
-    }
-
-
-    if(
-        data.type ===
-        "message"
-    ){
-
-        if(
-            currentRoom &&
-            data.roomId ===
-            currentRoom.id
-        ){
-
-            renderMessage(
-                data
-            );
-        }
-
-        return;
-    }
-}
-
-
-/* -------------------------
-   PRESENCE
-------------------------- */
-
-function getPresenceArray(){
-
-    return Array.from(
-        roomUsers.values()
-    ).map(user=>({
-        peerId:
-            user.peerId,
-        username:
-            user.username,
-        profile:
-            user.profile
-    }));
-}
-
-
-function broadcastPresence(){
-
-    if(!isRoomHost){
-        return;
-    }
-
-
-    const packet = {
-        type:"presence",
-        users:
-            getPresenceArray()
-    };
-
-
-    broadcastToRoom(
-        packet
-    );
-
-    renderUsers();
-}
-
-
-function sendFullPresence(
-    connection
-){
-
-    safeSend(
-        connection,
-        {
-            type:"presence",
-            users:
-                getPresenceArray()
-        }
-    );
-}
-
-
-function renderUsers(){
-
-    const list =
-        document.getElementById(
-            "userList"
-        );
-
-    const users =
-        Array.from(
-            roomUsers.values()
-        );
-
-
-    if(users.length === 0){
-
-        list.innerHTML =
-            `<div style="color:var(--muted)">No users</div>`;
-
-        return;
-    }
-
-
-    list.innerHTML = "";
-
-
-    users.forEach(
-        user=>{
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-            row.className =
-                "user-row";
-
-
-            const profile =
-                user.profile || {};
-
-
-            const tag =
-                profile.tag
-                    ? "#" +
-                      profile.tag
-                    : "";
-
-
-            row.innerHTML = `
-                ${avatarHtml(profile)}
-
-                <div>
-                    <div>
-                        ${escapeHtml(
-                            user.username
-                        )}
-                    </div>
-
-                    ${
-                        tag
-                            ? `<div class="user-tag">${escapeHtml(tag)}</div>`
-                            : ""
-                    }
-                </div>
-            `;
-
-
-            list.appendChild(
-                row
-            );
-        }
-    );
-}
-
-
-/* -------------------------
-   MESSAGES
-------------------------- */
-
-function sendMessage(event){
-
-    event.preventDefault();
-
-
-    if(
-        !currentUser ||
-        !currentRoom
-    ){
-        return;
-    }
-
-
-    const input =
-        document.getElementById(
-            "messageInput"
-        );
-
-
-    const text =
-        input.value.trim();
-
-
-    if(!text){
-        return;
-    }
-
-
-    input.value = "";
-
-
-    const packet = {
-        type:"message",
-
-        roomId:
-            currentRoom.id,
-
-        text:
-            text.slice(
-                0,
-                2000
-            )
-    };
-
-
-    if(isRoomHost){
-
-        const message = {
-
-            type:"message",
-
-            roomId:
-                currentRoom.id,
-
-            messageId:
-                randomId(),
-
-            username:
-                currentUser,
-
-            profile:
-                currentProfile,
-
-            text:
-                packet.text,
-
-            time:
-                Date.now()
-        };
-
-
-        renderMessage(
-            message
-        );
-
-        broadcastToRoom(
-            message
-        );
-
-    }else{
-
-        if(
-            roomHostConnection &&
-            roomHostConnection.open
-        ){
-
-            safeSend(
-                roomHostConnection,
-                packet
-            );
-
-        }else{
-
-            showToast(
-                "You are not connected to the room."
-            );
-        }
-    }
-}
-
-
-function renderMessage(message){
-
-    if(!currentRoom){
-        return;
-    }
-
-
-    if(
-        message.roomId !==
-        currentRoom.id
-    ){
-        return;
-    }
-
-
-    const container =
-        document.getElementById(
-            "messages"
-        );
-
-
-    const empty =
-        container.querySelector(
-            ".empty-chat"
-        );
-
-
-    if(empty){
-        container.innerHTML = "";
-    }
-
-
-    const profile =
-        message.profile || {};
-
-
-    const item =
-        document.createElement(
-            "div"
-        );
-
-
-    item.className =
-        "message";
-
-
-    let avatar;
-
-
-    if(profile.pfp){
-
-        avatar = `
-            <div class="message-avatar">
-                <img
-                    src="${escapeHtml(
-                        profile.pfp
-                    )}"
-                    alt=""
-                >
-            </div>
-        `;
-
-    }else{
-
-        avatar = `
-            <div class="message-avatar">
-                ${escapeHtml(
-                    (
-                        message.username ||
-                        "?"
-                    )
-                    .charAt(0)
-                    .toUpperCase()
-                )}
-            </div>
-        `;
-    }
-
-
-    const tag =
-        profile.tag
-            ? `<span class="message-tag">#${escapeHtml(profile.tag)}</span>`
-            : "";
-
-
-    item.innerHTML = `
-        ${avatar}
-
-        <div class="message-content">
-
-            <div class="message-top">
-
-                <span class="message-name">
-                    ${escapeHtml(
-                        message.username
-                    )}
-                </span>
-
-                ${tag}
-
-            </div>
-
-            <div class="message-text">
-                ${escapeHtml(
-                    message.text
-                )}
-            </div>
-
-        </div>
-    `;
-
-
-    container.appendChild(
-        item
-    );
-
-
-    container.scrollTop =
-        container.scrollHeight;
-}
-
-
-/* -------------------------
-   BROADCAST
-------------------------- */
-
-function broadcastToRoom(data){
-
-    for(
-        const connection of
-        roomConnections.values()
-    ){
-
-        safeSend(
-            connection,
-            data
-        );
-    }
-}
-
-
-function safeSend(
-    connection,
-    data
-){
-
-    try{
-
-        if(
-            connection &&
-            connection.open
-        ){
-
-            connection.send(
-                data
-            );
-        }
-
-    }catch(error){
-
-        console.error(
-            "Send failed:",
-            error
-        );
-    }
-}
-
-
-/* -------------------------
-   PROFILE BROADCAST
-------------------------- */
-
-function broadcastProfileUpdate(){
-
-    if(
-        !currentUser ||
-        !currentRoom
-    ){
-        return;
-    }
-
-
-    if(isRoomHost){
-
-        const user =
-            roomUsers.get(
-                personalPeer.id
-            );
-
-
-        if(user){
-
-            user.username =
-                currentUser;
-
-            user.profile =
-                currentProfile;
-
-
-            roomUsers.set(
-                personalPeer.id,
-                user
-            );
-
-
-            broadcastPresence();
-        }
-
-    }else{
-
-        safeSend(
-            roomHostConnection,
-            {
-                type:"profile-update",
-
-                username:
-                    currentUser,
-
-                profile:
-                    currentProfile
-            }
-        );
-    }
-
-
-    updateAccountUI();
-}
-
-
-/* -------------------------
-   ROOM RETRY
-------------------------- */
-
-function scheduleRoomRetry(){
-
-    clearTimeout(
-        roomRetryTimer
-    );
-
-
-    roomRetryTimer =
-        setTimeout(
-            ()=>{
-
-                if(
-                    currentRoom &&
-                    currentUser
-                ){
-
-                    connectOrBecomeHost();
-                }
-
-            },
-            2500
-        );
-}
-
-
-/* -------------------------
-   CLOSE ROOM
-------------------------- */
-
-function closeRoom(){
-
-    clearTimeout(
-        roomRetryTimer
-    );
-
-
-    roomConnections.forEach(
-        connection=>{
-
-            try{
-                connection.close();
-            }catch{}
-        }
-    );
-
-
-    roomConnections.clear();
-
-
-    if(roomHostConnection){
-
-        try{
-            roomHostConnection.close();
-        }catch{}
-
-    }
-
-
-    roomHostConnection =
-        null;
-
-
-    destroyRoomHostPeer();
-
-
-    isRoomHost =
-        false;
-
-
-    roomUsers.clear();
-
-    currentRoom =
-        null;
-
-    roomHostId =
-        null;
-}
-
-
-function destroyRoomHostPeer(){
-
-    if(roomHostPeer){
-
-        try{
-            roomHostPeer.destroy();
-        }catch{}
-
-    }
-
-    roomHostPeer =
-        null;
-}
-
-
-/* -------------------------
-   STATUS
-------------------------- */
-
-function setConnectionStatus(
-    text,
-    online
-){
-
-    const el =
-        document.getElementById(
-            "connectionStatus"
-        );
-
-    el.textContent =
-        text;
-
-    el.classList.toggle(
-        "online",
-        !!online
-    );
-}
-
-
-/* -------------------------
-   PASSWORD TOGGLE
-------------------------- */
-
-function togglePassword(
-    id,
-    button
-){
-
-    const input =
-        document.getElementById(
-            id
-        );
-
-
-    if(
-        input.type ===
-        "password"
-    ){
-
-        input.type =
-            "text";
-
-        button.textContent =
-            "Hide";
-
-    }else{
-
-        input.type =
-            "password";
-
-        button.textContent =
-            "Show";
-    }
-}
-
-
-/* -------------------------
-   MODAL ESCAPE
-------------------------- */
-
-document.addEventListener(
-    "keydown",
-    event=>{
-
-        if(
-            event.key !==
-            "Escape"
-        ){
-            return;
-        }
-
-        closeSettings();
-        closeCreateRoom();
-        closeJoinRoom();
-    }
-);
-
-
-/* -------------------------
-   GLOBAL ERROR HANDLING
-------------------------- */
-
-window.addEventListener(
-    "error",
-    event=>{
-
-        console.error(
-            "GameChat Hub error:",
-            event.error ||
-            event.message
-        );
-    }
-);
-
-
-window.addEventListener(
-    "unhandledrejection",
-    event=>{
-
-        console.error(
-            "GameChat Hub promise error:",
-            event.reason
-        );
-    }
-);
-
-
-/* -------------------------
-   STARTUP
-------------------------- */
+testStorage();
 
 renderPrivateRooms();
 
 showPage("games");
-
-/*
-   Authentication starts independently.
-   PeerJS is NOT started until after login/signup.
-*/
 
 restoreSession();
 
