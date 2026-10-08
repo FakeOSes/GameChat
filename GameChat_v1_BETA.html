@@ -4,1651 +4,2704 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GameChat Hub</title>
+
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+
 <style>
-*{box-sizing:border-box}
-html,body{
-  height:100%;
-  margin:0;
-}
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#090d18;
-  color:#f4f7ff;
-  overflow:hidden;
-}
-button,input{
-  font:inherit;
-}
-button{
-  cursor:pointer;
-}
-#app{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-}
-/* TOP BAR */
-.topbar{
-  height:64px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:0 18px;
-  background:#11182a;
-  border-bottom:1px solid #28334e;
-}
-.logo{
-  font-size:21px;
-  font-weight:800;
-  margin-right:auto;
-}
-.logo span{
-  color:#6ea8ff;
-}
-.tab{
-  border:0;
-  border-radius:10px;
-  padding:10px 16px;
-  color:#cbd5e1;
-  background:#1a2338;
-}
-.tab.active{
-  background:#3b82f6;
-  color:white;
-}
-.profile{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:7px 10px;
-  background:#192238;
-  border-radius:10px;
-  font-size:13px;
-}
-.dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:#ef4444;
-}
-.dot.online{
-  background:#45e38b;
-}
-/* VIEWS */
-.view{
-  display:none;
-  flex:1;
-  min-height:0;
-}
-.view.active{
-  display:flex;
-}
-/* GAMES */
-#games{
-  padding:18px;
-  gap:18px;
-}
-.game-sidebar{
-  width:260px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.game-btn{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px;
-  background:#11182a;
-  border:1px solid #28334e;
-  border-radius:12px;
-  color:#f4f7ff;
-  text-align:left;
-  font-size:15px;
-  font-weight:600;
-}
-.game-btn:hover{
-  background:#1a243d;
-  border-color:#3b82f6;
-}
-.game-btn.active{
-  background:#2563eb;
-  border-color:#3b82f6;
-}
-.game-wrap{
-  flex:1;
-  height:100%;
-  border:1px solid #28334e;
-  border-radius:14px;
-  overflow:hidden;
-  background:#01061c;
-  position:relative;
-}
-#gameFrame{
-  width:100%;
-  height:100%;
-  border:0;
-  background:#01061c;
-}
-/* CHAT */
-#chat{
-  padding:18px;
-  gap:18px;
-}
-.chat-main{
-  flex:1;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  background:#11182a;
-  border:1px solid #28334e;
-  border-radius:14px;
-  overflow:hidden;
-}
-.chat-head{
-  padding:16px 18px;
-  border-bottom:1px solid #28334e;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-.chat-head strong{
-  font-size:18px;
-}
-.status-badge{
-  font-size:12px;
-  color:#94a3b8;
-  background:#182238;
-  padding:4px 10px;
-  border-radius:12px;
-}
-#messages{
-  flex:1;
-  overflow:auto;
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.msg{
-  max-width:75%;
-  padding:10px 13px;
-  border-radius:12px;
-  background:#1b2740;
-  align-self:flex-start;
-}
-.msg.me{
-  background:#2563eb;
-  align-self:flex-end;
-}
-.msg.system{
-  align-self:center;
-  background:transparent;
-  color:#64748b;
-  font-size:12px;
-  font-style:italic;
-  padding:4px;
-}
-.msg .who{
-  font-size:11px;
-  opacity:.7;
-  margin-bottom:4px;
-}
-.msg .text{
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-}
-.chat-input{
-  display:flex;
-  gap:9px;
-  padding:12px;
-  border-top:1px solid #28334e;
-}
-.chat-input input{
-  flex:1;
-  min-width:0;
-  border:1px solid #33415f;
-  border-radius:10px;
-  padding:11px 12px;
-  background:#0b1120;
-  color:white;
-  outline:none;
-}
-.chat-input button,
-.primary{
-  border:0;
-  border-radius:10px;
-  padding:11px 16px;
-  background:#3b82f6;
-  color:white;
-}
-.chat-input button:hover,
-.primary:hover{
-  background:#2563eb;
-}
-/* SIDEBAR */
-.sidebar{
-  width:300px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-.card{
-  background:#11182a;
-  border:1px solid #28334e;
-  border-radius:14px;
-  padding:16px;
-}
-.card h3{
-  margin:0 0 12px;
-}
-.account-name{
-  font-size:20px;
-  font-weight:800;
-  word-break:break-word;
-}
-.friend-code{
-  margin-top:7px;
-  font-family:monospace;
-  font-size:18px;
-  letter-spacing:1px;
-  color:#78b0ff;
-  word-break:break-all;
-}
-.small{
-  font-size:12px;
-  color:#94a3b8;
-  line-height:1.4;
-}
-.secondary{
-  width:100%;
-  border:1px solid #33415f;
-  border-radius:9px;
-  padding:9px;
-  background:#182238;
-  color:#dbeafe;
-  margin-top:10px;
-}
-.secondary:hover{
-  background:#24304a;
-}
-/* ROOMS */
-.room-list{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  max-height:220px;
-  overflow-y:auto;
-  margin-bottom:10px;
-}
-.room-btn{
-  text-align:left;
-  background:#182238;
-  border:1px solid #28334e;
-  color:#cbd5e1;
-  padding:9px 12px;
-  border-radius:8px;
-  font-size:14px;
-}
-.room-btn:hover{
-  background:#24304a;
-}
-.room-btn.active{
-  background:#2563eb;
-  color:white;
-  border-color:#3b82f6;
-}
-.custom-room-box{
-  display:flex;
-  gap:6px;
-}
-.custom-room-box input{
-  flex:1;
-  min-width:0;
-  border:1px solid #33415f;
-  border-radius:8px;
-  padding:8px;
-  background:#0b1120;
-  color:white;
-  font-size:12px;
-  outline:none;
-}
-.custom-room-box button{
-  border:0;
-  border-radius:8px;
-  padding:8px 12px;
-  background:#3b82f6;
-  color:white;
-  font-size:12px;
-}
-.room-actions{
-  display:flex;
-  gap:7px;
-  margin-top:8px;
-}
-.room-actions button{
-  flex:1;
-}
-.room-code{
-  background:#0b1120;
-  border:1px solid #33415f;
-  border-radius:9px;
-  padding:10px;
-  font-family:monospace;
-  color:#78b0ff;
-  text-align:center;
-  font-size:18px;
-  letter-spacing:2px;
-  margin-top:8px;
-}
-/* MODALS */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  z-index:20;
-}
-.modal.hidden{
-  display:none;
-}
-.signup{
-  width:min(420px,100%);
-  background:#11182a;
-  border:1px solid #34415e;
-  border-radius:18px;
-  padding:24px;
-  box-shadow:0 20px 60px rgba(0,0,0,.45);
-}
-.signup h1{
-  margin:0 0 7px;
-}
-.signup p{
-  margin:0 0 20px;
-  color:#94a3b8;
-}
-.signup label{
-  display:block;
-  font-size:13px;
-  margin:13px 0 7px;
-  color:#cbd5e1;
-}
-.signup input{
-  width:100%;
-  border:1px solid #33415f;
-  border-radius:10px;
-  padding:12px;
-  background:#0b1120;
-  color:white;
-  outline:none;
-}
-.signup .primary{
-  width:100%;
-  margin-top:18px;
-}
-.error{
-  min-height:18px;
-  color:#ff7d7d;
-  font-size:12px;
-  margin-top:8px;
-}
-.modal-switch{
-  margin-top:15px;
-  text-align:center;
-  color:#94a3b8;
-  font-size:13px;
-}
-.link-button{
-  border:0;
-  background:none;
-  color:#6ea8ff;
-  padding:0;
-}
-/* MOBILE */
-@media(max-width:760px){
-  .sidebar,
-  .game-sidebar{
-    display:none;
-  }
-  #chat,
-  #games{
-    padding:8px;
-  }
-  .logo{
-    font-size:17px;
-  }
-  .profile{
-    display:none;
-  }
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #090b12;
+    --panel: #111522;
+    --panel2: #171b2b;
+    --panel3: #1d2235;
+    --border: #292f46;
+    --text: #f4f5fb;
+    --muted: #9da4ba;
+    --accent: #7c5cff;
+    --accent2: #6242e8;
+    --green: #45d483;
+    --red: #ff5f6d;
+    --yellow: #ffc857;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar {
+    height: 64px;
+    background: #0d101a;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    gap: 22px;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: var(--accent);
+}
+
+.nav {
+    display: flex;
+    gap: 6px;
+}
+
+.nav button {
+    background: transparent;
+    color: var(--muted);
+    border: 0;
+    padding: 10px 15px;
+    border-radius: 9px;
+}
+
+.nav button:hover,
+.nav button.active {
+    color: white;
+    background: var(--panel2);
+}
+
+.top-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.network-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--red);
+}
+
+.status-dot.online {
+    background: var(--green);
+}
+
+.account-mini {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--panel2);
+    padding: 7px 11px;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+.avatar {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #a68cff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.page {
+    height: calc(100vh - 64px);
+}
+
+.view {
+    height: 100%;
+}
+
+#gamesView {
+    padding: 25px;
+    overflow-y: auto;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.page-subtitle {
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+/* =========================
+   GAMES
+========================= */
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.game-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 20px;
+    min-height: 190px;
+    transition: 0.15s;
+}
+
+.game-card:hover {
+    transform: translateY(-2px);
+    border-color: #3a4160;
+}
+
+.game-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 13px;
+    background: var(--panel3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+
+.game-card h2 {
+    margin: 0 0 8px;
+}
+
+.game-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.game-button {
+    border: 0;
+    background: var(--accent);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.game-button:hover {
+    background: var(--accent2);
+}
+
+/* =========================
+   CHAT LAYOUT
+========================= */
+
+#chatView {
+    display: grid;
+    grid-template-columns: 245px 1fr 255px;
+}
+
+.sidebar {
+    background: #0d1019;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.sidebar-title {
+    padding: 20px 17px 10px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.room-list {
+    padding: 0 9px;
+}
+
+.room {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    padding: 11px 12px;
+    border-radius: 8px;
+    text-align: left;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.room:hover {
+    background: var(--panel2);
+    color: white;
+}
+
+.room.active {
+    background: #201b3d;
+    color: white;
+}
+
+.room-icon {
+    width: 23px;
+    text-align: center;
+}
+
+.room-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.room-name {
+    font-weight: 600;
+}
+
+.room-id {
+    color: #707891;
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+.private-room {
+    color: #c8bfff;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.create-room-box {
+    display: flex;
+    gap: 5px;
+}
+
+.create-room-box input {
+    width: 100%;
+    min-width: 0;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: white;
+    border-radius: 7px;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.small-button {
+    background: var(--accent);
+    color: white;
+    border: 0;
+    border-radius: 7px;
+    padding: 8px 10px;
+    font-weight: bold;
+}
+
+/* =========================
+   CHAT CENTER
+========================= */
+
+.chat-center {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: #0a0d15;
+}
+
+.chat-header {
+    height: 70px;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.chat-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.chat-header small {
+    display: block;
+    color: var(--muted);
+    margin-top: 3px;
+    font-size: 11px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.message {
+    display: flex;
+    gap: 11px;
+    margin-bottom: 19px;
+}
+
+.message-avatar {
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #a58bff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.message-author {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.message-time {
+    color: #6f768d;
+    font-size: 10px;
+    margin-left: 7px;
+}
+
+.message-content {
+    margin-top: 4px;
+    color: #d5d8e3;
+    font-size: 14px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.system-message {
+    text-align: center;
+    color: #747b91;
+    font-size: 12px;
+    margin: 12px 0;
+}
+
+.chat-input-area {
+    border-top: 1px solid var(--border);
+    padding: 13px;
+    display: flex;
+    gap: 8px;
+}
+
+.chat-input {
+    flex: 1;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: white;
+    outline: none;
+    border-radius: 9px;
+    padding: 12px;
+}
+
+.chat-input:focus {
+    border-color: var(--accent);
+}
+
+.send-button {
+    background: var(--accent);
+    color: white;
+    border: 0;
+    border-radius: 9px;
+    padding: 0 18px;
+    font-weight: bold;
+}
+
+/* =========================
+   RIGHT PANEL
+========================= */
+
+.right-panel {
+    background: #0d1019;
+    border-left: 1px solid var(--border);
+    padding: 18px;
+    overflow-y: auto;
+}
+
+.panel-heading {
+    color: var(--muted);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .6px;
+    margin-bottom: 10px;
+}
+
+.info-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.info-label {
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-size: 13px;
+    word-break: break-all;
+}
+
+.copy-button {
+    margin-top: 8px;
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: white;
+    border-radius: 7px;
+    padding: 8px;
+}
+
+.copy-button:hover {
+    background: var(--panel3);
+}
+
+.user-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 0;
+    font-size: 13px;
+}
+
+.user-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+}
+
+.account-button {
+    width: 100%;
+    background: var(--panel2);
+    color: white;
+    border: 1px solid var(--border);
+    padding: 9px;
+    border-radius: 8px;
+}
+
+.logout-button {
+    margin-top: 7px;
+    width: 100%;
+    background: transparent;
+    color: var(--red);
+    border: 1px solid #4b2931;
+    padding: 9px;
+    border-radius: 8px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.72);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal {
+    width: min(420px, 100%);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 25px 70px rgba(0,0,0,.5);
+}
+
+.modal h2 {
+    margin-top: 0;
+}
+
+.modal-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.auth-tabs {
+    display: flex;
+    background: var(--panel2);
+    border-radius: 8px;
+    padding: 3px;
+    margin-bottom: 17px;
+}
+
+.auth-tabs button {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    padding: 9px;
+    border-radius: 6px;
+}
+
+.auth-tabs button.active {
+    background: var(--panel3);
+    color: white;
+}
+
+.form-group {
+    margin-bottom: 13px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    background: #0b0e17;
+    color: white;
+    border: 1px solid var(--border);
+    padding: 11px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: var(--accent);
+}
+
+.auth-button {
+    width: 100%;
+    border: 0;
+    background: var(--accent);
+    color: white;
+    padding: 11px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.auth-error {
+    color: var(--red);
+    font-size: 12px;
+    min-height: 17px;
+    margin-bottom: 5px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #20263a;
+    color: white;
+    border: 1px solid var(--border);
+    padding: 11px 16px;
+    border-radius: 9px;
+    opacity: 0;
+    pointer-events: none;
+    transition: .2s;
+    z-index: 2000;
+    font-size: 13px;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+    #chatView {
+        grid-template-columns: 200px 1fr;
+    }
+
+    .right-panel {
+        display: none;
+    }
+}
+
+@media (max-width: 650px) {
+    .topbar {
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .nav button {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .network-status {
+        display: none;
+    }
+
+    #chatView {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
 }
 </style>
 </head>
+
 <body>
-<div id="app">
-  <div class="topbar">
+
+<!-- =========================
+     TOP BAR
+========================= -->
+
+<header class="topbar">
+
     <div class="logo">
-      Game<span>Chat</span> Hub
+        GameChat <span>Hub</span>
     </div>
-    <button class="tab active" data-view="games">
-      🎮 Games
-    </button>
-    <button class="tab" data-view="chat">
-      💬 Chat
-    </button>
-    <div class="profile">
-      <span class="dot" id="netDot"></span>
-      <span id="topUser">Not signed in</span>
-    </div>
-  </div>
-  <!-- GAMES -->
-  <section id="games" class="view active">
-    <aside class="game-sidebar">
-      <div class="card">
-        <h3>Arcade Games</h3>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <button
-            class="game-btn active"
-            data-src="https://playcanv.as/p/2O2OeL1Y/">
-            🐍 Snake 3D
-          </button>
-          <button
-            class="game-btn"
-            data-src="https://html5.gamedistribution.com/rvvASyc0153835694a5e4a8385311263/">
-            🏎️ Rush Racing
-          </button>
-          <button
-            class="game-btn"
-            data-src="https://games.freemonkeygames.com/2048/">
-            🔢 2048 Puzzle
-          </button>
+
+    <nav class="nav">
+        <button id="gamesTab" class="active">🎮 Games</button>
+        <button id="chatTab">💬 Chat</button>
+    </nav>
+
+    <div class="top-right">
+
+        <div class="network-status">
+            <div id="statusDot" class="status-dot"></div>
+            <span id="networkText">Offline</span>
         </div>
-      </div>
-    </aside>
-    <div class="game-wrap">
-      <iframe
-        id="gameFrame"
-        src="https://playcanv.as/p/2O2OeL1Y/"
-        title="Arcade Game">
-      </iframe>
+
+        <div class="account-mini">
+            <div id="miniAvatar" class="avatar">?</div>
+            <span id="miniUsername">Guest</span>
+        </div>
+
     </div>
-  </section>
-  <!-- CHAT -->
-  <section id="chat" class="view">
+</header>
+
+
+<main class="page">
+
+<!-- =========================
+     GAMES VIEW
+========================= -->
+
+<section id="gamesView" class="view">
+
+    <div class="page-title">GameChat Hub</div>
+
+    <div class="page-subtitle">
+        Play games and hang out with other players.
+    </div>
+
+    <div class="game-grid">
+
+        <div class="game-card">
+            <div class="game-icon">🐍</div>
+
+            <h2>Snake 3D</h2>
+
+            <p>
+                Grow your snake, collect food, and try to beat your high score.
+            </p>
+
+            <button class="game-button" onclick="launchGame('Snake 3D')">
+                Play
+            </button>
+        </div>
+
+
+        <div class="game-card">
+            <div class="game-icon">🏎️</div>
+
+            <h2>Rush Racing</h2>
+
+            <p>
+                Race around the track and try to finish as quickly as possible.
+            </p>
+
+            <button class="game-button" onclick="launchGame('Rush Racing')">
+                Play
+            </button>
+        </div>
+
+
+        <div class="game-card">
+            <div class="game-icon">🔢</div>
+
+            <h2>2048</h2>
+
+            <p>
+                Combine matching numbers and try to reach 2048.
+            </p>
+
+            <button class="game-button" onclick="launchGame('2048')">
+                Play
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CHAT VIEW
+========================= -->
+
+<section id="chatView" class="view hidden">
+
+    <!-- LEFT SIDEBAR -->
+
     <aside class="sidebar">
-      <!-- ROOMS -->
-      <div class="card">
-        <h3>Chat Rooms</h3>
-        <div class="room-list" id="roomList">
-          <button class="room-btn active" data-room="general">
-            🌐 General
-          </button>
-          <button class="room-btn" data-room="lfg">
-            🎮 LFG / Find Players
-          </button>
-          <button class="room-btn" data-room="offtopic">
-            ☕ Off-Topic
-          </button>
+
+        <div class="sidebar-title">
+            Official Rooms
         </div>
-        <div class="custom-room-box">
-          <input
-            id="joinRoomInput"
-            placeholder="Enter room code..."
-            maxlength="12">
-          <button id="joinRoomBtn">
-            Join
-          </button>
+
+        <div class="room-list">
+
+            <button
+                class="room active"
+                data-room="general"
+                onclick="selectRoom('general')"
+            >
+                <div class="room-icon">#</div>
+
+                <div class="room-info">
+                    <div class="room-name">General</div>
+                    <div class="room-id">48271635</div>
+                </div>
+            </button>
+
+
+            <button
+                class="room"
+                data-room="general2"
+                onclick="selectRoom('general2')"
+            >
+                <div class="room-icon">#</div>
+
+                <div class="room-info">
+                    <div class="room-name">General 2</div>
+                    <div class="room-id">19384726</div>
+                </div>
+            </button>
+
+
+            <button
+                class="room"
+                data-room="offtopic"
+                onclick="selectRoom('offtopic')"
+            >
+                <div class="room-icon">#</div>
+
+                <div class="room-info">
+                    <div class="room-name">Off-Topic</div>
+                    <div class="room-id">65029184</div>
+                </div>
+            </button>
+
         </div>
-        <div class="room-actions">
-          <button
-            class="secondary"
-            id="createRoomBtn">
-            ➕ Create Room
-          </button>
+
+
+        <div class="sidebar-title">
+            Private Room
         </div>
-        <div
-          id="createdRoomBox"
-          style="display:none">
-          <div class="small" style="margin-top:12px">
-            Your room code:
-          </div>
-          <div
-            class="room-code"
-            id="createdRoomCode">
-            ------
-          </div>
-          <button
-            class="secondary"
-            id="copyRoomCode">
-            Copy Room Code
-          </button>
+
+        <div id="privateRoomList" class="room-list">
+            <!-- Dynamically added -->
         </div>
-      </div>
-      <!-- ACCOUNT -->
-      <div class="card">
-        <h3>Your account</h3>
-        <div
-          class="account-name"
-          id="sideUser">
-          Not signed in
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-title" style="padding:0 0 8px;">
+                Create Private Room
+            </div>
+
+            <div class="create-room-box">
+
+                <input
+                    id="privateRoomName"
+                    type="text"
+                    maxlength="24"
+                    placeholder="Room name..."
+                >
+
+                <button
+                    class="small-button"
+                    onclick="createPrivateRoom()"
+                >
+                    +
+                </button>
+
+            </div>
+
         </div>
-        <div class="small" style="margin-top:7px">
-          Peer Network ID
-        </div>
-        <div
-          class="friend-code"
-          id="sideCode">
-          ------
-        </div>
-        <button
-          class="secondary"
-          id="copyCode">
-          Copy Peer ID
-        </button>
-        <button
-          class="secondary"
-          id="logoutBtn">
-          Sign Out
-        </button>
-      </div>
+
     </aside>
-    <main class="chat-main">
-      <div class="chat-head">
-        <strong id="currentRoomTitle">
-          # General
-        </strong>
-        <span
-          class="status-badge"
-          id="peerStatus">
-          Offline
-        </span>
-      </div>
-      <div id="messages"></div>
-      <div class="chat-input">
-        <input
-          id="messageInput"
-          maxlength="500"
-          placeholder="Type a message..."
-          autocomplete="off">
-        <button id="sendBtn">
-          Send
+
+
+    <!-- CENTER CHAT -->
+
+    <section class="chat-center">
+
+        <div class="chat-header">
+
+            <div>
+                <h2 id="chatRoomName">General</h2>
+
+                <small id="chatRoomId">
+                    Room ID: 48271635
+                </small>
+            </div>
+
+        </div>
+
+
+        <div id="chatMessages" class="chat-messages">
+
+            <div class="system-message">
+                Welcome to GameChat Hub.
+            </div>
+
+        </div>
+
+
+        <div class="chat-input-area">
+
+            <input
+                id="messageInput"
+                class="chat-input"
+                type="text"
+                maxlength="1000"
+                placeholder="Send a message..."
+                autocomplete="off"
+            >
+
+            <button
+                class="send-button"
+                onclick="sendMessage()"
+            >
+                Send
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- RIGHT PANEL -->
+
+    <aside class="right-panel">
+
+        <div class="panel-heading">
+            Room
+        </div>
+
+        <div class="info-box">
+
+            <div class="info-label">
+                GameChat Room ID
+            </div>
+
+            <div
+                id="rightRoomId"
+                class="info-value"
+            >
+                48271635
+            </div>
+
+            <button
+                class="copy-button"
+                onclick="copyRoomId()"
+            >
+                Copy Room ID
+            </button>
+
+        </div>
+
+
+        <div class="panel-heading">
+            Connection
+        </div>
+
+        <div class="info-box">
+
+            <div class="info-label">
+                Peer Network ID
+            </div>
+
+            <div
+                id="peerIdDisplay"
+                class="info-value"
+            >
+                Connecting...
+            </div>
+
+            <button
+                class="copy-button"
+                onclick="copyPeerId()"
+            >
+                Copy Peer ID
+            </button>
+
+        </div>
+
+
+        <div class="panel-heading">
+            Users
+        </div>
+
+        <div
+            id="userList"
+            class="info-box"
+        >
+            <div class="user-row">
+                <div class="user-dot"></div>
+                <span id="currentUserRow">You</span>
+            </div>
+        </div>
+
+
+        <div class="panel-heading">
+            Account
+        </div>
+
+        <div class="info-box">
+
+            <div
+                id="accountUsername"
+                class="info-value"
+            >
+                Guest
+            </div>
+
+            <button
+                class="account-button"
+                onclick="openAuth()"
+            >
+                Sign In / Sign Up
+            </button>
+
+            <button
+                id="logoutButton"
+                class="logout-button hidden"
+                onclick="logout()"
+            >
+                Log Out
+            </button>
+
+        </div>
+
+    </aside>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     AUTH MODAL
+========================= -->
+
+<div
+    id="authOverlay"
+    class="modal-overlay hidden"
+>
+
+    <div class="modal">
+
+        <h2>Welcome to GameChat Hub</h2>
+
+        <div class="modal-subtitle">
+            Sign in or create an account to use GameChat.
+        </div>
+
+
+        <div class="auth-tabs">
+
+            <button
+                id="signInTab"
+                class="active"
+                onclick="setAuthMode('signin')"
+            >
+                Sign In
+            </button>
+
+            <button
+                id="signUpTab"
+                onclick="setAuthMode('signup')"
+            >
+                Sign Up
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Username
+            </label>
+
+            <input
+                id="authUsername"
+                maxlength="20"
+                autocomplete="username"
+                placeholder="Username"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="authPassword"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Password"
+            >
+
+        </div>
+
+
+        <div
+            id="authError"
+            class="auth-error"
+        ></div>
+
+
+        <button
+            class="auth-button"
+            onclick="submitAuth()"
+        >
+            Continue
         </button>
-      </div>
-    </main>
-  </section>
-</div>
-<!-- AUTH MODAL -->
-<div class="modal" id="authModal">
-  <div class="signup">
-    <h1 id="authTitle">
-      Welcome to GameChat
-    </h1>
-    <p id="authSubtitle">
-      Create an account to start chatting.
-    </p>
-    <form id="authForm">
-      <label for="authUsername">
-        Username
-      </label>
-      <input
-        id="authUsername"
-        maxlength="24"
-        minlength="2"
-        required
-        placeholder="Choose a username"
-        autocomplete="username">
-      <label for="authPassword">
-        Password
-      </label>
-      <input
-        id="authPassword"
-        type="password"
-        minlength="6"
-        required
-        placeholder="At least 6 characters"
-        autocomplete="current-password">
-      <div
-        class="error"
-        id="authError">
-      </div>
-      <button
-        class="primary"
-        type="submit"
-        id="authSubmit">
-        Create Account
-      </button>
-    </form>
-    <div class="modal-switch">
-      <span id="authSwitchText">
-        Already have an account?
-      </span>
-      <button
-        class="link-button"
-        id="authSwitchBtn"
-        type="button">
-        Sign In
-      </button>
+
     </div>
-  </div>
+
 </div>
+
+
+<div id="toast" class="toast"></div>
+
+
 <script>
 /* =========================================================
    GAMECHAT HUB
-   Authentication + PeerJS Room Chat
-   ========================================================= */
-/* -------------------------
-   STATE
-------------------------- */
-let currentUser =
-  localStorage.getItem("gc_current_user") || "";
-let currentRoom = "general";
-let peer = null;
-let roomHost = null;
-let roomConnections = new Map();
-let isRoomHost = false;
-let authMode = "signup";
-/* -------------------------
-   DOM
-------------------------- */
-const authModal =
-  document.getElementById("authModal");
-const authForm =
-  document.getElementById("authForm");
-const authTitle =
-  document.getElementById("authTitle");
-const authSubtitle =
-  document.getElementById("authSubtitle");
-const authSubmit =
-  document.getElementById("authSubmit");
-const authSwitchBtn =
-  document.getElementById("authSwitchBtn");
-const authSwitchText =
-  document.getElementById("authSwitchText");
-const authUsername =
-  document.getElementById("authUsername");
-const authPassword =
-  document.getElementById("authPassword");
-const authError =
-  document.getElementById("authError");
-const topUser =
-  document.getElementById("topUser");
-const sideUser =
-  document.getElementById("sideUser");
-const sideCode =
-  document.getElementById("sideCode");
-const peerStatus =
-  document.getElementById("peerStatus");
-const netDot =
-  document.getElementById("netDot");
-const messagesDiv =
-  document.getElementById("messages");
-const messageInput =
-  document.getElementById("messageInput");
-const sendBtn =
-  document.getElementById("sendBtn");
-const currentRoomTitle =
-  document.getElementById("currentRoomTitle");
-const roomList =
-  document.getElementById("roomList");
-const joinRoomInput =
-  document.getElementById("joinRoomInput");
-const createdRoomBox =
-  document.getElementById("createdRoomBox");
-const createdRoomCode =
-  document.getElementById("createdRoomCode");
+========================================================= */
+
+
 /* =========================================================
-   AUTHENTICATION
-   ========================================================= */
-function getAccounts(){
-  try{
-    return JSON.parse(
-      localStorage.getItem("gc_accounts") || "{}"
-    );
-  }catch{
-    return {};
-  }
-}
-function saveAccounts(accounts){
-  localStorage.setItem(
-    "gc_accounts",
-    JSON.stringify(accounts)
-  );
-}
-/* SHA-256 password hash */
-async function hashPassword(password){
-  const data =
-    new TextEncoder().encode(password);
-  const hash =
-    await crypto.subtle.digest(
-      "SHA-256",
-      data
-    );
-  return Array.from(
-    new Uint8Array(hash)
-  )
-  .map(b =>
-    b.toString(16).padStart(2,"0")
-  )
-  .join("");
-}
-/* Auth mode */
-function setAuthMode(mode){
-  authMode = mode;
-  authError.textContent = "";
-  authForm.reset();
-  if(mode === "signup"){
-    authTitle.textContent =
-      "Welcome to GameChat";
-    authSubtitle.textContent =
-      "Create an account to start chatting.";
-    authSubmit.textContent =
-      "Create Account";
-    authSwitchText.textContent =
-      "Already have an account?";
-    authSwitchBtn.textContent =
-      "Sign In";
-    authPassword.autocomplete =
-      "new-password";
-  }else{
-    authTitle.textContent =
-      "Welcome Back";
-    authSubtitle.textContent =
-      "Sign in to your GameChat account.";
-    authSubmit.textContent =
-      "Sign In";
-    authSwitchText.textContent =
-      "Don't have an account?";
-    authSwitchBtn.textContent =
-      "Create Account";
-    authPassword.autocomplete =
-      "current-password";
-  }
-}
-authSwitchBtn.addEventListener(
-  "click",
-  () => {
-    setAuthMode(
-      authMode === "signup"
-        ? "signin"
-        : "signup"
-    );
-  }
-);
-authForm.addEventListener(
-  "submit",
-  async e => {
-    e.preventDefault();
-    const username =
-      authUsername.value.trim();
-    const password =
-      authPassword.value;
-    if(!/^[a-zA-Z0-9_-]{2,24}$/.test(username)){
-      authError.textContent =
-        "Username must be 2–24 characters and may contain letters, numbers, _ and -.";
-      return;
+   OFFICIAL ROOMS
+========================================================= */
+
+const MAIN_ROOMS = {
+
+    general: {
+        name: "General",
+        roomId: "48271635",
+        hostId: "gc-main-48271635"
+    },
+
+    general2: {
+        name: "General 2",
+        roomId: "19384726",
+        hostId: "gc-main-19384726"
+    },
+
+    offtopic: {
+        name: "Off-Topic",
+        roomId: "65029184",
+        hostId: "gc-main-65029184"
     }
-    if(password.length < 6){
-      authError.textContent =
-        "Password must be at least 6 characters.";
-      return;
-    }
-    const accounts =
-      getAccounts();
-    const key =
-      username.toLowerCase();
-    if(authMode === "signup"){
-      if(accounts[key]){
-        authError.textContent =
-          "That username is already registered.";
-        return;
-      }
-      const passwordHash =
-        await hashPassword(password);
-      accounts[key] = {
-        username,
-        passwordHash,
-        createdAt: Date.now()
-      };
-      saveAccounts(accounts);
-      currentUser = username;
-      localStorage.setItem(
-        "gc_current_user",
-        currentUser
-      );
-      authModal.classList.add("hidden");
-      initializeUser();
-      return;
-    }
-    if(!accounts[key]){
-      authError.textContent =
-        "Incorrect username or password.";
-      return;
-    }
-    const passwordHash =
-      await hashPassword(password);
-    if(passwordHash !== accounts[key].passwordHash){
-      authError.textContent =
-        "Incorrect username or password.";
-      return;
-    }
-    currentUser =
-      accounts[key].username;
-    localStorage.setItem(
-      "gc_current_user",
-      currentUser
-    );
-    authModal.classList.add("hidden");
-    initializeUser();
-  }
-);
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-document.querySelectorAll(".tab").forEach(tab => {
-  tab.addEventListener("click", () => {
-    document
-      .querySelectorAll(".tab")
-      .forEach(t =>
-        t.classList.remove("active")
-      );
-    document
-      .querySelectorAll(".view")
-      .forEach(v =>
-        v.classList.remove("active")
-      );
-    tab.classList.add("active");
-    document
-      .getElementById(tab.dataset.view)
-      .classList.add("active");
-  });
-});
-/* =========================================================
-   GAMES
-   ========================================================= */
-const gameFrame =
-  document.getElementById("gameFrame");
-document.querySelectorAll(".game-btn")
-.forEach(btn => {
-  btn.addEventListener("click", () => {
-    document
-      .querySelectorAll(".game-btn")
-      .forEach(b =>
-        b.classList.remove("active")
-      );
-    btn.classList.add("active");
-    gameFrame.src =
-      btn.dataset.src;
-  });
-});
-/* =========================================================
-   USER INITIALIZATION
-   ========================================================= */
-function initializeUser(){
-  topUser.textContent =
-    currentUser;
-  sideUser.textContent =
-    currentUser;
-  initializePeer();
-}
-function logout(){
-  if(peer){
-    try{
-      peer.destroy();
-    }catch{}
-  }
-  peer = null;
-  roomConnections.clear();
-  currentUser = "";
-  localStorage.removeItem(
-    "gc_current_user"
-  );
-  topUser.textContent =
-    "Not signed in";
-  sideUser.textContent =
-    "Not signed in";
-  sideCode.textContent =
-    "------";
-  peerStatus.textContent =
-    "Offline";
-  netDot.classList.remove("online");
-  authModal.classList.remove("hidden");
-  setAuthMode("signin");
-}
-/* =========================================================
-   PEERJS
-   ========================================================= */
-function makePeerId(){
-  const random =
-    Math.random()
-      .toString(36)
-      .substring(2,10);
-  return "gc-user-" + random;
-}
-function initializePeer(){
-  if(peer){
-    try{
-      peer.destroy();
-    }catch{}
-  }
-  peer = new Peer(
-    makePeerId(),
-    {
-      debug: 1
-    }
-  );
-  peer.on("open", id => {
-    sideCode.textContent =
-      id;
-    peerStatus.textContent =
-      "Online";
-    netDot.classList.add("online");
-    addSystemMessage(
-      `Connected to GameChat as ${currentUser}.`
-    );
-    /*
-      Join General automatically.
-    */
-    joinRoom("general");
-  });
-  peer.on("connection", conn => {
-    setupConnection(conn);
-  });
-  peer.on("error", err => {
-    console.error(
-      "PeerJS error:",
-      err
-    );
-    peerStatus.textContent =
-      "Network error";
-    netDot.classList.remove(
-      "online"
-    );
-  });
-  peer.on("disconnected", () => {
-    peerStatus.textContent =
-      "Disconnected";
-    netDot.classList.remove(
-      "online"
-    );
-  });
-  peer.on("close", () => {
-    peerStatus.textContent =
-      "Offline";
-    netDot.classList.remove(
-      "online"
-    );
-  });
-}
-/* =========================================================
-   CONNECTION HANDLING
-   ========================================================= */
-function setupConnection(conn){
-  conn.on("open", () => {
-    roomConnections.set(
-      conn.peer,
-      conn
-    );
-    /*
-      Tell the other user who we are.
-    */
-    conn.send({
-      type:"hello",
-      username:currentUser,
-      room:currentRoom,
-      host:isRoomHost
-    });
-  });
-  conn.on("data", data => {
-    if(!data || !data.type)
-      return;
-    /* HELLO */
-    if(data.type === "hello"){
-      /*
-        If we're hosting the room,
-        remember this client.
-      */
-      if(isRoomHost){
-        roomConnections.set(
-          conn.peer,
-          conn
-        );
-      }
-      return;
-    }
-    /* CHAT */
-    if(data.type === "chat"){
-      if(data.room !== currentRoom)
-        return;
-      addMessage(
-        data.username,
-        data.message,
-        false
-      );
-      /*
-        Room host relays the message
-        to every other connected client.
-      */
-      if(isRoomHost){
-        broadcast(
-          data,
-          conn.peer
-        );
-      }
-      return;
-    }
-    /* ROOM MESSAGE */
-    if(data.type === "room-info"){
-      return;
-    }
-  });
-  conn.on("close", () => {
-    roomConnections.delete(
-      conn.peer
-    );
-  });
-  conn.on("error", err => {
-    console.warn(
-      "Connection error:",
-      err
-    );
-    roomConnections.delete(
-      conn.peer
-    );
-  });
-}
-/* =========================================================
-   BROADCAST
-   ========================================================= */
-function broadcast(data, exceptPeer = null){
-  for(
-    const [peerId, conn]
-    of roomConnections
-  ){
-    if(
-      peerId === exceptPeer
-    )
-      continue;
-    if(
-      conn &&
-      conn.open
-    ){
-      try{
-        conn.send(data);
-      }catch(err){
-        console.warn(
-          "Broadcast failed:",
-          err
-        );
-      }
-    }
-  }
-}
-/* =========================================================
-   ROOMS
-   ========================================================= */
-/*
-  Built-in rooms use special IDs.
-  User-created rooms use:
-  gc-room-XXXXXX
-  The room creator becomes the host.
-*/
-const builtinRooms = {
-  general:{
-    label:"🌐 General"
-  },
-  lfg:{
-    label:"🎮 LFG / Find Players"
-  },
-  offtopic:{
-    label:"☕ Off-Topic"
-  }
+
 };
-function generateRoomCode(){
-  const chars =
-    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let code = "";
-  for(let i=0;i<6;i++){
-    code +=
-      chars[
-        Math.floor(
-          Math.random() *
-          chars.length
-        )
-      ];
-  }
-  return code;
-}
-/* Create room */
-document
-  .getElementById("createRoomBtn")
-  .addEventListener(
-    "click",
-    createRoom
-  );
-function createRoom(){
-  const code =
-    generateRoomCode();
-  const roomId =
-    "room-" +
-    code.toLowerCase();
-  /*
-    The creator becomes the host.
-  */
-  isRoomHost = true;
-  roomHost = peer.id;
-  createdRoomBox.style.display =
-    "block";
-  createdRoomCode.textContent =
-    code;
-  addRoomButton(
-    roomId,
-    `🔒 ${code}`
-  );
-  switchToRoom(
-    roomId,
-    code
-  );
-  addSystemMessage(
-    `Room ${code} created. Share the room code with your friends.`
-  );
-}
-/* Add room button */
-function addRoomButton(id,label){
-  if(
-    [...roomList.children]
-      .some(
-        b => b.dataset.room === id
-      )
-  )
-    return;
-  const btn =
-    document.createElement("button");
-  btn.className =
-    "room-btn";
-  btn.dataset.room =
-    id;
-  btn.textContent =
-    label;
-  roomList.appendChild(btn);
-}
-/* Join room */
-document
-  .getElementById("joinRoomBtn")
-  .addEventListener(
-    "click",
-    () => {
-      const code =
-        joinRoomInput.value
-          .trim()
-          .toUpperCase();
-      if(
-        !/^[A-Z0-9]{6}$/.test(code)
-      ){
-        addSystemMessage(
-          "Room codes are 6 characters long."
-        );
-        return;
-      }
-      const roomId =
-        "room-" +
-        code.toLowerCase();
-      isRoomHost = false;
-      addRoomButton(
-        roomId,
-        `🔒 ${code}`
-      );
-      switchToRoom(
-        roomId,
-        code
-      );
-      joinRoomInput.value = "";
-    }
-  );
-/* Built-in rooms */
-roomList.addEventListener(
-  "click",
-  e => {
-    const btn =
-      e.target.closest(
-        ".room-btn"
-      );
-    if(!btn)
-      return;
-    const room =
-      btn.dataset.room;
-    let label =
-      btn.textContent;
-    label =
-      label.replace(
-        /^[^\w]*\s?/,
-        ""
-      );
-    isRoomHost = false;
-    switchToRoom(
-      room,
-      label
-    );
-  }
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentUser = null;
+
+let currentRoom = null;
+
+let currentPeer = null;
+
+let currentAuthMode = "signin";
+
+let peerConnections = {};
+
+let roomConnections = {};
+
+let connectedUsers = {};
+
+let privateRooms = JSON.parse(
+    localStorage.getItem("gamechat_private_rooms") || "[]"
 );
-/* Switch rooms */
-function switchToRoom(
-  roomId,
-  label
-){
-  currentRoom =
-    roomId;
-  currentRoomTitle.textContent =
-    "# " + label;
-  messagesDiv.innerHTML = "";
-  document
-    .querySelectorAll(".room-btn")
-    .forEach(btn => {
-      btn.classList.toggle(
-        "active",
-        btn.dataset.room === roomId
-      );
-    });
-  if(isRoomHost){
-    addSystemMessage(
-      `You are hosting room ${label}.`
-    );
-    /*
-      Host does not need to connect
-      to itself.
-    */
-    return;
-  }
-  joinRoom(roomId);
-}
-/* Join a room */
-function joinRoom(roomId){
-  if(!peer || peer.destroyed)
-    return;
-  /*
-    Built-in room behavior:
-    There isn't a permanent server host
-    for these rooms.
-    For a real production application,
-    these should be WebSocket/server rooms.
-    User-created rooms use the creator's
-    PeerJS ID stored in the room state.
-  */
-  if(roomId.startsWith("room-")){
-    /*
-      We cannot magically discover a PeerJS
-      host from a room code.
-      Therefore this frontend version uses
-      the room code itself as a discovery
-      identifier by creating a deterministic
-      host Peer.
-      See hostRoom().
-    */
-    connectToRoomHost(roomId);
-    return;
-  }
-  addSystemMessage(
-    `Joined ${roomId}. Waiting for other players...`
-  );
-}
+
+
 /* =========================================================
-   ROOM HOST CONNECTION
-   ========================================================= */
-function connectToRoomHost(roomId){
-  /*
-    IMPORTANT:
-    PeerJS IDs are globally registered with
-    the PeerJS signaling server.
-    The creator needs a room host ID.
-    We use:
-      gc-host-ROOMCODE
-    as the host identifier.
-  */
-  const hostId =
-    "gc-host-" +
-    roomId
-      .replace("room-","");
-  roomHost =
-    hostId;
-  addSystemMessage(
-    "Connecting to room host..."
-  );
-  const conn =
-    peer.connect(
-      hostId,
-      {
-        reliable:true
-      }
-    );
-  setupConnection(conn);
-  conn.on("open", () => {
-    peerStatus.textContent =
-      "Room connected";
-    netDot.classList.add(
-      "online"
-    );
-    addSystemMessage(
-      "Connected to the room!"
-    );
-  });
-  conn.on("error", () => {
-    addSystemMessage(
-      "Could not connect to that room. Make sure the room creator is still online."
-    );
-  });
-}
+   ELEMENTS
+========================================================= */
+
+const gamesView = document.getElementById("gamesView");
+const chatView = document.getElementById("chatView");
+
+const gamesTab = document.getElementById("gamesTab");
+const chatTab = document.getElementById("chatTab");
+
+const authOverlay = document.getElementById("authOverlay");
+
+const authUsername = document.getElementById("authUsername");
+const authPassword = document.getElementById("authPassword");
+const authError = document.getElementById("authError");
+
+const miniUsername = document.getElementById("miniUsername");
+const miniAvatar = document.getElementById("miniAvatar");
+
+const accountUsername = document.getElementById("accountUsername");
+
+const logoutButton = document.getElementById("logoutButton");
+
+const statusDot = document.getElementById("statusDot");
+const networkText = document.getElementById("networkText");
+
+const chatRoomName = document.getElementById("chatRoomName");
+const chatRoomId = document.getElementById("chatRoomId");
+const rightRoomId = document.getElementById("rightRoomId");
+
+const peerIdDisplay = document.getElementById("peerIdDisplay");
+
+const chatMessages = document.getElementById("chatMessages");
+
+const messageInput = document.getElementById("messageInput");
+
+const userList = document.getElementById("userList");
+
+
 /* =========================================================
-   ACTUAL ROOM HOST
-   ========================================================= */
-/*
-  NOTE:
-  PeerJS only allows one peer ID at a time.
-  This function changes the creator's
-  connection into a room host by using a
-  second Peer object.
-  The normal user peer remains available
-  for personal identity.
-*/
-let hostPeer = null;
-function startRoomHost(code){
-  if(hostPeer){
-    try{
-      hostPeer.destroy();
-    }catch{}
-  }
-  const hostId =
-    "gc-host-" +
-    code.toLowerCase();
-  hostPeer =
-    new Peer(
-      hostId,
-      {
-        debug:1
-      }
-    );
-  hostPeer.on(
-    "open",
-    () => {
-      roomHost =
-        hostId;
-      addSystemMessage(
-        `Room host online. Code: ${code}`
-      );
-    }
-  );
-  hostPeer.on(
-    "connection",
-    conn => {
-      setupHostConnection(conn);
-    }
-  );
-  hostPeer.on(
-    "error",
-    err => {
-      console.error(
-        "Room host error:",
-        err
-      );
-      addSystemMessage(
-        "Could not create the room host."
-      );
-    }
-  );
+   TAB SWITCHING
+========================================================= */
+
+gamesTab.onclick = () => {
+
+    gamesView.classList.remove("hidden");
+    chatView.classList.add("hidden");
+
+    gamesTab.classList.add("active");
+    chatTab.classList.remove("active");
+
+};
+
+
+chatTab.onclick = () => {
+
+    gamesView.classList.add("hidden");
+    chatView.classList.remove("hidden");
+
+    gamesTab.classList.remove("active");
+    chatTab.classList.add("active");
+
+};
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+function openAuth() {
+
+    authOverlay.classList.remove("hidden");
+
+    authUsername.focus();
+
 }
-/* Host-side connection */
-function setupHostConnection(conn){
-  conn.on("open", () => {
-    roomConnections.set(
-      conn.peer,
-      conn
+
+
+function setAuthMode(mode) {
+
+    currentAuthMode = mode;
+
+    authError.textContent = "";
+
+    if (mode === "signin") {
+
+        document.getElementById("signInTab")
+            .classList.add("active");
+
+        document.getElementById("signUpTab")
+            .classList.remove("active");
+
+        authPassword.autocomplete = "current-password";
+
+    } else {
+
+        document.getElementById("signInTab")
+            .classList.remove("active");
+
+        document.getElementById("signUpTab")
+            .classList.add("active");
+
+        authPassword.autocomplete = "new-password";
+
+    }
+
+}
+
+
+async function hashPassword(password) {
+
+    const data = new TextEncoder().encode(password);
+
+    const hash = await crypto.subtle.digest(
+        "SHA-256",
+        data
     );
-    conn.send({
-      type:"hello",
-      username:currentUser,
-      room:currentRoom,
-      host:true
-    });
-  });
-  conn.on("data", data => {
-    if(!data)
-      return;
-    if(data.type === "chat"){
-      if(
-        data.room !== currentRoom
-      )
+
+    return Array.from(
+        new Uint8Array(hash)
+    )
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join("");
+
+}
+
+
+async function submitAuth() {
+
+    const username = authUsername.value.trim();
+
+    const password = authPassword.value;
+
+    authError.textContent = "";
+
+    if (!username || !password) {
+
+        authError.textContent =
+            "Enter a username and password.";
+
         return;
-      addMessage(
-        data.username,
-        data.message,
-        false
-      );
-      broadcast(
-        data,
-        conn.peer
-      );
+
     }
-  });
-  conn.on("close", () => {
-    roomConnections.delete(
-      conn.peer
+
+    if (username.length < 3) {
+
+        authError.textContent =
+            "Username must be at least 3 characters.";
+
+        return;
+
+    }
+
+    if (password.length < 4) {
+
+        authError.textContent =
+            "Password must be at least 4 characters.";
+
+        return;
+
+    }
+
+
+    const accounts =
+        JSON.parse(
+            localStorage.getItem("gamechat_accounts") || "{}"
+        );
+
+
+    const normalized =
+        username.toLowerCase();
+
+
+    if (currentAuthMode === "signup") {
+
+        if (accounts[normalized]) {
+
+            authError.textContent =
+                "That username already exists.";
+
+            return;
+
+        }
+
+
+        const passwordHash =
+            await hashPassword(password);
+
+
+        accounts[normalized] = {
+
+            username: username,
+
+            passwordHash: passwordHash,
+
+            createdAt: Date.now()
+
+        };
+
+
+        localStorage.setItem(
+            "gamechat_accounts",
+            JSON.stringify(accounts)
+        );
+
+
+        localStorage.setItem(
+            "gamechat_session",
+            username
+        );
+
+
+        currentUser = username;
+
+        closeAuth();
+
+        updateAccountUI();
+
+        initializePeer();
+
+        showToast("Account created!");
+
+        return;
+
+    }
+
+
+    if (!accounts[normalized]) {
+
+        authError.textContent =
+            "Username or password is incorrect.";
+
+        return;
+
+    }
+
+
+    const passwordHash =
+        await hashPassword(password);
+
+
+    if (
+        accounts[normalized].passwordHash !== passwordHash
+    ) {
+
+        authError.textContent =
+            "Username or password is incorrect.";
+
+        return;
+
+    }
+
+
+    currentUser =
+        accounts[normalized].username;
+
+
+    localStorage.setItem(
+        "gamechat_session",
+        currentUser
     );
-  });
+
+
+    closeAuth();
+
+    updateAccountUI();
+
+    initializePeer();
+
+    showToast("Signed in!");
+
 }
-/* Replace createRoom behavior */
-function createRoomWithHost(){
-  const code =
-    generateRoomCode();
-  const roomId =
-    "room-" +
-    code.toLowerCase();
-  isRoomHost = true;
-  createdRoomBox.style.display =
-    "block";
-  createdRoomCode.textContent =
-    code;
-  addRoomButton(
-    roomId,
-    `🔒 ${code}`
-  );
-  /*
-    Start the dedicated room host.
-  */
-  startRoomHost(code);
-  currentRoom =
-    roomId;
-  currentRoomTitle.textContent =
-    "# " + code;
-  messagesDiv.innerHTML = "";
-  document
-    .querySelectorAll(".room-btn")
-    .forEach(btn =>
-      btn.classList.toggle(
-        "active",
-        btn.dataset.room === roomId
-      )
+
+
+function closeAuth() {
+
+    authOverlay.classList.add("hidden");
+
+    authUsername.value = "";
+    authPassword.value = "";
+
+}
+
+
+function logout() {
+
+    currentUser = null;
+
+    localStorage.removeItem(
+        "gamechat_session"
     );
-  addSystemMessage(
-    `Room ${code} created! You are the host.`
-  );
+
+
+    if (currentPeer) {
+
+        try {
+            currentPeer.destroy();
+        } catch {}
+
+    }
+
+
+    currentPeer = null;
+
+    updateAccountUI();
+
+    statusDot.classList.remove("online");
+
+    networkText.textContent = "Offline";
+
+    peerIdDisplay.textContent = "Not connected";
+
+    showToast("Logged out.");
+
 }
-/*
-  Use the improved creator.
-*/
-document
-  .getElementById("createRoomBtn")
-  .onclick =
-  createRoomWithHost;
+
+
+function loadSession() {
+
+    const session =
+        localStorage.getItem(
+            "gamechat_session"
+        );
+
+
+    if (!session) {
+
+        updateAccountUI();
+
+        return;
+
+    }
+
+
+    const accounts =
+        JSON.parse(
+            localStorage.getItem("gamechat_accounts") || "{}"
+        );
+
+
+    if (
+        accounts[session.toLowerCase()]
+    ) {
+
+        currentUser =
+            accounts[session.toLowerCase()].username;
+
+        updateAccountUI();
+
+        initializePeer();
+
+    }
+
+}
+
+
+function updateAccountUI() {
+
+    if (currentUser) {
+
+        miniUsername.textContent =
+            currentUser;
+
+        miniAvatar.textContent =
+            currentUser.charAt(0).toUpperCase();
+
+        accountUsername.textContent =
+            currentUser;
+
+        logoutButton.classList.remove("hidden");
+
+    } else {
+
+        miniUsername.textContent =
+            "Guest";
+
+        miniAvatar.textContent =
+            "?";
+
+        accountUsername.textContent =
+            "Guest";
+
+        logoutButton.classList.add("hidden");
+
+    }
+
+}
+
+
+/* =========================================================
+   PEER NETWORK
+========================================================= */
+
+function initializePeer() {
+
+    if (!currentUser) {
+
+        openAuth();
+
+        return;
+
+    }
+
+
+    if (currentPeer) {
+
+        try {
+            currentPeer.destroy();
+        } catch {}
+
+    }
+
+
+    /*
+       Random PeerJS ID.
+
+       GameChat Room IDs are separate from PeerJS IDs.
+       This keeps the public room code independent from
+       the user's actual network identity.
+    */
+
+    const peerId =
+        "gc-user-" +
+        randomString(12);
+
+
+    currentPeer =
+        new Peer(peerId);
+
+
+    currentPeer.on("open", id => {
+
+        peerIdDisplay.textContent = id;
+
+        statusDot.classList.add("online");
+
+        networkText.textContent =
+            "Online";
+
+        addSystemMessage(
+            "Connected to the GameChat network."
+        );
+
+
+        /*
+           Automatically enter General.
+        */
+
+        if (!currentRoom) {
+
+            selectRoom("general");
+
+        }
+
+    });
+
+
+    currentPeer.on("connection", connection => {
+
+        setupConnection(connection);
+
+    });
+
+
+    currentPeer.on("error", error => {
+
+        console.error(
+            "PeerJS error:",
+            error
+        );
+
+
+        if (
+            error.type === "unavailable-id"
+        ) {
+
+            initializePeer();
+
+        }
+
+    });
+
+
+    currentPeer.on("disconnected", () => {
+
+        statusDot.classList.remove("online");
+
+        networkText.textContent =
+            "Disconnected";
+
+    });
+
+
+    currentPeer.on("close", () => {
+
+        statusDot.classList.remove("online");
+
+        networkText.textContent =
+            "Offline";
+
+    });
+
+}
+
+
+/* =========================================================
+   CONNECTIONS
+========================================================= */
+
+function setupConnection(connection) {
+
+    if (!connection) return;
+
+
+    connection.on("open", () => {
+
+        peerConnections[
+            connection.peer
+        ] = connection;
+
+
+        connection.send({
+
+            type: "hello",
+
+            username: currentUser,
+
+            roomId: currentRoom?.roomId || null
+
+        });
+
+
+        connection.on("data", data => {
+
+            handlePeerData(
+                connection,
+                data
+            );
+
+        });
+
+
+        connection.on("close", () => {
+
+            delete peerConnections[
+                connection.peer
+            ];
+
+
+            delete connectedUsers[
+                connection.peer
+            ];
+
+
+            updateUserList();
+
+        });
+
+
+        connection.on("error", error => {
+
+            console.error(
+                "Connection error:",
+                error
+            );
+
+        });
+
+    });
+
+
+    connection.on("data", data => {
+
+        handlePeerData(
+            connection,
+            data
+        );
+
+    });
+
+}
+
+
+function connectToPeer(peerId) {
+
+    if (!currentPeer) return;
+
+    if (
+        peerId === currentPeer.id
+    ) return;
+
+
+    if (
+        peerConnections[peerId]
+    ) return;
+
+
+    try {
+
+        const connection =
+            currentPeer.connect(
+                peerId,
+                {
+                    reliable: true
+                }
+            );
+
+
+        setupConnection(connection);
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   PEER DATA
+========================================================= */
+
+function handlePeerData(
+    connection,
+    data
+) {
+
+    if (!data || !data.type)
+        return;
+
+
+    if (data.type === "hello") {
+
+        connectedUsers[
+            connection.peer
+        ] = {
+
+            username:
+                data.username ||
+                "Unknown",
+
+            peerId:
+                connection.peer
+
+        };
+
+
+        updateUserList();
+
+
+        /*
+           Tell the new peer about our current
+           room connections.
+        */
+
+        if (
+            currentRoom &&
+            data.roomId === currentRoom.roomId
+        ) {
+
+            broadcastPeerList(
+                connection
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    if (data.type === "peer-list") {
+
+        if (
+            Array.isArray(data.peers)
+        ) {
+
+            data.peers.forEach(
+                peerId => {
+
+                    if (
+                        peerId !== currentPeer.id
+                    ) {
+
+                        connectToPeer(
+                            peerId
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    if (data.type === "message") {
+
+        if (
+            data.roomId !==
+            currentRoom?.roomId
+        ) {
+
+            return;
+
+        }
+
+
+        addMessage(
+            data.username || "Unknown",
+            data.message,
+            data.time,
+            false
+        );
+
+
+        return;
+
+    }
+
+}
+
+
+/* =========================================================
+   PEER LIST
+========================================================= */
+
+function broadcastPeerList(excludeConnection = null) {
+
+    const peers =
+        Object.keys(peerConnections);
+
+
+    Object.values(peerConnections)
+        .forEach(connection => {
+
+            if (
+                connection !==
+                excludeConnection &&
+                connection.open
+            ) {
+
+                try {
+
+                    connection.send({
+
+                        type: "peer-list",
+
+                        peers: peers
+
+                    });
+
+                } catch {}
+
+            }
+
+        });
+
+}
+
+
+/* =========================================================
+   ROOM SELECTION
+========================================================= */
+
+function selectRoom(roomKey) {
+
+    if (!currentUser) {
+
+        openAuth();
+
+        return;
+
+    }
+
+
+    const official =
+        MAIN_ROOMS[roomKey];
+
+
+    const privateRoom =
+        privateRooms.find(
+            room => room.key === roomKey
+        );
+
+
+    if (
+        !official &&
+        !privateRoom
+    ) {
+
+        return;
+
+    }
+
+
+    const room =
+        official || privateRoom;
+
+
+    currentRoom = room;
+
+
+    document
+        .querySelectorAll(".room")
+        .forEach(element => {
+
+            element.classList.toggle(
+                "active",
+                element.dataset.room === roomKey
+            );
+
+        });
+
+
+    chatRoomName.textContent =
+        room.name;
+
+
+    chatRoomId.textContent =
+        "Room ID: " + room.roomId;
+
+
+    rightRoomId.textContent =
+        room.roomId;
+
+
+    clearMessages();
+
+
+    addSystemMessage(
+        `You joined ${room.name}.`
+    );
+
+
+    /*
+       Official rooms use their permanent
+       PeerJS host ID.
+
+       Private rooms use the creator's
+       PeerJS host ID.
+    */
+
+    const hostId =
+        room.hostId;
+
+
+    if (hostId) {
+
+        connectToPeer(hostId);
+
+    }
+
+
+    /*
+       If we're the host of a private room,
+       keep accepting connections naturally.
+    */
+
+    updateUserList();
+
+}
+
+
+/* =========================================================
+   PRIVATE ROOMS
+========================================================= */
+
+function generatePrivateRoomId() {
+
+    return String(
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        )
+    );
+
+}
+
+
+function createPrivateRoom() {
+
+    if (!currentUser) {
+
+        openAuth();
+
+        return;
+
+    }
+
+
+    const input =
+        document.getElementById(
+            "privateRoomName"
+        );
+
+
+    let name =
+        input.value.trim();
+
+
+    if (!name) {
+
+        name = "Private Room";
+
+    }
+
+
+    const roomId =
+        generatePrivateRoomId();
+
+
+    const key =
+        "private-" +
+        Date.now();
+
+
+    const room = {
+
+        key: key,
+
+        name: name,
+
+        roomId: roomId,
+
+        hostId:
+            currentPeer
+                ? currentPeer.id
+                : null,
+
+        owner:
+            currentUser
+
+    };
+
+
+    privateRooms.push(room);
+
+
+    localStorage.setItem(
+        "gamechat_private_rooms",
+        JSON.stringify(privateRooms)
+    );
+
+
+    input.value = "";
+
+
+    renderPrivateRooms();
+
+
+    selectRoom(key);
+
+
+    showToast(
+        `Private room created: ${roomId}`
+    );
+
+}
+
+
+function renderPrivateRooms() {
+
+    const container =
+        document.getElementById(
+            "privateRoomList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    privateRooms.forEach(room => {
+
+        const button =
+            document.createElement("button");
+
+
+        button.className =
+            "room private-room";
+
+
+        button.dataset.room =
+            room.key;
+
+
+        button.onclick = () =>
+            selectRoom(room.key);
+
+
+        button.innerHTML = `
+
+            <div class="room-icon">🔒</div>
+
+            <div class="room-info">
+
+                <div class="room-name">
+                    ${escapeHTML(room.name)}
+                </div>
+
+                <div class="room-id">
+                    ${room.roomId}
+                </div>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(button);
+
+    });
+
+}
+
+
 /* =========================================================
    CHAT
-   ========================================================= */
-function addMessage(
-  who,
-  text,
-  isMe
-){
-  const msgDiv =
-    document.createElement("div");
-  msgDiv.className =
-    "msg " +
-    (isMe ? "me" : "");
-  const whoDiv =
-    document.createElement("div");
-  whoDiv.className =
-    "who";
-  whoDiv.textContent =
-    who;
-  const textDiv =
-    document.createElement("div");
-  textDiv.className =
-    "text";
-  textDiv.textContent =
-    text;
-  msgDiv.appendChild(
-    whoDiv
-  );
-  msgDiv.appendChild(
-    textDiv
-  );
-  messagesDiv.appendChild(
-    msgDiv
-  );
-  messagesDiv.scrollTop =
-    messagesDiv.scrollHeight;
+========================================================= */
+
+function sendMessage() {
+
+    if (!currentUser) {
+
+        openAuth();
+
+        return;
+
+    }
+
+
+    if (!currentRoom) {
+
+        return;
+
+    }
+
+
+    const message =
+        messageInput.value.trim();
+
+
+    if (!message) {
+
+        return;
+
+    }
+
+
+    const payload = {
+
+        type: "message",
+
+        roomId:
+            currentRoom.roomId,
+
+        username:
+            currentUser,
+
+        message:
+            message,
+
+        time:
+            Date.now()
+
+    };
+
+
+    addMessage(
+        currentUser,
+        message,
+        payload.time,
+        true
+    );
+
+
+    Object.values(peerConnections)
+        .forEach(connection => {
+
+            if (
+                connection.open
+            ) {
+
+                try {
+
+                    connection.send(
+                        payload
+                    );
+
+                } catch {}
+
+            }
+
+        });
+
+
+    messageInput.value = "";
+
 }
-function addSystemMessage(text){
-  const msgDiv =
-    document.createElement("div");
-  msgDiv.className =
-    "msg system";
-  msgDiv.textContent =
-    text;
-  messagesDiv.appendChild(
-    msgDiv
-  );
-  messagesDiv.scrollTop =
-    messagesDiv.scrollHeight;
-}
-/* Send */
-function sendMessage(){
-  const text =
-    messageInput.value.trim();
-  if(!text)
-    return;
-  addMessage(
-    currentUser,
-    text,
-    true
-  );
-  messageInput.value = "";
-  const packet = {
-    type:"chat",
-    room:currentRoom,
-    username:currentUser,
-    message:text
-  };
-  /*
-    Room host broadcasts.
-  */
-  if(isRoomHost){
-    broadcast(packet);
-    return;
-  }
-  /*
-    Normal room user sends to
-    the room host.
-  */
-  if(roomHost){
-    const conn =
-      peer.connect(
-        roomHost,
-        {
-          reliable:true
-        }
-      );
-    setupConnection(conn);
-    conn.on("open", () => {
-      conn.send(packet);
-    });
-  }
-}
-sendBtn.addEventListener(
-  "click",
-  sendMessage
-);
+
+
 messageInput.addEventListener(
-  "keydown",
-  e => {
-    if(e.key === "Enter"){
-      e.preventDefault();
-      sendMessage();
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
     }
-  }
 );
-/* =========================================================
-   COPY BUTTONS
-   ========================================================= */
-document
-  .getElementById("copyCode")
-  .addEventListener(
-    "click",
-    async () => {
-      if(
-        peer &&
-        peer.id
-      ){
-        await navigator.clipboard.writeText(
-          peer.id
+
+
+function addMessage(
+    username,
+    message,
+    time,
+    ownMessage
+) {
+
+    const wrapper =
+        document.createElement("div");
+
+
+    wrapper.className =
+        "message";
+
+
+    const initial =
+        username
+            .charAt(0)
+            .toUpperCase();
+
+
+    const date =
+        new Date(time || Date.now());
+
+
+    const timestamp =
+        date.toLocaleTimeString(
+            [],
+            {
+                hour: "numeric",
+                minute: "2-digit"
+            }
         );
-        alert(
-          "Peer ID copied!"
-        );
-      }
-    }
-  );
-document
-  .getElementById("copyRoomCode")
-  .addEventListener(
-    "click",
-    async () => {
-      const code =
-        createdRoomCode.textContent;
-      if(code){
-        await navigator.clipboard.writeText(
-          code
-        );
-        alert(
-          "Room code copied!"
-        );
-      }
-    }
-  );
-/* =========================================================
-   LOGOUT
-   ========================================================= */
-document
-  .getElementById("logoutBtn")
-  .addEventListener(
-    "click",
-    logout
-  );
-/* =========================================================
-   STARTUP
-   ========================================================= */
-if(currentUser){
-  authModal.classList.add(
-    "hidden"
-  );
-  initializeUser();
-}else{
-  authModal.classList.remove(
-    "hidden"
-  );
-  setAuthMode(
-    "signup"
-  );
+
+
+    wrapper.innerHTML = `
+
+        <div class="message-avatar">
+            ${escapeHTML(initial)}
+        </div>
+
+        <div>
+
+            <div class="message-author">
+
+                ${escapeHTML(username)}
+
+                <span class="message-time">
+                    ${timestamp}
+                </span>
+
+            </div>
+
+            <div class="message-content">
+                ${escapeHTML(message)}
+            </div>
+
+        </div>
+
+    `;
+
+
+    chatMessages.appendChild(
+        wrapper
+    );
+
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+
 }
+
+
+function addSystemMessage(text) {
+
+    const element =
+        document.createElement("div");
+
+
+    element.className =
+        "system-message";
+
+
+    element.textContent =
+        text;
+
+
+    chatMessages.appendChild(
+        element
+    );
+
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+
+}
+
+
+function clearMessages() {
+
+    chatMessages.innerHTML = "";
+
+}
+
+
+/* =========================================================
+   USER LIST
+========================================================= */
+
+function updateUserList() {
+
+    userList.innerHTML = "";
+
+
+    const ownRow =
+        document.createElement("div");
+
+
+    ownRow.className =
+        "user-row";
+
+
+    ownRow.innerHTML = `
+
+        <div class="user-dot"></div>
+
+        <span>
+            ${escapeHTML(currentUser || "Guest")}
+            <small style="color:#777;">
+                (you)
+            </small>
+        </span>
+
+    `;
+
+
+    userList.appendChild(
+        ownRow
+    );
+
+
+    Object.values(connectedUsers)
+        .forEach(user => {
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "user-row";
+
+
+            row.innerHTML = `
+
+                <div class="user-dot"></div>
+
+                <span>
+                    ${escapeHTML(
+                        user.username
+                    )}
+                </span>
+
+            `;
+
+
+            userList.appendChild(row);
+
+        });
+
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyRoomId() {
+
+    if (!currentRoom)
+        return;
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            currentRoom.roomId
+        );
+
+
+        showToast(
+            "Room ID copied!"
+        );
+
+    } catch {
+
+        showToast(
+            "Could not copy Room ID."
+        );
+
+    }
+
+}
+
+
+async function copyPeerId() {
+
+    if (
+        !currentPeer ||
+        !currentPeer.id
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            currentPeer.id
+        );
+
+
+        showToast(
+            "Peer ID copied!"
+        );
+
+    } catch {
+
+        showToast(
+            "Could not copy Peer ID."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GAMES
+========================================================= */
+
+function launchGame(gameName) {
+
+    showToast(
+        `${gameName} launcher coming soon!`
+    );
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function randomString(length) {
+
+    const chars =
+        "abcdefghijklmnopqrstuvwxyz0123456789";
+
+
+    let result = "";
+
+
+    for (
+        let i = 0;
+        i < length;
+        i++
+    ) {
+
+        result +=
+            chars.charAt(
+                Math.floor(
+                    Math.random() *
+                    chars.length
+                )
+            );
+
+    }
+
+
+    return result;
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+let toastTimer = null;
+
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+renderPrivateRooms();
+
+loadSession();
+
+updateUserList();
+
+
+/*
+   If nobody is signed in, show the
+   authentication screen after loading.
+*/
+
+if (!currentUser) {
+
+    setTimeout(() => {
+
+        openAuth();
+
+    }, 300);
+
+}
+
+
+/*
+   Clicking outside the modal does not
+   automatically close it. This prevents
+   accidental loss of an unfinished login.
+*/
+
 </script>
+
 </body>
 </html>
