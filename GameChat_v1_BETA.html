@@ -18,20 +18,39 @@
     --accent:#7c5cff;
     --accent2:#6847e8;
     --danger:#e45d6b;
+    --success:#62d68a;
 }
 
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+}
 
 body{
-    margin:0;
     background:var(--bg);
     color:var(--text);
     font-family:Arial,Helvetica,sans-serif;
     overflow:hidden;
 }
 
-button,input,textarea{font:inherit}
-button{cursor:pointer}
+button,
+input,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================
+   TOP BAR
+========================= */
 
 .topbar{
     height:64px;
@@ -49,11 +68,13 @@ button{cursor:pointer}
     white-space:nowrap;
 }
 
-.logo span{color:var(--accent)}
+.logo span{
+    color:var(--accent);
+}
 
 .nav{
     display:flex;
-    gap:8px;
+    gap:7px;
 }
 
 .nav button{
@@ -82,7 +103,13 @@ button{cursor:pointer}
     border-radius:10px;
 }
 
-.account-mini:hover{background:var(--panel2)}
+.account-mini:hover{
+    background:var(--panel2);
+}
+
+/* =========================
+   AVATARS
+========================= */
 
 .avatar{
     width:34px;
@@ -103,14 +130,22 @@ button{cursor:pointer}
     object-fit:cover;
 }
 
+/* =========================
+   VIEWS
+========================= */
+
 .view{
     display:none;
     height:calc(100vh - 64px);
 }
 
-.view.active{display:block}
+.view.active{
+    display:block;
+}
 
-/* GAMES */
+/* =========================
+   GAMES
+========================= */
 
 .games-page{
     padding:45px;
@@ -125,9 +160,11 @@ button{cursor:pointer}
     border:1px solid var(--border);
     border-radius:20px;
     background:
-        radial-gradient(circle at top right,
-        rgba(124,92,255,.25),
-        transparent 40%),
+        radial-gradient(
+            circle at top right,
+            rgba(124,92,255,.25),
+            transparent 40%
+        ),
         var(--panel);
     text-align:center;
 }
@@ -146,7 +183,8 @@ button{cursor:pointer}
     max-width:1000px;
     margin:auto;
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
     gap:18px;
 }
 
@@ -158,11 +196,17 @@ button{cursor:pointer}
     min-height:180px;
 }
 
-.game-icon{font-size:42px}
+.game-icon{
+    font-size:42px;
+}
 
-.game-card h3{margin-bottom:7px}
+.game-card h3{
+    margin-bottom:7px;
+}
 
-.game-card p{color:var(--muted)}
+.game-card p{
+    color:var(--muted);
+}
 
 .game-status{
     display:inline-block;
@@ -174,7 +218,9 @@ button{cursor:pointer}
     font-weight:bold;
 }
 
-/* CHAT */
+/* =========================
+   CHAT LAYOUT
+========================= */
 
 .chat-layout{
     height:100%;
@@ -231,7 +277,9 @@ button{cursor:pointer}
     border-radius:9px;
 }
 
-.private-button:hover{background:#202531}
+.private-button:hover{
+    background:#202531;
+}
 
 .create-private{
     display:flex;
@@ -260,7 +308,9 @@ button{cursor:pointer}
     font-size:20px;
 }
 
-/* CHAT CENTER */
+/* =========================
+   CHAT
+========================= */
 
 .chat-center{
     min-width:0;
@@ -276,12 +326,24 @@ button{cursor:pointer}
     padding:0 20px;
 }
 
-.chat-header strong{font-size:17px}
+.chat-header strong{
+    font-size:17px;
+}
 
 .chat-header span{
     color:var(--muted);
     margin-left:10px;
     font-size:12px;
+}
+
+.room-status{
+    font-size:11px;
+    margin-left:auto !important;
+    color:var(--success) !important;
+}
+
+.room-status.offline{
+    color:#e78b95 !important;
 }
 
 .messages{
@@ -334,7 +396,9 @@ button{cursor:pointer}
     flex-wrap:wrap;
 }
 
-.message-username{font-weight:700}
+.message-username{
+    font-weight:700;
+}
 
 .message-tag{
     color:#9d8cff;
@@ -359,9 +423,9 @@ button{cursor:pointer}
     line-height:1.4;
 }
 
-.message.mine .message-username{color:#b9aaff}
-
-/* INPUT */
+/* =========================
+   CHAT INPUT
+========================= */
 
 .chat-input-area{
     padding:14px;
@@ -383,7 +447,9 @@ button{cursor:pointer}
     outline:none;
 }
 
-.chat-input:focus{border-color:var(--accent)}
+.chat-input:focus{
+    border-color:var(--accent);
+}
 
 .send-button{
     border:0;
@@ -394,9 +460,13 @@ button{cursor:pointer}
     font-weight:bold;
 }
 
-.send-button:hover{background:var(--accent2)}
+.send-button:hover{
+    background:var(--accent2);
+}
 
-/* INFO */
+/* =========================
+   INFO PANEL
+========================= */
 
 .info-panel{
     background:#0d1016;
@@ -405,7 +475,9 @@ button{cursor:pointer}
     overflow-y:auto;
 }
 
-.info-section{margin-bottom:24px}
+.info-section{
+    margin-bottom:24px;
+}
 
 .info-label{
     color:var(--muted);
@@ -447,7 +519,9 @@ button{cursor:pointer}
     font-size:12px;
 }
 
-.user-details{min-width:0}
+.user-details{
+    min-width:0;
+}
 
 .user-name{
     font-size:13px;
@@ -461,7 +535,9 @@ button{cursor:pointer}
     font-weight:bold;
 }
 
-/* MODALS */
+/* =========================
+   MODALS
+========================= */
 
 .modal-overlay{
     position:fixed;
@@ -474,7 +550,9 @@ button{cursor:pointer}
     padding:20px;
 }
 
-.modal-overlay.hidden{display:none}
+.modal-overlay.hidden{
+    display:none;
+}
 
 .modal{
     width:100%;
@@ -486,7 +564,9 @@ button{cursor:pointer}
     box-shadow:0 20px 70px rgba(0,0,0,.5);
 }
 
-.modal h2{margin-top:0}
+.modal h2{
+    margin-top:0;
+}
 
 .modal-subtitle{
     color:var(--muted);
@@ -495,7 +575,9 @@ button{cursor:pointer}
     margin-bottom:20px;
 }
 
-.form-group{margin-bottom:15px}
+.form-group{
+    margin-bottom:15px;
+}
 
 .form-group label{
     display:block;
@@ -583,11 +665,17 @@ button{cursor:pointer}
     font-size:13px;
 }
 
-#pfpInput{display:none}
+#pfpInput{
+    display:none;
+}
 
-/* AUTH */
+/* =========================
+   AUTH
+========================= */
 
-.auth-modal{max-width:400px}
+.auth-modal{
+    max-width:400px;
+}
 
 .auth-tabs{
     display:flex;
@@ -619,15 +707,9 @@ button{cursor:pointer}
     margin-top:7px;
 }
 
-.room-status{
-    font-size:11px;
-    margin-left:auto;
-    color:#79d99b;
-}
-
-.room-status.offline{color:#e78b95}
-
-/* TOAST */
+/* =========================
+   TOAST
+========================= */
 
 .toast{
     position:fixed;
@@ -650,23 +732,31 @@ button{cursor:pointer}
     transform:translateY(0);
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:900px){
+
     .chat-layout{
         grid-template-columns:200px 1fr;
     }
 
-    .info-panel{display:none}
+    .info-panel{
+        display:none;
+    }
 }
 
 @media(max-width:650px){
+
     .topbar{
         gap:8px;
         padding:0 10px;
     }
 
-    .logo{font-size:16px}
+    .logo{
+        font-size:16px;
+    }
 
     .nav button{
         padding:8px;
@@ -677,14 +767,26 @@ button{cursor:pointer}
         grid-template-columns:1fr;
     }
 
-    .sidebar{display:none}
+    .sidebar{
+        display:none;
+    }
 
-    .games-page{padding:20px}
+    .games-page{
+        padding:20px;
+    }
+
+    .coming-soon h1{
+        font-size:30px;
+    }
 }
 </style>
 </head>
 
 <body>
+
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
 
 <header class="topbar">
 
@@ -693,31 +795,48 @@ button{cursor:pointer}
     </div>
 
     <nav class="nav">
-        <button id="gamesNav"
-                class="active"
-                onclick="showView('games')">
+
+        <button
+            id="gamesNav"
+            class="active"
+            onclick="showView('games')">
             🎮 Games
         </button>
 
-        <button id="chatNav"
-                onclick="showView('chat')">
+        <button
+            id="chatNav"
+            onclick="showView('chat')">
             💬 Chat
         </button>
+
     </nav>
 
-    <button class="account-mini"
-            onclick="openSettings()">
+    <button
+        class="account-mini"
+        onclick="openSettings()">
 
-        <div id="miniAvatar" class="avatar">?</div>
+        <div
+            id="miniAvatar"
+            class="avatar">
+            ?
+        </div>
 
-        <span id="miniUsername">Guest</span>
+        <span id="miniUsername">
+            Guest
+        </span>
 
     </button>
 
 </header>
 
 
-<section id="gamesView" class="view active">
+<!-- =====================================================
+     GAMES
+===================================================== -->
+
+<section
+    id="gamesView"
+    class="view active">
 
     <div class="games-page">
 
@@ -735,30 +854,65 @@ button{cursor:pointer}
         <div class="game-grid">
 
             <div class="game-card">
-                <div class="game-icon">🐍</div>
-                <h3>Snake 3D</h3>
-                <p>A modern 3D Snake game.</p>
+
+                <div class="game-icon">
+                    🐍
+                </div>
+
+                <h3>
+                    Snake 3D
+                </h3>
+
+                <p>
+                    A modern 3D Snake game.
+                </p>
+
                 <span class="game-status">
                     COMING SOON
                 </span>
+
             </div>
 
-            <div class="game-card">
-                <div class="game-icon">🏎️</div>
-                <h3>Rush Racing</h3>
-                <p>Race against other players.</p>
-                <span class="game-status">
-                    COMING SOON
-                </span>
-            </div>
 
             <div class="game-card">
-                <div class="game-icon">🔢</div>
-                <h3>2048</h3>
-                <p>Combine tiles and reach 2048.</p>
+
+                <div class="game-icon">
+                    🏎️
+                </div>
+
+                <h3>
+                    Rush Racing
+                </h3>
+
+                <p>
+                    Race against other players.
+                </p>
+
                 <span class="game-status">
                     COMING SOON
                 </span>
+
+            </div>
+
+
+            <div class="game-card">
+
+                <div class="game-icon">
+                    🔢
+                </div>
+
+                <h3>
+                    2048
+                </h3>
+
+                <p>
+                    Combine tiles and reach 2048.
+                </p>
+
+                <span class="game-status">
+                    COMING SOON
+                </span>
+
             </div>
 
         </div>
@@ -768,462 +922,557 @@ button{cursor:pointer}
 </section>
 
 
-<section id="chatView" class="view">
+<!-- =====================================================
+     CHAT
+===================================================== -->
 
-<div class="chat-layout">
+<section
+    id="chatView"
+    class="view">
 
-<aside class="sidebar">
+    <div class="chat-layout">
 
-    <div class="sidebar-title">
-        Official Rooms
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-title">
+                Official Rooms
+            </div>
+
+
+            <button
+                class="room"
+                id="room-general"
+                onclick="selectRoom('general')">
+
+                💬 General
+
+                <span class="room-id">
+                    111111
+                </span>
+
+            </button>
+
+
+            <button
+                class="room"
+                id="room-general2"
+                onclick="selectRoom('general2')">
+
+                💬 General 2
+
+                <span class="room-id">
+                    000000
+                </span>
+
+            </button>
+
+
+            <button
+                class="room"
+                id="room-offtopic"
+                onclick="selectRoom('offtopic')">
+
+                💬 Off-Topic
+
+                <span class="room-id">
+                    999999
+                </span>
+
+            </button>
+
+
+            <div
+                class="sidebar-title"
+                style="margin-top:25px">
+
+                Private Rooms
+
+            </div>
+
+
+            <div id="privateRoomList"></div>
+
+
+            <div class="create-private">
+
+                <input
+                    id="privateRoomName"
+                    class="small-input"
+                    maxlength="30"
+                    placeholder="Room name">
+
+                <button
+                    class="icon-button"
+                    onclick="createPrivateRoom()">
+                    +
+                </button>
+
+            </div>
+
+
+            <button
+                class="private-button"
+                onclick="openJoinPrivateModal()">
+
+                🔒 Join Private Room
+
+            </button>
+
+        </aside>
+
+
+        <!-- CHAT CENTER -->
+
+        <main class="chat-center">
+
+            <div class="chat-header">
+
+                <strong id="chatRoomName">
+                    General
+                </strong>
+
+                <span id="chatRoomId">
+                    Room ID: 111111
+                </span>
+
+                <span
+                    id="roomStatus"
+                    class="room-status">
+                    ● Connecting
+                </span>
+
+            </div>
+
+
+            <div
+                id="messages"
+                class="messages">
+
+                <div class="empty-chat">
+                    No messages yet.
+                    Say hello! 👋
+                </div>
+
+            </div>
+
+
+            <div class="chat-input-area">
+
+                <div class="chat-input-box">
+
+                    <input
+                        id="chatInput"
+                        class="chat-input"
+                        maxlength="1000"
+                        placeholder="Send a message..."
+                        autocomplete="off">
+
+                    <button
+                        class="send-button"
+                        onclick="sendMessage()">
+                        Send
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+
+        <!-- INFO -->
+
+        <aside class="info-panel">
+
+            <div class="info-section">
+
+                <div class="info-label">
+                    Room ID
+                </div>
+
+                <div
+                    id="infoRoomId"
+                    class="info-value">
+                    111111
+                </div>
+
+                <button
+                    class="copy-button"
+                    onclick="copyRoomId()">
+                    Copy Room ID
+                </button>
+
+            </div>
+
+
+            <div class="info-section">
+
+                <div class="info-label">
+                    Room Host
+                </div>
+
+                <div
+                    id="hostPeerId"
+                    class="info-value">
+                    Waiting...
+                </div>
+
+            </div>
+
+
+            <div class="info-section">
+
+                <div class="info-label">
+                    Your Peer ID
+                </div>
+
+                <div
+                    id="peerIdDisplay"
+                    class="info-value">
+                    Connecting...
+                </div>
+
+                <button
+                    class="copy-button"
+                    onclick="copyPeerId()">
+                    Copy Peer ID
+                </button>
+
+            </div>
+
+
+            <div class="info-section">
+
+                <div class="info-label">
+                    Users In This Room
+                </div>
+
+                <div id="userList"></div>
+
+            </div>
+
+
+            <div class="info-section">
+
+                <div class="info-label">
+                    Account
+                </div>
+
+                <div
+                    id="accountInfo"
+                    class="info-value">
+                    Not signed in
+                </div>
+
+            </div>
+
+        </aside>
+
     </div>
 
-    <button class="room"
-            id="room-general"
-            onclick="selectRoom('general')">
-
-        💬 General
-        <span class="room-id">111111</span>
-
-    </button>
-
-    <button class="room"
-            id="room-general2"
-            onclick="selectRoom('general2')">
-
-        💬 General 2
-        <span class="room-id">000000</span>
-
-    </button>
-
-    <button class="room"
-            id="room-offtopic"
-            onclick="selectRoom('offtopic')">
-
-        💬 Off-Topic
-        <span class="room-id">999999</span>
-
-    </button>
+</section>
 
 
-    <div class="sidebar-title"
-         style="margin-top:25px">
-        Private Rooms
-    </div>
+<!-- =====================================================
+     SIGN IN / SIGN UP
+===================================================== -->
 
-    <div id="privateRoomList"></div>
+<div
+    id="authOverlay"
+    class="modal-overlay">
 
+    <div class="modal auth-modal">
 
-    <div class="create-private">
+        <h2>
+            Welcome to GameChat Hub
+        </h2>
 
-        <input id="privateRoomName"
-               class="small-input"
-               maxlength="30"
-               placeholder="Room name">
-
-        <button class="icon-button"
-                onclick="createPrivateRoom()">
-            +
-        </button>
-
-    </div>
+        <p class="modal-subtitle">
+            Sign in or create an account.
+        </p>
 
 
-    <button class="private-button"
-            onclick="openJoinPrivateModal()">
+        <div class="auth-tabs">
 
-        🔒 Join Private Room
+            <button
+                id="signInTab"
+                class="active"
+                onclick="setAuthMode('signin')">
+                Sign In
+            </button>
 
-    </button>
+            <button
+                id="signUpTab"
+                onclick="setAuthMode('signup')">
+                Create Account
+            </button>
 
-</aside>
-
-
-<main class="chat-center">
-
-    <div class="chat-header">
-
-        <strong id="chatRoomName">
-            General
-        </strong>
-
-        <span id="chatRoomId">
-            Room ID: 111111
-        </span>
-
-        <span id="roomStatus"
-              class="room-status">
-            ● Connected
-        </span>
-
-    </div>
-
-
-    <div id="messages"
-         class="messages">
-
-        <div class="empty-chat">
-            No messages yet. Say hello! 👋
         </div>
 
-    </div>
+
+        <div class="form-group">
+
+            <label>
+                Username
+            </label>
+
+            <input
+                id="authUsername"
+                maxlength="20"
+                autocomplete="username"
+                placeholder="Username">
+
+        </div>
 
 
-    <div class="chat-input-area">
+        <div class="form-group">
 
-        <div class="chat-input-box">
+            <label>
+                Password
+            </label>
 
-            <input id="chatInput"
-                   class="chat-input"
-                   maxlength="1000"
-                   placeholder="Send a message..."
-                   autocomplete="off">
+            <input
+                id="authPassword"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Password">
 
-            <button class="send-button"
-                    onclick="sendMessage()">
-                Send
+        </div>
+
+
+        <div
+            id="authError"
+            class="auth-error">
+        </div>
+
+
+        <div class="modal-buttons">
+
+            <button
+                class="save-button"
+                onclick="submitAuth()">
+                Continue
             </button>
 
         </div>
 
     </div>
 
-</main>
-
-
-<aside class="info-panel">
-
-    <div class="info-section">
-
-        <div class="info-label">
-            Room ID
-        </div>
-
-        <div id="infoRoomId"
-             class="info-value">
-            111111
-        </div>
-
-        <button class="copy-button"
-                onclick="copyRoomId()">
-            Copy Room ID
-        </button>
-
-    </div>
-
-
-    <div class="info-section">
-
-        <div class="info-label">
-            Room Host
-        </div>
-
-        <div id="hostPeerId"
-             class="info-value">
-            Waiting...
-        </div>
-
-    </div>
-
-
-    <div class="info-section">
-
-        <div class="info-label">
-            Your Peer ID
-        </div>
-
-        <div id="peerIdDisplay"
-             class="info-value">
-            Connecting...
-        </div>
-
-        <button class="copy-button"
-                onclick="copyPeerId()">
-            Copy Peer ID
-        </button>
-
-    </div>
-
-
-    <div class="info-section">
-
-        <div class="info-label">
-            Users In This Room
-        </div>
-
-        <div id="userList"></div>
-
-    </div>
-
-
-    <div class="info-section">
-
-        <div class="info-label">
-            Account
-        </div>
-
-        <div id="accountInfo"
-             class="info-value">
-            Not signed in
-        </div>
-
-    </div>
-
-</aside>
-
-</div>
-</section>
-
-
-<!-- AUTH -->
-
-<div id="authOverlay"
-     class="modal-overlay">
-
-<div class="modal auth-modal">
-
-    <h2>Welcome to GameChat Hub</h2>
-
-    <p class="modal-subtitle">
-        Sign in or create an account.
-    </p>
-
-    <div class="auth-tabs">
-
-        <button id="signInTab"
-                class="active"
-                onclick="setAuthMode('signin')">
-            Sign In
-        </button>
-
-        <button id="signUpTab"
-                onclick="setAuthMode('signup')">
-            Create Account
-        </button>
-
-    </div>
-
-    <div class="form-group">
-
-        <label>Username</label>
-
-        <input id="authUsername"
-               maxlength="20"
-               autocomplete="username"
-               placeholder="Username">
-
-    </div>
-
-    <div class="form-group">
-
-        <label>Password</label>
-
-        <input id="authPassword"
-               type="password"
-               autocomplete="current-password"
-               placeholder="Password">
-
-    </div>
-
-    <div id="authError"
-         class="auth-error">
-    </div>
-
-    <div class="modal-buttons">
-
-        <button class="save-button"
-                onclick="submitAuth()">
-            Continue
-        </button>
-
-    </div>
-
-</div>
 </div>
 
 
-<!-- SETTINGS -->
+<!-- =====================================================
+     SETTINGS
+===================================================== -->
 
-<div id="settingsOverlay"
-     class="modal-overlay hidden">
+<div
+    id="settingsOverlay"
+    class="modal-overlay hidden">
 
-<div class="modal">
+    <div class="modal">
 
-    <h2>⚙️ Profile Settings</h2>
+        <h2>
+            ⚙️ Profile Settings
+        </h2>
 
-    <p class="modal-subtitle">
-        Customize your GameChat profile.
-    </p>
+        <p class="modal-subtitle">
+            Customize your GameChat profile.
+        </p>
 
 
-    <div class="profile-preview">
+        <div class="profile-preview">
 
-        <div id="settingsPfp"
-             class="settings-pfp">
-            ?
+            <div
+                id="settingsPfp"
+                class="settings-pfp">
+                ?
+            </div>
+
+            <div>
+
+                <label
+                    class="upload-label"
+                    for="pfpInput">
+
+                    Change Profile Picture
+
+                </label>
+
+                <input
+                    id="pfpInput"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif">
+
+            </div>
+
         </div>
 
-        <div>
 
-            <label class="upload-label"
-                   for="pfpInput">
-                Change Profile Picture
+        <div class="form-group">
+
+            <label>
+                Username
             </label>
 
-            <input id="pfpInput"
-                   type="file"
-                   accept="image/png,image/jpeg,image/webp,image/gif">
+            <input
+                id="settingsUsername"
+                maxlength="20"
+                placeholder="Username">
 
         </div>
 
-    </div>
 
+        <div class="form-group">
 
-    <div class="form-group">
+            <label>
+                Profile Tag
+            </label>
 
-        <label>Username</label>
+            <input
+                id="settingsTag"
+                maxlength="4"
+                placeholder="ABCD"
+                autocomplete="off">
 
-        <input id="settingsUsername"
-               maxlength="20"
-               placeholder="Username">
+            <div
+                style="
+                    color:#747d8d;
+                    font-size:11px;
+                    margin-top:6px;">
 
-    </div>
+                Maximum 4 letters.
+                Example: ABCD
 
+            </div>
 
-    <div class="form-group">
-
-        <label>Profile Tag</label>
-
-        <input id="settingsTag"
-               maxlength="4"
-               placeholder="ABCD"
-               autocomplete="off">
-
-        <div style="
-            color:#747d8d;
-            font-size:11px;
-            margin-top:6px;">
-            Maximum 4 letters. Example: ABCD
         </div>
 
-    </div>
+
+        <div class="form-group">
+
+            <label>
+                Pronouns
+            </label>
+
+            <input
+                id="settingsPronouns"
+                maxlength="30"
+                placeholder="e.g. they/them">
+
+        </div>
 
 
-    <div class="form-group">
+        <div class="form-group">
 
-        <label>Pronouns</label>
+            <label>
+                Description
+            </label>
 
-        <input id="settingsPronouns"
-               maxlength="30"
-               placeholder="e.g. they/them">
+            <textarea
+                id="settingsDescription"
+                maxlength="250"
+                placeholder="Tell people a little about yourself..."></textarea>
 
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Description</label>
-
-        <textarea id="settingsDescription"
-                  maxlength="250"
-                  placeholder="Tell people a little about yourself..."></textarea>
-
-    </div>
+        </div>
 
 
-    <div class="modal-buttons">
+        <div class="modal-buttons">
 
-        <button class="cancel-button"
+            <button
+                class="cancel-button"
                 onclick="closeSettings()">
-            Cancel
-        </button>
+                Cancel
+            </button>
 
-        <button class="save-button"
+            <button
+                class="save-button"
                 onclick="saveProfileSettings()">
-            Save Changes
-        </button>
+                Save Changes
+            </button>
+
+        </div>
 
     </div>
 
 </div>
-</div>
 
 
-<!-- JOIN -->
+<!-- =====================================================
+     JOIN PRIVATE ROOM
+===================================================== -->
 
-<div id="joinPrivateOverlay"
-     class="modal-overlay hidden">
+<div
+    id="joinPrivateOverlay"
+    class="modal-overlay hidden">
 
-<div class="modal">
+    <div class="modal">
 
-    <h2>🔒 Join Private Room</h2>
+        <h2>
+            🔒 Join Private Room
+        </h2>
 
-    <p class="modal-subtitle">
-        Enter the 6-digit private room code.
-    </p>
+        <p class="modal-subtitle">
+            Enter the 6-digit private room code.
+        </p>
 
-    <div class="form-group">
 
-        <label>Room Code</label>
+        <div class="form-group">
 
-        <input id="joinRoomCode"
-               inputmode="numeric"
-               maxlength="6"
-               placeholder="123456">
+            <label>
+                Room Code
+            </label>
 
-    </div>
+            <input
+                id="joinRoomCode"
+                inputmode="numeric"
+                maxlength="6"
+                placeholder="123456">
 
-    <div id="joinRoomError"
-         class="auth-error">
-    </div>
+        </div>
 
-    <div class="modal-buttons">
 
-        <button class="cancel-button"
+        <div
+            id="joinRoomError"
+            class="auth-error">
+        </div>
+
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel-button"
                 onclick="closeJoinPrivateModal()">
-            Cancel
-        </button>
+                Cancel
+            </button>
 
-        <button class="save-button"
+            <button
+                class="save-button"
                 onclick="joinPrivateRoom()">
-            Join Room
-        </button>
+                Join Room
+            </button>
+
+        </div>
 
     </div>
 
 </div>
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast">
 </div>
-
-
-<div id="toast"
-     class="toast"></div>
 
 
 <script>
 
 /* =========================================================
-   GAMECHAT HUB NETWORKING
-   ========================================================= */
-
-/*
-    IMPORTANT ARCHITECTURE
-
-    The visible room code is NOT a PeerJS ID.
-
-    Example:
-
-        General = 111111
-
-    Internally, whichever browser currently owns the room
-    has a normal PeerJS ID such as:
-
-        gc-host-x7k29abc
-
-    Other users connect to THAT ID.
-
-    The room code stays the public identifier.
-*/
-
+   GAMECHAT HUB
+========================================================= */
 
 const OFFICIAL_ROOMS = {
 
@@ -1246,7 +1495,8 @@ const OFFICIAL_ROOMS = {
 
 
 let currentUser = null;
-let currentRoom = null;
+
+let currentRoom = "general";
 
 let currentPeer = null;
 
@@ -1258,47 +1508,89 @@ let isRoomHost = false;
 
 let connectedUsers = {};
 
-let privateRooms =
-    JSON.parse(
-        localStorage.getItem(
-            "gamechat_private_rooms"
-        ) || "[]"
-    );
+let privateRooms = [];
 
 let pendingPfp = "";
 
 let currentAuthMode = "signin";
 
+let peerStarting = false;
+
 
 /* =========================================================
-   BASIC HELPERS
-   ========================================================= */
+   LOCAL STORAGE
+========================================================= */
 
-function showToast(text){
+function loadPrivateRooms(){
 
-    const toast =
-        document.getElementById("toast");
+    try{
 
-    toast.textContent = text;
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    "gamechat_private_rooms"
+                ) || "[]"
+            );
 
-    toast.classList.add("show");
+        privateRooms =
+            Array.isArray(saved)
+                ? saved
+                : [];
 
-    setTimeout(()=>{
-        toast.classList.remove("show");
-    },2500);
+    }catch{
+
+        privateRooms = [];
+
+    }
 
 }
 
 
-function escapeHTML(text){
+function savePrivateRooms(){
 
-    const div =
-        document.createElement("div");
+    localStorage.setItem(
+        "gamechat_private_rooms",
+        JSON.stringify(
+            privateRooms
+        )
+    );
 
-    div.textContent =
-        String(text ?? "");
+}
 
-    return div.innerHTML;
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    toast.textContent =
+        message;
+
+    toast.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        toast._timer
+    );
+
+    toast._timer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2500
+        );
 
 }
 
@@ -1318,18 +1610,33 @@ function getInitial(name){
 
 function getProfile(){
 
-    if(!currentUser) return null;
+    if(!currentUser)
+        return null;
 
-    const profiles =
-        JSON.parse(
-            localStorage.getItem(
-                "gamechat_profiles"
-            ) || "{}"
-        );
+
+    let profiles = {};
+
+    try{
+
+        profiles =
+            JSON.parse(
+                localStorage.getItem(
+                    "gamechat_profiles"
+                ) || "{}"
+            );
+
+    }catch{
+
+        profiles = {};
+
+    }
+
 
     const saved =
-        profiles[currentUser.toLowerCase()]
-        || {};
+        profiles[
+            currentUser.toLowerCase()
+        ] || {};
+
 
     return {
 
@@ -1360,9 +1667,6 @@ function getProfile(){
 
 function getCurrentRoomCode(){
 
-    if(!currentRoom)
-        return "";
-
     if(
         OFFICIAL_ROOMS[currentRoom]
     ){
@@ -1373,13 +1677,20 @@ function getCurrentRoomCode(){
 
     }
 
-    const room =
+
+    const privateRoom =
         privateRooms.find(
-            r =>
-                r.code === currentRoom
+            room =>
+                room.code ===
+                currentRoom
         );
 
-    return room?.code || "";
+
+    return (
+        privateRoom?.code ||
+        currentRoom ||
+        ""
+    );
 
 }
 
@@ -1396,22 +1707,25 @@ function getCurrentRoomName(){
 
     }
 
-    const room =
+
+    const privateRoom =
         privateRooms.find(
-            r =>
-                r.code === currentRoom
+            room =>
+                room.code ===
+                currentRoom
         );
 
-    return room
-        ? "🔒 " + room.name
-        : "Unknown Room";
+
+    return privateRoom
+        ? "🔒 " + privateRoom.name
+        : "🔒 Private Room";
 
 }
 
 
 /* =========================================================
-   VIEWS
-   ========================================================= */
+   VIEW SWITCHING
+========================================================= */
 
 function showView(view){
 
@@ -1447,12 +1761,117 @@ function showView(view){
 
 
 /* =========================================================
+   PASSWORD HASHING
+========================================================= */
+
+/*
+ * FIX:
+ *
+ * The old version depended entirely on crypto.subtle.
+ *
+ * crypto.subtle may be unavailable when this HTML
+ * is opened directly from file://.
+ *
+ * This version uses SHA-256 when available and has
+ * a local fallback for standalone HTML files.
+ */
+
+async function hashPassword(password){
+
+    /*
+     * Preferred:
+     * Web Crypto SHA-256.
+     */
+
+    if(
+        window.crypto &&
+        window.crypto.subtle
+    ){
+
+        try{
+
+            const data =
+                new TextEncoder()
+                    .encode(password);
+
+            const hash =
+                await window.crypto.subtle.digest(
+                    "SHA-256",
+                    data
+                );
+
+            return Array
+                .from(
+                    new Uint8Array(hash)
+                )
+                .map(
+                    byte =>
+                        byte
+                            .toString(16)
+                            .padStart(2,"0")
+                )
+                .join("");
+
+        }catch(error){
+
+            console.warn(
+                "Web Crypto failed; using local fallback.",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+     * Standalone-file fallback.
+     *
+     * This is intended for this local demo.
+     * A production authentication system should
+     * use a real server-side password system.
+     */
+
+    let hash = 2166136261;
+
+    for(
+        let i = 0;
+        i < password.length;
+        i++
+    ){
+
+        hash ^=
+            password.charCodeAt(i);
+
+        hash +=
+            (hash << 1) +
+            (hash << 4) +
+            (hash << 7) +
+            (hash << 8) +
+            (hash << 24);
+
+        hash >>>
+            = 0;
+
+    }
+
+    return (
+        "local-" +
+        hash.toString(16)
+    );
+
+}
+
+
+/* =========================================================
    AUTH
-   ========================================================= */
+========================================================= */
 
 function setAuthMode(mode){
 
-    currentAuthMode = mode;
+    currentAuthMode =
+        mode;
+
 
     document
         .getElementById("signInTab")
@@ -1461,12 +1880,14 @@ function setAuthMode(mode){
             mode === "signin"
         );
 
+
     document
         .getElementById("signUpTab")
         .classList.toggle(
             "active",
             mode === "signup"
         );
+
 
     document
         .getElementById("authError")
@@ -1475,27 +1896,64 @@ function setAuthMode(mode){
 }
 
 
-async function hashPassword(password){
+function getAccounts(){
 
-    const data =
-        new TextEncoder()
-            .encode(password);
+    try{
 
-    const hash =
-        await crypto.subtle.digest(
-            "SHA-256",
-            data
+        return JSON.parse(
+            localStorage.getItem(
+                "gamechat_accounts"
+            ) || "{}"
         );
 
-    return Array
-        .from(new Uint8Array(hash))
-        .map(
-            b =>
-                b
-                    .toString(16)
-                    .padStart(2,"0")
+    }catch{
+
+        return {};
+
+    }
+
+}
+
+
+function saveAccounts(accounts){
+
+    localStorage.setItem(
+        "gamechat_accounts",
+        JSON.stringify(
+            accounts
         )
-        .join("");
+    );
+
+}
+
+
+function getProfiles(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                "gamechat_profiles"
+            ) || "{}"
+        );
+
+    }catch{
+
+        return {};
+
+    }
+
+}
+
+
+function saveProfiles(profiles){
+
+    localStorage.setItem(
+        "gamechat_profiles",
+        JSON.stringify(
+            profiles
+        )
+    );
 
 }
 
@@ -1503,11 +1961,8 @@ async function hashPassword(password){
 function createDefaultProfile(username){
 
     const profiles =
-        JSON.parse(
-            localStorage.getItem(
-                "gamechat_profiles"
-            ) || "{}"
-        );
+        getProfiles();
+
 
     profiles[
         username.toLowerCase()
@@ -1525,9 +1980,9 @@ function createDefaultProfile(username){
 
     };
 
-    localStorage.setItem(
-        "gamechat_profiles",
-        JSON.stringify(profiles)
+
+    saveProfiles(
+        profiles
     );
 
 }
@@ -1537,19 +1992,28 @@ async function submitAuth(){
 
     const username =
         document
-            .getElementById("authUsername")
+            .getElementById(
+                "authUsername"
+            )
             .value
             .trim();
 
+
     const password =
         document
-            .getElementById("authPassword")
+            .getElementById(
+                "authPassword"
+            )
             .value;
+
 
     const error =
         document.getElementById(
             "authError"
         );
+
+
+    error.textContent = "";
 
 
     if(username.length < 2){
@@ -1558,15 +2022,31 @@ async function submitAuth(){
             "Username must be at least 2 characters.";
 
         return;
+
     }
 
 
     if(username.length > 20){
 
         error.textContent =
-            "Username is too long.";
+            "Username must be 20 characters or fewer.";
 
         return;
+
+    }
+
+
+    if(
+        !/^[a-zA-Z0-9_ -]+$/.test(
+            username
+        )
+    ){
+
+        error.textContent =
+            "Username contains invalid characters.";
+
+        return;
+
     }
 
 
@@ -1576,15 +2056,12 @@ async function submitAuth(){
             "Password must be at least 4 characters.";
 
         return;
+
     }
 
 
     const accounts =
-        JSON.parse(
-            localStorage.getItem(
-                "gamechat_accounts"
-            ) || "{}"
-        );
+        getAccounts();
 
 
     const key =
@@ -1592,11 +2069,16 @@ async function submitAuth(){
 
 
     const passwordHash =
-        await hashPassword(password);
+        await hashPassword(
+            password
+        );
 
+
+    /* SIGN UP */
 
     if(
-        currentAuthMode === "signup"
+        currentAuthMode ===
+        "signup"
     ){
 
         if(accounts[key]){
@@ -1605,6 +2087,7 @@ async function submitAuth(){
                 "That username already exists.";
 
             return;
+
         }
 
 
@@ -1617,35 +2100,84 @@ async function submitAuth(){
         };
 
 
-        localStorage.setItem(
-            "gamechat_accounts",
-            JSON.stringify(accounts)
+        saveAccounts(
+            accounts
         );
 
 
-        createDefaultProfile(username);
-
-    }else{
-
-        if(!accounts[key]){
-
-            error.textContent =
-                "Account not found.";
-
-            return;
-        }
+        createDefaultProfile(
+            username
+        );
 
 
-        if(
-            accounts[key].passwordHash !==
-            passwordHash
-        ){
+        currentUser =
+            username;
 
-            error.textContent =
-                "Incorrect password.";
 
-            return;
-        }
+        localStorage.setItem(
+            "gamechat_session",
+            currentUser
+        );
+
+
+        document
+            .getElementById(
+                "authUsername"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "authPassword"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "authOverlay"
+            )
+            .classList.add(
+                "hidden"
+            );
+
+
+        updateAccountUI();
+
+        showToast(
+            "Account created! 🎉"
+        );
+
+
+        startPeer();
+
+        return;
+
+    }
+
+
+    /* SIGN IN */
+
+    if(!accounts[key]){
+
+        error.textContent =
+            "Account not found.";
+
+        return;
+
+    }
+
+
+    if(
+        accounts[key].passwordHash !==
+        passwordHash
+    ){
+
+        error.textContent =
+            "Incorrect password.";
+
+        return;
 
     }
 
@@ -1661,30 +2193,50 @@ async function submitAuth(){
 
 
     document
-        .getElementById("authOverlay")
-        .classList.add("hidden");
+        .getElementById(
+            "authUsername"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "authPassword"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "authOverlay"
+        )
+        .classList.add(
+            "hidden"
+        );
 
 
     updateAccountUI();
-
-    startPeer();
 
     showToast(
         "Signed in as " +
         currentUser
     );
 
+
+    startPeer();
+
 }
 
 
 /* =========================================================
-   PROFILE
-   ========================================================= */
+   PROFILE UI
+========================================================= */
 
 function updateAccountUI(){
 
     const profile =
         getProfile();
+
 
     const avatar =
         document.getElementById(
@@ -1695,8 +2247,22 @@ function updateAccountUI(){
     if(profile?.pfp){
 
         avatar.innerHTML =
-            `<img src="${profile.pfp}"
-                  alt="Profile picture">`;
+            "";
+
+        const image =
+            document.createElement(
+                "img"
+            );
+
+        image.src =
+            profile.pfp;
+
+        image.alt =
+            "Profile picture";
+
+        avatar.appendChild(
+            image
+        );
 
     }else{
 
@@ -1709,17 +2275,24 @@ function updateAccountUI(){
 
 
     document
-        .getElementById("miniUsername")
+        .getElementById(
+            "miniUsername"
+        )
         .textContent =
         profile?.username ||
         "Guest";
 
 
     document
-        .getElementById("accountInfo")
+        .getElementById(
+            "accountInfo"
+        )
         .textContent =
         currentUser ||
         "Not signed in";
+
+
+    updateUserList();
 
 }
 
@@ -1729,8 +2302,12 @@ function openSettings(){
     if(!currentUser){
 
         document
-            .getElementById("authOverlay")
-            .classList.remove("hidden");
+            .getElementById(
+                "authOverlay"
+            )
+            .classList.remove(
+                "hidden"
+            );
 
         return;
 
@@ -1742,25 +2319,33 @@ function openSettings(){
 
 
     document
-        .getElementById("settingsUsername")
+        .getElementById(
+            "settingsUsername"
+        )
         .value =
         profile.username;
 
 
     document
-        .getElementById("settingsTag")
+        .getElementById(
+            "settingsTag"
+        )
         .value =
         profile.tag;
 
 
     document
-        .getElementById("settingsPronouns")
+        .getElementById(
+            "settingsPronouns"
+        )
         .value =
         profile.pronouns;
 
 
     document
-        .getElementById("settingsDescription")
+        .getElementById(
+            "settingsDescription"
+        )
         .value =
         profile.description;
 
@@ -1773,8 +2358,12 @@ function openSettings(){
 
 
     document
-        .getElementById("settingsOverlay")
-        .classList.remove("hidden");
+        .getElementById(
+            "settingsOverlay"
+        )
+        .classList.remove(
+            "hidden"
+        );
 
 }
 
@@ -1782,10 +2371,12 @@ function openSettings(){
 function closeSettings(){
 
     document
-        .getElementById("settingsOverlay")
-        .classList.add("hidden");
-
-    pendingPfp = "";
+        .getElementById(
+            "settingsOverlay"
+        )
+        .classList.add(
+            "hidden"
+        );
 
 }
 
@@ -1797,6 +2388,7 @@ function updateSettingsPreview(){
             "settingsPfp"
         );
 
+
     const username =
         document
             .getElementById(
@@ -1806,16 +2398,32 @@ function updateSettingsPreview(){
         currentUser;
 
 
+    preview.innerHTML = "";
+
+
     if(pendingPfp){
 
-        preview.innerHTML =
-            `<img src="${pendingPfp}"
-                  alt="Profile picture">`;
+        const image =
+            document.createElement(
+                "img"
+            );
+
+        image.src =
+            pendingPfp;
+
+        image.alt =
+            "Profile picture";
+
+        preview.appendChild(
+            image
+        );
 
     }else{
 
         preview.textContent =
-            getInitial(username);
+            getInitial(
+                username
+            );
 
     }
 
@@ -1823,7 +2431,9 @@ function updateSettingsPreview(){
 
 
 document
-    .getElementById("pfpInput")
+    .getElementById(
+        "pfpInput"
+    )
     .addEventListener(
         "change",
         event => {
@@ -1831,7 +2441,9 @@ document
             const file =
                 event.target.files[0];
 
-            if(!file) return;
+
+            if(!file)
+                return;
 
 
             if(
@@ -1843,9 +2455,11 @@ document
                     "Profile picture must be 2 MB or smaller."
                 );
 
-                event.target.value = "";
+                event.target.value =
+                    "";
 
                 return;
+
             }
 
 
@@ -1853,24 +2467,39 @@ document
                 new FileReader();
 
 
-            reader.onload = () => {
+            reader.onload =
+                () => {
 
-                pendingPfp =
-                    reader.result;
+                    pendingPfp =
+                        reader.result;
 
-                updateSettingsPreview();
+                    updateSettingsPreview();
 
-            };
+                };
 
 
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(
+                file
+            );
 
         }
     );
 
 
 document
-    .getElementById("settingsTag")
+    .getElementById(
+        "settingsUsername"
+    )
+    .addEventListener(
+        "input",
+        updateSettingsPreview
+    );
+
+
+document
+    .getElementById(
+        "settingsTag"
+    )
     .addEventListener(
         "input",
         event => {
@@ -1882,7 +2511,10 @@ document
                         ""
                     )
                     .toUpperCase()
-                    .slice(0,4);
+                    .slice(
+                        0,
+                        4
+                    );
 
         }
     );
@@ -1910,7 +2542,10 @@ async function saveProfileSettings(){
                 ""
             )
             .toUpperCase()
-            .slice(0,4);
+            .slice(
+                0,
+                4
+            );
 
 
     const pronouns =
@@ -1938,22 +2573,20 @@ async function saveProfileSettings(){
         );
 
         return;
+
     }
 
 
     const oldKey =
         currentUser.toLowerCase();
 
+
     const newKey =
         username.toLowerCase();
 
 
     const accounts =
-        JSON.parse(
-            localStorage.getItem(
-                "gamechat_accounts"
-            ) || "{}"
-        );
+        getAccounts();
 
 
     if(
@@ -1966,6 +2599,7 @@ async function saveProfileSettings(){
         );
 
         return;
+
     }
 
 
@@ -1980,23 +2614,20 @@ async function saveProfileSettings(){
         };
 
 
-        delete accounts[oldKey];
+        delete accounts[
+            oldKey
+        ];
 
 
-        localStorage.setItem(
-            "gamechat_accounts",
-            JSON.stringify(accounts)
+        saveAccounts(
+            accounts
         );
 
     }
 
 
     const profiles =
-        JSON.parse(
-            localStorage.getItem(
-                "gamechat_profiles"
-            ) || "{}"
-        );
+        getProfiles();
 
 
     const oldProfile =
@@ -2023,14 +2654,15 @@ async function saveProfileSettings(){
 
     if(newKey !== oldKey){
 
-        delete profiles[oldKey];
+        delete profiles[
+            oldKey
+        ];
 
     }
 
 
-    localStorage.setItem(
-        "gamechat_profiles",
-        JSON.stringify(profiles)
+    saveProfiles(
+        profiles
     );
 
 
@@ -2058,20 +2690,25 @@ async function saveProfileSettings(){
 
 
 /* =========================================================
-   PEERJS
-   ========================================================= */
+   PEER STATUS
+========================================================= */
 
-function setNetworkStatus(text,offline=false){
+function setNetworkStatus(
+    text,
+    offline=false
+){
 
-    const el =
+    const status =
         document.getElementById(
             "roomStatus"
         );
 
-    el.textContent =
+
+    status.textContent =
         text;
 
-    el.classList.toggle(
+
+    status.classList.toggle(
         "offline",
         offline
     );
@@ -2079,36 +2716,53 @@ function setNetworkStatus(text,offline=false){
 }
 
 
+/* =========================================================
+   PEERJS
+========================================================= */
+
 function startPeer(){
+
+    if(peerStarting)
+        return;
+
+
+    peerStarting = true;
+
 
     if(currentPeer){
 
         try{
+
             currentPeer.destroy();
+
         }catch{}
 
     }
 
 
+    peerConnections = {};
+
+    connectedUsers = {};
+
+    roomHostPeerId = null;
+
+    isRoomHost = false;
+
+
     /*
-     * Every browser gets a real PeerJS ID.
-     * Room codes are NOT used as PeerJS IDs.
+     * Let PeerJS generate a real unique ID.
      */
 
-    const id =
-        "gc-" +
-        Math.random()
-            .toString(36)
-            .slice(2,12);
-
-
     currentPeer =
-        new Peer(id);
+        new Peer();
 
 
     currentPeer.on(
         "open",
         peerId => {
+
+            peerStarting = false;
+
 
             document
                 .getElementById(
@@ -2123,12 +2777,7 @@ function startPeer(){
             );
 
 
-            if(!currentRoom){
-
-                currentRoom =
-                    "general";
-
-            }
+            updateUserList();
 
 
             enterRoom(
@@ -2183,15 +2832,43 @@ function startPeer(){
         error => {
 
             console.warn(
-                "PeerJS:",
+                "PeerJS error:",
                 error
             );
 
 
-            setNetworkStatus(
-                "● Network error",
-                true
-            );
+            if(
+                error.type ===
+                "browser-incompatible"
+            ){
+
+                setNetworkStatus(
+                    "● WebRTC unavailable",
+                    true
+                );
+
+                showToast(
+                    "This browser does not support the required networking features."
+                );
+
+            }else if(
+                error.type ===
+                "peer-unavailable"
+            ){
+
+                setNetworkStatus(
+                    "● Room host offline",
+                    true
+                );
+
+            }else{
+
+                setNetworkStatus(
+                    "● Network error",
+                    true
+                );
+
+            }
 
         }
     );
@@ -2200,15 +2877,16 @@ function startPeer(){
 
 
 /* =========================================================
-   CONNECTIONS
-   ========================================================= */
+   CONNECTION MANAGEMENT
+========================================================= */
 
-function setupConnection(connection){
+function setupConnection(
+    connection
+){
 
-    /*
-     * Don't overwrite a newer connection to
-     * the same peer unless this one is actually open.
-     */
+    if(!connection)
+        return;
+
 
     peerConnections[
         connection.peer
@@ -2257,11 +2935,6 @@ function setupConnection(connection){
             updateUserList();
 
 
-            /*
-             * If our host disappeared,
-             * attempt to recover the room.
-             */
-
             if(
                 connection.peer ===
                 roomHostPeerId
@@ -2270,9 +2943,31 @@ function setupConnection(connection){
                 roomHostPeerId =
                     null;
 
-                isRoomHost = false;
+                isRoomHost =
+                    false;
 
-                electOrFindHost();
+
+                setNetworkStatus(
+                    "● Host disconnected",
+                    true
+                );
+
+
+                setTimeout(
+                    () => {
+
+                        if(
+                            currentPeer &&
+                            currentPeer.open
+                        ){
+
+                            electOrFindHost();
+
+                        }
+
+                    },
+                    700
+                );
 
             }
 
@@ -2285,7 +2980,7 @@ function setupConnection(connection){
         error => {
 
             console.warn(
-                "Connection:",
+                "Data connection error:",
                 error
             );
 
@@ -2295,10 +2990,13 @@ function setupConnection(connection){
 }
 
 
-function connectToPeer(peerId){
+function connectToPeer(
+    peerId
+){
 
     if(
         !currentPeer ||
+        !currentPeer.open ||
         !peerId
     ){
 
@@ -2344,58 +3042,77 @@ function connectToPeer(peerId){
 
 /* =========================================================
    ROOM PROTOCOL
-   ========================================================= */
+========================================================= */
 
-function sendRoomHello(connection){
+function sendRoomHello(
+    connection
+){
 
     const profile =
         getProfile();
 
 
-    if(!profile) return;
+    if(!profile)
+        return;
 
 
-    connection.send({
+    try{
 
-        type:"room-hello",
+        connection.send({
 
-        roomCode:
-            getCurrentRoomCode(),
+            type:"room-hello",
 
-        peerId:
-            currentPeer.id,
+            roomCode:
+                getCurrentRoomCode(),
 
-        profile:{
+            peerId:
+                currentPeer.id,
 
-            username:
-                profile.username,
+            profile:{
 
-            tag:
-                profile.tag,
+                username:
+                    profile.username,
 
-            pronouns:
-                profile.pronouns,
+                tag:
+                    profile.tag,
 
-            description:
-                profile.description,
+                pronouns:
+                    profile.pronouns,
 
-            pfp:
-                profile.pfp
+                description:
+                    profile.description,
 
-        },
+                pfp:
+                    profile.pfp
 
-        isHost:
-            isRoomHost
+            },
 
-    });
+            isHost:
+                isRoomHost
+
+        });
+
+    }catch(error){
+
+        console.warn(
+            "Could not send room hello:",
+            error
+        );
+
+    }
 
 }
 
 
-function broadcast(data, exceptPeerId=null){
+function broadcast(
+    data,
+    exceptPeerId=null
+){
 
     Object
-        .values(peerConnections)
+        .values(
+            peerConnections
+        )
         .forEach(
             connection => {
 
@@ -2439,8 +3156,14 @@ function broadcastPresence(){
         getProfile();
 
 
-    if(!profile || !currentPeer)
+    if(
+        !profile ||
+        !currentPeer
+    ){
+
         return;
+
+    }
 
 
     broadcast({
@@ -2477,7 +3200,10 @@ function broadcastPresence(){
 }
 
 
-function handleData(connection,data){
+function handleData(
+    connection,
+    data
+){
 
     if(
         !data ||
@@ -2489,19 +3215,12 @@ function handleData(connection,data){
     }
 
 
-    /* -----------------------------------------
-       ROOM HELLO
-       ----------------------------------------- */
+    /* ROOM HELLO */
 
     if(
         data.type ===
         "room-hello"
     ){
-
-        /*
-         * If someone connected to us while
-         * we're in a different room, reject them.
-         */
 
         if(
             data.roomCode !==
@@ -2514,7 +3233,8 @@ function handleData(connection,data){
 
                     type:"room-reject",
 
-                    reason:"Wrong room"
+                    reason:
+                        "Wrong room"
 
                 });
 
@@ -2535,17 +3255,30 @@ function handleData(connection,data){
                 data.peerId,
 
             roomCode:
-                data.roomCode
+                data.roomCode,
+
+            isHost:
+                !!data.isHost
 
         };
 
+
+        if(data.isHost){
+
+            roomHostPeerId =
+                data.peerId;
+
+        }
+
+
+        updateHostUI();
 
         updateUserList();
 
 
         /*
-         * If we're the room host, tell the
-         * newcomer about everyone already here.
+         * Host sends complete room state
+         * to the newcomer.
          */
 
         if(isRoomHost){
@@ -2557,10 +3290,12 @@ function handleData(connection,data){
                     )
                     .map(
                         user => ({
+
                             peerId:
                                 user.peerId,
 
                             profile:{
+
                                 username:
                                     user.username,
 
@@ -2579,7 +3314,11 @@ function handleData(connection,data){
                             },
 
                             roomCode:
-                                user.roomCode
+                                user.roomCode,
+
+                            isHost:
+                                user.isHost
+
                         })
                     );
 
@@ -2610,9 +3349,7 @@ function handleData(connection,data){
     }
 
 
-    /* -----------------------------------------
-       ROOM STATE
-       ----------------------------------------- */
+    /* ROOM STATE */
 
     if(
         data.type ===
@@ -2636,6 +3373,9 @@ function handleData(connection,data){
         isRoomHost =
             roomHostPeerId ===
             currentPeer.id;
+
+
+        connectedUsers = {};
 
 
         if(
@@ -2662,7 +3402,10 @@ function handleData(connection,data){
                                 member.peerId,
 
                             roomCode:
-                                member.roomCode
+                                member.roomCode,
+
+                            isHost:
+                                !!member.isHost
 
                         };
 
@@ -2674,6 +3417,10 @@ function handleData(connection,data){
         }
 
 
+        setNetworkStatus(
+            "● Connected"
+        );
+
         updateHostUI();
 
         updateUserList();
@@ -2683,9 +3430,7 @@ function handleData(connection,data){
     }
 
 
-    /* -----------------------------------------
-       PRESENCE
-       ----------------------------------------- */
+    /* PRESENCE */
 
     if(
         data.type ===
@@ -2712,7 +3457,11 @@ function handleData(connection,data){
                 data.peerId,
 
             roomCode:
-                data.roomCode
+                data.roomCode,
+
+            isHost:
+                data.peerId ===
+                roomHostPeerId
 
         };
 
@@ -2724,9 +3473,7 @@ function handleData(connection,data){
     }
 
 
-    /* -----------------------------------------
-       LEAVE
-       ----------------------------------------- */
+    /* LEAVE */
 
     if(
         data.type ===
@@ -2749,7 +3496,8 @@ function handleData(connection,data){
             roomHostPeerId =
                 null;
 
-            isRoomHost = false;
+            isRoomHost =
+                false;
 
             electOrFindHost();
 
@@ -2761,9 +3509,7 @@ function handleData(connection,data){
     }
 
 
-    /* -----------------------------------------
-       NEW HOST
-       ----------------------------------------- */
+    /* NEW HOST */
 
     if(
         data.type ===
@@ -2791,14 +3537,22 @@ function handleData(connection,data){
 
         updateHostUI();
 
+
+        if(!isRoomHost){
+
+            connectToPeer(
+                roomHostPeerId
+            );
+
+        }
+
+
         return;
 
     }
 
 
-    /* -----------------------------------------
-       CHAT
-       ----------------------------------------- */
+    /* CHAT */
 
     if(
         data.type ===
@@ -2822,9 +3576,8 @@ function handleData(connection,data){
 
 
         /*
-         * Relay through the room host.
-         * This lets users communicate even
-         * if they aren't directly connected.
+         * Host relays messages to everyone
+         * except the sender.
          */
 
         if(isRoomHost){
@@ -2842,9 +3595,7 @@ function handleData(connection,data){
     }
 
 
-    /* -----------------------------------------
-       ROOM REJECT
-       ----------------------------------------- */
+    /* REJECT */
 
     if(
         data.type ===
@@ -2861,8 +3612,34 @@ function handleData(connection,data){
 
 
 /* =========================================================
-   ROOM HOSTING
-   ========================================================= */
+   ROOM CONTROL
+========================================================= */
+
+function closeRoomConnections(){
+
+    Object
+        .values(
+            peerConnections
+        )
+        .forEach(
+            connection => {
+
+                try{
+
+                    connection.close();
+
+                }catch{}
+
+            }
+        );
+
+
+    peerConnections = {};
+
+    connectedUsers = {};
+
+}
+
 
 function enterRoom(
     roomKey,
@@ -2883,10 +3660,6 @@ function enterRoom(
 
     }
 
-
-    /*
-     * Leave old room.
-     */
 
     if(
         currentRoom &&
@@ -2912,47 +3685,38 @@ function enterRoom(
     }
 
 
-    /*
-     * Close old connections.
-     */
-
-    Object
-        .values(peerConnections)
-        .forEach(
-            connection => {
-
-                try{
-                    connection.close();
-                }catch{}
-
-            }
-        );
+    closeRoomConnections();
 
 
-    peerConnections = {};
+    roomHostPeerId =
+        null;
 
-    connectedUsers = {};
-
-    roomHostPeerId = null;
-
-    isRoomHost = false;
+    isRoomHost =
+        false;
 
 
     currentRoom =
         roomKey;
 
 
+    clearMessages();
+
     updateRoomUI();
+
+    setNetworkStatus(
+        "● Finding room..."
+    );
 
 
     /*
-     * Look for an existing known host.
+     * This browser starts as the host if nobody
+     * currently known is hosting the room.
+     *
+     * Existing clients can announce their host.
      */
 
     const knownHost =
-        findKnownHostForRoom(
-            getCurrentRoomCode()
-        );
+        findKnownHost();
 
 
     if(knownHost){
@@ -2971,9 +3735,8 @@ function enterRoom(
     }else{
 
         /*
-         * No known host exists.
-         *
-         * We become the first host.
+         * There is no known host, so this browser
+         * temporarily becomes the room host.
          */
 
         becomeRoomHost();
@@ -2986,12 +3749,7 @@ function enterRoom(
 }
 
 
-function findKnownHostForRoom(code){
-
-    /*
-     * Search current peer connections for
-     * a user that announced itself as host.
-     */
+function findKnownHost(){
 
     for(
         const user of
@@ -3001,9 +3759,12 @@ function findKnownHostForRoom(code){
     ){
 
         if(
-            user.roomCode === code &&
+            user.roomCode ===
+            getCurrentRoomCode() &&
             user.isHost &&
-            user.peerId
+            user.peerId &&
+            user.peerId !==
+            currentPeer.id
         ){
 
             return user.peerId;
@@ -3013,31 +3774,22 @@ function findKnownHostForRoom(code){
     }
 
 
-    /*
-     * Private room creator is a useful
-     * fallback when this browser knows it.
-     */
-
     const privateRoom =
         privateRooms.find(
             room =>
-                room.code === code
+                room.code ===
+                getCurrentRoomCode()
         );
 
 
     if(
         privateRoom &&
-        privateRoom.hostPeerId
+        privateRoom.hostPeerId &&
+        privateRoom.hostPeerId !==
+        currentPeer.id
     ){
 
-        if(
-            privateRoom.hostPeerId !==
-            currentPeer?.id
-        ){
-
-            return privateRoom.hostPeerId;
-
-        }
+        return privateRoom.hostPeerId;
 
     }
 
@@ -3049,23 +3801,30 @@ function findKnownHostForRoom(code){
 
 function becomeRoomHost(){
 
+    if(!currentPeer)
+        return;
+
+
     roomHostPeerId =
         currentPeer.id;
 
+
     isRoomHost = true;
+
+
+    setNetworkStatus(
+        "● Room host"
+    );
+
 
     updateHostUI();
 
-    /*
-     * For private rooms, remember who
-     * currently owns the room.
-     */
 
     const privateRoom =
         privateRooms.find(
             room =>
                 room.code ===
-                currentRoom
+                getCurrentRoomCode()
         );
 
 
@@ -3096,11 +3855,15 @@ function becomeRoomHost(){
 
 function electOrFindHost(){
 
-    /*
-     * If another connected user exists,
-     * deterministically choose the first
-     * peer ID so every client can agree.
-     */
+    if(
+        !currentPeer ||
+        !currentPeer.open
+    ){
+
+        return;
+
+    }
+
 
     const candidates =
         Object
@@ -3120,35 +3883,27 @@ function electOrFindHost(){
 
 
     candidates.push(
-        currentPeer?.id
+        currentPeer.id
     );
 
 
-    const valid =
-        candidates
-            .filter(Boolean)
-            .sort();
+    candidates.sort();
 
 
-    if(!valid.length){
+    const chosen =
+        candidates[0];
 
-        becomeRoomHost();
 
+    if(!chosen)
         return;
-
-    }
-
-
-    const newHost =
-        valid[0];
 
 
     roomHostPeerId =
-        newHost;
+        chosen;
 
 
     isRoomHost =
-        newHost ===
+        chosen ===
         currentPeer.id;
 
 
@@ -3157,9 +3912,10 @@ function electOrFindHost(){
 
     if(isRoomHost){
 
-        /*
-         * Announce the new host.
-         */
+        setNetworkStatus(
+            "● Room host"
+        );
+
 
         broadcast({
 
@@ -3175,8 +3931,13 @@ function electOrFindHost(){
 
     }else{
 
+        setNetworkStatus(
+            "● Reconnecting..."
+        );
+
+
         connectToPeer(
-            newHost
+            chosen
         );
 
     }
@@ -3186,12 +3947,14 @@ function electOrFindHost(){
 
 /* =========================================================
    ROOM UI
-   ========================================================= */
+========================================================= */
 
 function updateRoomUI(){
 
     document
-        .querySelectorAll(".room")
+        .querySelectorAll(
+            ".room"
+        )
         .forEach(
             button =>
                 button.classList.remove(
@@ -3200,32 +3963,16 @@ function updateRoomUI(){
         );
 
 
-    const officialButton =
+    const selected =
         document.getElementById(
             "room-" +
             currentRoom
         );
 
 
-    if(officialButton){
+    if(selected){
 
-        officialButton.classList.add(
-            "active"
-        );
-
-    }
-
-
-    const privateButton =
-        document.getElementById(
-            "room-" +
-            currentRoom
-        );
-
-
-    if(privateButton){
-
-        privateButton.classList.add(
+        selected.classList.add(
             "active"
         );
 
@@ -3280,21 +4027,20 @@ function selectRoom(roomKey){
     if(
         !OFFICIAL_ROOMS[roomKey] &&
         !privateRooms.some(
-            r =>
-                r.code === roomKey
+            room =>
+                room.code ===
+                roomKey
         )
     ){
 
         showToast(
-            "That room no longer exists."
+            "That room isn't saved on this device."
         );
 
         return;
 
     }
 
-
-    clearMessages();
 
     enterRoom(
         roomKey
@@ -3305,19 +4051,7 @@ function selectRoom(roomKey){
 
 /* =========================================================
    PRIVATE ROOMS
-   ========================================================= */
-
-function savePrivateRooms(){
-
-    localStorage.setItem(
-        "gamechat_private_rooms",
-        JSON.stringify(
-            privateRooms
-        )
-    );
-
-}
-
+========================================================= */
 
 function createPrivateRoom(){
 
@@ -3349,21 +4083,33 @@ function createPrivateRoom(){
     do{
 
         code =
-            Math.floor(
-                100000 +
-                Math.random() *
-                900000
-            ).toString();
+            String(
+                Math.floor(
+                    100000 +
+                    Math.random() *
+                    900000
+                )
+            );
 
     }while(
         privateRooms.some(
-            r =>
-                r.code === code
-        )
+            room =>
+                room.code ===
+                code
+        ) ||
+        Object
+            .values(
+                OFFICIAL_ROOMS
+            )
+            .some(
+                room =>
+                    room.code ===
+                    code
+            )
     );
 
 
-    const room = {
+    privateRooms.push({
 
         code,
 
@@ -3379,12 +4125,7 @@ function createPrivateRoom(){
         createdAt:
             Date.now()
 
-    };
-
-
-    privateRooms.push(
-        room
-    );
+    });
 
 
     savePrivateRooms();
@@ -3394,12 +4135,9 @@ function createPrivateRoom(){
     input.value = "";
 
 
-    /*
-     * The creator immediately becomes
-     * the private room's host.
-     */
-
-    selectRoom(code);
+    selectRoom(
+        code
+    );
 
 
     showToast(
@@ -3469,6 +4207,23 @@ function renderPrivateRooms(){
 }
 
 
+function escapeHTML(text){
+
+    const element =
+        document.createElement(
+            "div"
+        );
+
+
+    element.textContent =
+        String(text ?? "");
+
+
+    return element.innerHTML;
+
+}
+
+
 function openJoinPrivateModal(){
 
     document
@@ -3526,7 +4281,14 @@ function joinPrivateRoom(){
         );
 
 
-    if(!/^\d{6}$/.test(code)){
+    error.textContent = "";
+
+
+    if(
+        !/^\d{6}$/.test(
+            code
+        )
+    ){
 
         error.textContent =
             "Room code must be exactly 6 digits.";
@@ -3536,26 +4298,18 @@ function joinPrivateRoom(){
     }
 
 
-    /*
-     * A pure client-side page cannot discover
-     * an arbitrary private room from ONLY its
-     * numeric code.
-     *
-     * If this browser has previously learned
-     * the room's host, use it.
-     */
-
     const existing =
         privateRooms.find(
-            r =>
-                r.code === code
+            room =>
+                room.code ===
+                code
         );
 
 
     if(!existing){
 
         error.textContent =
-            "This browser doesn't know the host for that room yet.";
+            "This device doesn't have that private room saved.";
 
         return;
 
@@ -3564,14 +4318,16 @@ function joinPrivateRoom(){
 
     closeJoinPrivateModal();
 
-    selectRoom(code);
+    selectRoom(
+        code
+    );
 
 }
 
 
 /* =========================================================
    MESSAGES
-   ========================================================= */
+========================================================= */
 
 function clearMessages(){
 
@@ -3580,9 +4336,12 @@ function clearMessages(){
             "messages"
         )
         .innerHTML =
-        `<div class="empty-chat">
-            No messages yet. Say hello! 👋
-        </div>`;
+        `
+        <div class="empty-chat">
+            No messages yet.
+            Say hello! 👋
+        </div>
+        `;
 
 }
 
@@ -3599,7 +4358,8 @@ function sendMessage(){
         input.value.trim();
 
 
-    if(!text) return;
+    if(!text)
+        return;
 
 
     if(
@@ -3654,20 +4414,11 @@ function sendMessage(){
     };
 
 
-    /*
-     * Show our own message immediately.
-     */
-
     addMessage(
         message,
         true
     );
 
-
-    /*
-     * If we're the room host, relay to
-     * everyone. Otherwise send to host.
-     */
 
     if(isRoomHost){
 
@@ -3675,38 +4426,43 @@ function sendMessage(){
             packet
         );
 
-    }else if(
-        roomHostPeerId &&
-        peerConnections[
-            roomHostPeerId
-        ]
-    ){
+    }else{
 
-        const hostConnection =
+        const host =
             peerConnections[
                 roomHostPeerId
             ];
 
 
-        if(hostConnection.open){
+        if(
+            host &&
+            host.open
+        ){
 
             try{
 
-                hostConnection.send(
+                host.send(
                     packet
                 );
 
-            }catch{}
+            }catch{
+
+                showToast(
+                    "Couldn't send message."
+                );
+
+            }
+
+        }else{
+
+            showToast(
+                "Connecting to room host..."
+            );
+
+
+            electOrFindHost();
 
         }
-
-    }else{
-
-        showToast(
-            "Connecting to room host..."
-        );
-
-        electOrFindHost();
 
     }
 
@@ -3735,8 +4491,11 @@ function addMessage(
         );
 
 
-    if(empty)
+    if(empty){
+
         empty.remove();
+
+    }
 
 
     const wrapper =
@@ -3766,20 +4525,21 @@ function addMessage(
 
     if(message.pfp){
 
-        const img =
+        const image =
             document.createElement(
                 "img"
             );
 
 
-        img.src =
+        image.src =
             message.pfp;
 
-        img.alt =
+        image.alt =
             "Profile picture";
 
+
         avatar.appendChild(
-            img
+            image
         );
 
     }else{
@@ -3944,7 +4704,9 @@ function addMessage(
 }
 
 
-function formatTime(timestamp){
+function formatTime(
+    timestamp
+){
 
     return new Date(
         timestamp ||
@@ -3962,7 +4724,7 @@ function formatTime(timestamp){
 
 /* =========================================================
    USERS
-   ========================================================= */
+========================================================= */
 
 function updateUserList(){
 
@@ -3982,22 +4744,25 @@ function updateUserList(){
     const users = [];
 
 
-    const ownProfile =
+    const own =
         getProfile();
 
 
-    if(ownProfile){
+    if(own){
 
         users.push({
 
-            ...ownProfile,
+            ...own,
 
             peerId:
                 currentPeer?.id,
 
             roomCode,
 
-            self:true
+            self:true,
+
+            isHost:
+                isRoomHost
 
         });
 
@@ -4031,11 +4796,13 @@ function updateUserList(){
     if(!users.length){
 
         list.innerHTML =
-            `<div style="
+            `
+            <div style="
                 color:#737d8e;
                 font-size:12px;">
                 No users
-            </div>`;
+            </div>
+            `;
 
         return;
 
@@ -4067,17 +4834,22 @@ function updateUserList(){
 
             if(user.pfp){
 
-                const img =
+                const image =
                     document.createElement(
                         "img"
                     );
 
 
-                img.src =
+                image.src =
                     user.pfp;
 
+
+                image.alt =
+                    "Profile picture";
+
+
                 avatar.appendChild(
-                    img
+                    image
                 );
 
             }else{
@@ -4115,6 +4887,11 @@ function updateUserList(){
                 (
                     user.self
                         ? " (you)"
+                        : ""
+                ) +
+                (
+                    user.isHost
+                        ? " 👑"
                         : ""
                 );
 
@@ -4169,14 +4946,18 @@ function updateUserList(){
 
 /* =========================================================
    CLIPBOARD
-   ========================================================= */
+========================================================= */
 
 async function copyRoomId(){
+
+    const value =
+        getCurrentRoomCode();
+
 
     try{
 
         await navigator.clipboard.writeText(
-            getCurrentRoomCode()
+            value
         );
 
         showToast(
@@ -4196,8 +4977,15 @@ async function copyRoomId(){
 
 async function copyPeerId(){
 
-    if(!currentPeer?.id)
+    if(!currentPeer?.id){
+
+        showToast(
+            "Peer ID isn't ready yet."
+        );
+
         return;
+
+    }
 
 
     try{
@@ -4223,10 +5011,12 @@ async function copyPeerId(){
 
 /* =========================================================
    KEYBOARD
-   ========================================================= */
+========================================================= */
 
 document
-    .getElementById("chatInput")
+    .getElementById(
+        "chatInput"
+    )
     .addEventListener(
         "keydown",
         event => {
@@ -4247,7 +5037,9 @@ document
 
 
 document
-    .getElementById("joinRoomCode")
+    .getElementById(
+        "joinRoomCode"
+    )
     .addEventListener(
         "input",
         event => {
@@ -4268,10 +5060,15 @@ document
 
 
 /* =========================================================
-   SESSION
-   ========================================================= */
+   SESSION RESTORE
+========================================================= */
 
 function restoreSession(){
+
+    loadPrivateRooms();
+
+    renderPrivateRooms();
+
 
     const session =
         localStorage.getItem(
@@ -4295,11 +5092,7 @@ function restoreSession(){
 
 
     const accounts =
-        JSON.parse(
-            localStorage.getItem(
-                "gamechat_accounts"
-            ) || "{}"
-        );
+        getAccounts();
 
 
     const account =
@@ -4313,6 +5106,7 @@ function restoreSession(){
         localStorage.removeItem(
             "gamechat_session"
         );
+
 
         document
             .getElementById(
@@ -4348,10 +5142,8 @@ function restoreSession(){
 
 
 /* =========================================================
-   STARTUP
-   ========================================================= */
-
-renderPrivateRooms();
+   START
+========================================================= */
 
 restoreSession();
 
