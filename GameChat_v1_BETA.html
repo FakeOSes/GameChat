@@ -38,12 +38,29 @@ button{cursor:pointer}
 .dot.online{background:#45e38b}
 .view{display:none;flex:1;min-height:0}
 .view.active{display:flex}
-#games{padding:12px}
+
+/* Games Section Styling */
+#games{padding:18px;gap:18px;display:none}
+#games.active{display:flex}
+.game-sidebar{
+  width:260px;display:flex;flex-direction:column;gap:10px;
+}
+.game-btn{
+  display:flex;align-items:center;gap:10px;padding:12px;
+  background:#11182a;border:1px solid #28334e;border-radius:12px;
+  color:#f4f7ff;text-align:left;font-size:15px;font-weight:600;
+  transition:all 0.2s;
+}
+.game-btn:hover{background:#1a243d;border-color:#3b82f6}
+.game-btn.active{background:#2563eb;border-color:#3b82f6}
 .game-wrap{
-  width:100%;height:100%;border:1px solid #28334e;border-radius:12px;
-  overflow:hidden;background:#01061c;position:relative;
+  flex:1;height:100%;border:1px solid #28334e;border-radius:14px;
+  overflow:hidden;background:#01061c;position:relative;display:flex;
+  align-items:center;justify-content:center;
 }
 #gameFrame{width:100%;height:100%;border:0;background:#01061c}
+
+/* Chat Styling */
 #chat{padding:18px;gap:18px}
 .chat-main{
   flex:1;min-width:0;display:flex;flex-direction:column;
@@ -127,8 +144,8 @@ button{cursor:pointer}
 .signup .primary{width:100%;margin-top:18px}
 .error{min-height:18px;color:#ff7d7d;font-size:12px;margin-top:8px}
 @media(max-width:760px){
-  .sidebar{display:none}
-  #chat{padding:8px}
+  .sidebar,.game-sidebar{display:none}
+  #chat,#games{padding:8px}
   .logo{font-size:17px}
   .profile{display:none}
 }
@@ -144,8 +161,18 @@ button{cursor:pointer}
   </div>
 
   <section id="games" class="view active">
+    <aside class="game-sidebar">
+      <div class="card">
+        <h3>Arcade Games</h3>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button class="game-btn active" data-src="https://playcanv.as/p/2O2OeL1Y/">🐍 Snake 3D</button>
+          <button class="game-btn" data-src="https://html5.gamedistribution.com/rvvASyc0153835694a5e4a8385311263/">🏎️ Rush Racing</button>
+          <button class="game-btn" data-src="https://games.freemonkeygames.com/2048/">🔢 2048 Puzzle</button>
+        </div>
+      </div>
+    </aside>
     <div class="game-wrap">
-      <iframe id="gameFrame" title="Offline HTML Games Pack"></iframe>
+      <iframe id="gameFrame" src="https://playcanv.as/p/2O2OeL1Y/" title="Arcade Game"></iframe>
     </div>
   </section>
 
@@ -200,15 +227,12 @@ button{cursor:pointer}
 </div>
 
 <script>
-// Base game container loader
-const GAME_SOURCE_B64 = "";
-
 // State
 let currentUser = localStorage.getItem('gc_username') || '';
 let currentRoom = 'global';
 let peer = null;
-let connections = []; // Active PeerJS data connections
-let peerRoomRegistry = {}; // Active known peers per room
+let connections = []; 
+let peerRoomRegistry = {}; 
 
 // UI References
 const topUser = document.getElementById('topUser');
@@ -225,14 +249,24 @@ const peerStatus = document.getElementById('peerStatus');
 const netDot = document.getElementById('netDot');
 const roomList = document.getElementById('roomList');
 const currentRoomTitle = document.getElementById('currentRoomTitle');
+const gameFrame = document.getElementById('gameFrame');
 
-// Init Navigation
+// Navigation Tabs
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     tab.classList.add('active');
     document.getElementById(tab.dataset.view).classList.add('active');
+  });
+});
+
+// Game Switcher Handler
+document.querySelectorAll('.game-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    gameFrame.src = btn.dataset.src;
   });
 });
 
@@ -264,16 +298,13 @@ function initUserAccount(username) {
 
 // PeerJS Realtime Internet Networking Implementation
 function initPeerNetwork() {
-  // Generate a clean room-aware Peer ID prefix
   const cleanUser = currentUser.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
   const randomSuffix = Math.floor(1000 + Math.random() * 9000);
   const peerId = `gc-v1-${cleanUser}-${randomSuffix}`;
   
   sideCode.textContent = peerId.slice(-6).toUpperCase();
   
-  peer = new Peer(peerId, {
-    debug: 1
-  });
+  peer = new Peer(peerId, { debug: 1 });
 
   peer.on('open', (id) => {
     peerStatus.textContent = `Connected (Online)`;
@@ -301,10 +332,8 @@ function setupConnection(conn) {
 
   conn.on('data', (data) => {
     if (data.type === 'announce') {
-      // Record peer's current room
       peerRoomRegistry[conn.peer] = { room: data.room, user: data.username };
       if (data.room === currentRoom && data.reply) {
-        // Send ack back so they know we are here
         conn.send({ type: 'announce', room: currentRoom, username: currentUser, reply: false });
       }
     } else if (data.type === 'chat') {
@@ -394,7 +423,6 @@ function sendMessage() {
   addMessage(currentUser, text, true);
   messageInput.value = '';
 
-  // Broadcast to all peers in the same room
   connections.forEach(conn => {
     if (conn.open) {
       conn.send({
