@@ -2760,6 +2760,386 @@ testStorage();
 renderPrivateRooms();
 restoreSession();
 
+/* =========================================================
+   FIXED PRIVATE ROOM DELETE BUTTONS
+   ========================================================= */
+
+function deleteOwnedPrivateRoom(roomCode) {
+    const room = privateRooms.find(r => r.code === roomCode);
+
+    if (!room) {
+        showToast("Private room not found.");
+        return;
+    }
+
+    // Owner check
+    if (
+        !currentUser ||
+        !room.owner ||
+        room.owner.toLowerCase() !== currentUser.toLowerCase()
+    ) {
+        showToast("Only the owner can delete this room.");
+        return;
+    }
+
+    if (!confirm(
+        `Delete "${room.name}"?\n\nRoom code: ${room.code}`
+    )) {
+        return;
+    }
+
+    // Remove room
+    privateRooms = privateRooms.filter(
+        r => r.code !== roomCode
+    );
+
+    savePrivateRooms();
+
+    // If currently inside the deleted room, go to General
+    if (currentRoom === roomCode) {
+        currentRoom = "general";
+        connectedUsers = {};
+        selectRoom("general");
+    }
+
+    renderPrivateRooms();
+
+    showToast("Private room deleted.");
+}
+
+
+/* =========================================================
+   CLEAN PRIVATE ROOM RENDERER
+   ========================================================= */
+
+renderPrivateRooms = function () {
+    const list = document.getElementById("privateRoomList");
+
+    if (!list) return;
+
+    list.replaceChildren();
+
+    privateRooms.forEach(room => {
+
+        const row = document.createElement("div");
+        row.className = "private-room-row";
+
+        const roomButton = document.createElement("button");
+
+        roomButton.className = "room";
+
+        roomButton.textContent =
+            `${room.name} (${room.code})`;
+
+        roomButton.onclick = () => {
+            selectRoom(room.code);
+        };
+
+        row.appendChild(roomButton);
+
+
+        /* ---------- OWNER DELETE BUTTON ---------- */
+
+        const isOwner =
+            currentUser &&
+            room.owner &&
+            room.owner.toLowerCase() ===
+            currentUser.toLowerCase();
+
+        if (isOwner) {
+
+            const deleteButton =
+                document.createElement("button");
+
+            deleteButton.className =
+                "delete-private-button";
+
+            deleteButton.type = "button";
+
+            deleteButton.textContent = "🗑";
+
+            deleteButton.title =
+                "Delete this private chat";
+
+            deleteButton.onclick = function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                deleteOwnedPrivateRoom(room.code);
+            };
+
+            row.appendChild(deleteButton);
+        }
+
+        list.appendChild(row);
+    });
+};
+
+
+/* =========================================================
+   FIXED ALIGNMENT
+   ========================================================= */
+
+const privateRoomStyle =
+    document.createElement("style");
+
+privateRoomStyle.textContent = `
+    #privateRoomList {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .private-room-row {
+        display: flex;
+        width: 100%;
+        gap: 6px;
+        margin: 0 0 6px 0;
+        box-sizing: border-box;
+        align-items: stretch;
+    }
+
+    .private-room-row .room {
+        flex: 1;
+        min-width: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .delete-private-button {
+        width: 38px;
+        min-width: 38px;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid #3a2930;
+        border-radius: 9px;
+
+        background: #171319;
+        color: #ff8585;
+
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    .delete-private-button:hover {
+        background: #302027;
+        color: #ffaaaa;
+    }
+`;
+
+document.head.appendChild(privateRoomStyle);
+
+
+/* Render immediately */
+renderPrivateRooms();
+
+/* =========================================================
+   OFFICIAL CHAT BANNER - FIXED / LARGE VERSION
+   ========================================================= */
+
+(function () {
+
+    /* Create banner */
+    let banner = document.getElementById("officialChatBanner");
+
+    if (!banner) {
+        banner = document.createElement("div");
+
+        banner.id = "officialChatBanner";
+
+        banner.innerHTML = `
+            <div class="official-banner-icon">🏫</div>
+            <div class="official-banner-content">
+                <div class="official-banner-title">
+                    IN-SCHOOL CHAT
+                </div>
+                <div class="official-banner-code">
+                    Join code: <strong>267208</strong>
+                </div>
+                <div class="official-banner-subtitle">
+                    Use this to join an WORKING chat in school.
+                </div>
+            </div>
+        `;
+
+        const chatHeader =
+            document.querySelector(".chat-header");
+
+        if (chatHeader) {
+            chatHeader.insertAdjacentElement(
+                "afterend",
+                banner
+            );
+        }
+    }
+
+
+    /* Large banner styling */
+    if (!document.getElementById("officialBannerStyle")) {
+
+        const style =
+            document.createElement("style");
+
+        style.id = "officialBannerStyle";
+
+        style.textContent = `
+            #officialChatBanner {
+                display: none;
+                width: calc(100% - 28px);
+                margin: 14px auto 12px auto;
+                padding: 20px 22px;
+
+                box-sizing: border-box;
+
+                border: 2px solid #6d55ff;
+                border-radius: 16px;
+
+                background:
+                    linear-gradient(
+                        135deg,
+                        rgba(109,85,255,.28),
+                        rgba(91,67,220,.16)
+                    );
+
+                box-shadow:
+                    0 8px 25px rgba(0,0,0,.22);
+
+                align-items: center;
+                gap: 18px;
+
+                color: white;
+            }
+
+            #officialChatBanner.show {
+                display: flex;
+            }
+
+            .official-banner-icon {
+                width: 58px;
+                height: 58px;
+
+                flex-shrink: 0;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border-radius: 14px;
+
+                background: rgba(109,85,255,.25);
+
+                font-size: 30px;
+            }
+
+            .official-banner-content {
+                min-width: 0;
+            }
+
+            .official-banner-title {
+                font-size: 18px;
+                font-weight: 900;
+                letter-spacing: .5px;
+                margin-bottom: 4px;
+            }
+
+            .official-banner-code {
+                font-size: 19px;
+                font-weight: 700;
+                margin-bottom: 4px;
+            }
+
+            .official-banner-code strong {
+                font-size: 25px;
+                letter-spacing: 2px;
+            }
+
+            .official-banner-subtitle {
+                font-size: 13px;
+                opacity: .78;
+            }
+
+            @media (max-width: 600px) {
+                #officialChatBanner {
+                    padding: 16px;
+                    gap: 12px;
+                }
+
+                .official-banner-icon {
+                    width: 48px;
+                    height: 44px;
+                    font-size: 24px;
+                }
+
+                .official-banner-code strong {
+                    font-size: 21px;
+                }
+            }
+        `;
+
+        document.head.appendChild(style);
+    }
+
+
+    /* Show/hide banner */
+    function updateOfficialBanner() {
+
+        const banner =
+            document.getElementById(
+                "officialChatBanner"
+            );
+
+        if (!banner) return;
+
+        const isOfficial =
+            currentRoom === "general" ||
+            currentRoom === "general2" ||
+            currentRoom === "offtopic";
+
+        banner.classList.toggle(
+            "show",
+            isOfficial
+        );
+    }
+
+
+    /*
+     * Hook into room changes without replacing
+     * the existing updateRoomUI function.
+     */
+    const originalUpdateRoomUI =
+        window.updateRoomUI;
+
+    if (
+        typeof originalUpdateRoomUI === "function" &&
+        !window.__officialBannerHooked
+    ) {
+
+        window.__officialBannerHooked = true;
+
+        window.updateRoomUI = function () {
+
+            originalUpdateRoomUI.apply(
+                this,
+                arguments
+            );
+
+            updateOfficialBanner();
+        };
+    }
+
+
+    /* Run once immediately */
+    setTimeout(
+        updateOfficialBanner,
+        50
+    );
+
+})();
 </script>
 
 </body>
